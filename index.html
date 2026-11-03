@@ -1,14 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HUFLIT English Hub - Multi-page Academic System</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
@@ -52,7 +50,7 @@
     <!-- MAIN CONTENT CONTAINER -->
     <main class="flex-1">
 
-        <!-- ================= PAGE 1: HOME ================= -->
+        <!-- PAGE 1: HOME -->
         <div id="page-home" class="page-content py-16 px-4 space-y-20">
             <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div>
@@ -67,13 +65,10 @@
                     </div>
                 </div>
                 <div class="flex justify-center">
-                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" 
-                         alt="HUFLIT Students" 
-                         class="rounded-2xl shadow-xl border border-neutral-200 object-cover max-h-96 w-full">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="HUFLIT Students" class="rounded-2xl shadow-xl border border-neutral-200 object-cover max-h-96 w-full">
                 </div>
             </div>
 
-            <!-- Intro & Benefits Section (Song ngữ) -->
             <section class="max-w-7xl mx-auto bg-neutral-50 border border-neutral-200 rounded-3xl p-8 sm:p-12">
                 <div class="text-center max-w-2xl mx-auto mb-12">
                     <h2 class="text-3xl font-bold tracking-tight">Giới thiệu & Lợi ích / Introduction & Benefits</h2>
@@ -103,26 +98,24 @@
             </section>
         </div>
 
-        <!-- ================= PAGE 2: RESOURCE ================= -->
+        <!-- PAGE 2: RESOURCE -->
         <div id="page-resource" class="page-content hidden py-16 px-4 max-w-7xl mx-auto">
             <div class="max-w-3xl mx-auto mb-10 text-center">
                 <h2 class="text-3xl font-bold tracking-tight mb-2">Kho Tài Liệu Học Tập (25+ Resources)</h2>
                 <p class="text-neutral-500 text-sm mb-6">Tra cứu nhanh tài liệu học thuật chi tiết kèm từ khóa dài cho sinh viên HUFLIT</p>
-                
+
                 <div class="relative">
                     <div class="relative flex items-center">
                         <span class="absolute left-4 text-neutral-400"><i class="fa-solid fa-magnifying-glass"></i></span>
-                        <input type="text" id="searchInput" oninput="handleSearchInput()" placeholder="Nhập từ khóa dài (VD: Business English, IELTS Speaking, HR Strategy)..." 
-                               class="w-full pl-11 pr-4 py-3.5 bg-neutral-50 border border-neutral-300 rounded-2xl text-sm focus:outline-none focus:bg-white focus:border-black transition shadow-sm">
+                        <input type="text" id="searchInput" oninput="handleSearchInput()" placeholder="Nhập từ khóa dài (VD: Business English, IELTS Speaking, HR Strategy)..." class="w-full pl-11 pr-4 py-3.5 bg-neutral-50 border border-neutral-300 rounded-2xl text-sm focus:outline-none focus:bg-white focus:border-black transition shadow-sm">
                     </div>
                     <div id="searchSuggestions" class="hidden absolute left-0 right-0 mt-2 bg-white border border-neutral-200 rounded-2xl shadow-xl z-30 max-h-60 overflow-y-auto text-left"></div>
                 </div>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="resourceContainer"></div>
         </div>
 
-        <!-- ================= PAGE 3: QUESTION QUIZ ================= -->
+        <!-- PAGE 3: QUESTION QUIZ -->
         <div id="page-quiz" class="page-content hidden py-16 px-4 max-w-3xl mx-auto">
             <div class="text-center mb-8">
                 <span class="text-xs font-semibold bg-neutral-100 text-neutral-700 px-3 py-1 rounded-full uppercase tracking-wider">HUFLIT Knowledge Test</span>
@@ -150,15 +143,14 @@
             </div>
         </div>
 
-        <!-- ================= PAGE 4: FEEDBACK & SURVEY ================= -->
+        <!-- PAGE 4: FEEDBACK & SURVEY -->
         <div id="page-feedback" class="page-content hidden py-16 px-4 max-w-5xl mx-auto space-y-12">
-            
-            <!-- Survey Form Lưu Trực Tiếp Lên GitHub -->
+
             <div class="bg-white border border-neutral-200 rounded-2xl p-8 shadow-sm">
                 <div class="max-w-xl mx-auto">
                     <h2 class="text-2xl font-bold tracking-tight mb-2 text-center">Phiếu Khảo Sát Ý Kiến</h2>
-                    <p class="text-neutral-600 text-sm mb-6 text-center">Đóng góp của bạn sẽ được lưu trực tiếp lên hệ thống GitHub repository.</p>
-                    
+                    <p class="text-neutral-600 text-sm mb-6 text-center">Đóng góp của bạn giúp chúng tôi cải thiện trải nghiệm học tập.</p>
+
                     <form id="surveyForm" onsubmit="submitSurvey(event)" class="space-y-4">
                         <div>
                             <label class="block text-xs font-semibold uppercase text-neutral-600 mb-1">Đánh giá dịch vụ / trải nghiệm:</label>
@@ -171,15 +163,16 @@
 
                         <div>
                             <label class="block text-xs font-semibold uppercase text-neutral-600 mb-1">Ý kiến đóng góp chi tiết:</label>
-                            <textarea id="comments" rows="4" required placeholder="Nhập ý kiến của bạn..." class="w-full p-3 bg-neutral-50 border border-neutral-300 rounded-xl text-sm focus:outline-none focus:border-black"></textarea>
+                            <textarea id="comments" rows="4" required minlength="5" maxlength="2000" placeholder="Nhập ý kiến của bạn..." class="w-full p-3 bg-neutral-50 border border-neutral-300 rounded-xl text-sm focus:outline-none focus:border-black"></textarea>
                         </div>
 
-                        <button type="button" onclick="submitSurvey()" class="w-full bg-black text-white py-3 rounded-xl font-medium text-sm hover:bg-neutral-800 transition">Gửi Khảo Sát</button>
+                        <p id="surveyStatus" class="text-sm min-h-5" role="status" aria-live="polite"></p>
+
+                        <button type="submit" class="w-full bg-black text-white py-3 rounded-xl font-medium text-sm hover:bg-neutral-800 transition disabled:opacity-60 disabled:cursor-not-allowed">Gửi Khảo Sát</button>
                     </form>
                 </div>
             </div>
 
-            <!-- Virtual Feedbacks Section (28 Feedbacks) -->
             <div>
                 <div class="flex items-center justify-between mb-6">
                     <h3 class="text-xl font-bold tracking-tight">Đánh giá từ cộng đồng sinh viên HUFLIT (28+ Review)</h3>
@@ -187,7 +180,6 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="virtualFeedbackList"></div>
             </div>
-
         </div>
 
     </main>
@@ -346,9 +338,9 @@
         function handleSearchInput() {
             const query = document.getElementById('searchInput').value.toLowerCase().trim();
             const suggestionBox = document.getElementById('searchSuggestions');
-            
-            const filtered = resourcesData.filter(d => 
-                d.title.toLowerCase().includes(query) || 
+
+            const filtered = resourcesData.filter(d =>
+                d.title.toLowerCase().includes(query) ||
                 d.category.toLowerCase().includes(query) ||
                 d.desc.toLowerCase().includes(query)
             );
@@ -386,9 +378,11 @@
             document.getElementById('modalBody').innerHTML = doc.content;
             document.getElementById('docModal').classList.remove('hidden');
         }
-        function closeDocModal() { document.getElementById('docModal').classList.add('hidden'); }
+        function closeDocModal() {
+            document.getElementById('docModal').classList.add('hidden');
+        }
 
-        // ================= 5 QUESTIONS QUIZ LOGIC =================
+        // 5 QUESTIONS QUIZ LOGIC
         const quizData = [
             { q: "1. Từ nào đồng nghĩa với 'Implement' trong tiếng Anh thương mại?", options: ["Cancel", "Execute", "Delay", "Reject"], correct: 1 },
             { q: "2. Cấu trúc mở đầu nào phù hợp nhất khi viết Email trang trọng?", options: ["Hey bro,", "Dear Mr. Smith,", "What's up,", "Yo!"], correct: 1 },
@@ -459,55 +453,70 @@
         }
         loadQuizQuestion();
 
-        // ================= HÀM GỬI KHẢO SÁT LÊN GITHUB =================
-        async function submitSurvey() {
-            const rating = document.getElementById('rating').value;
-            const comments = document.getElementById('comments').value;
-            const timestamp = new Date().toISOString();
+        // SUBMIT SURVEY THROUGH CLOUDFLARE WORKER
+        const SURVEY_API_URL = 'https://english-resource-survey-api.nguyenquangtuan2208st.workers.dev/';
 
-            if (!comments.trim()) {
-                alert('Vui lòng nhập ý kiến đóng góp.');
+        async function submitSurvey(event) {
+            event.preventDefault();
+
+            const form = document.getElementById('surveyForm');
+            const submitButton = form.querySelector('button[type="submit"]');
+            const status = document.getElementById('surveyStatus');
+            const rating = document.getElementById('rating').value;
+            const comments = document.getElementById('comments').value.trim();
+
+            if (form.dataset.submitting === 'true') return;
+
+            if (comments.length < 5 || comments.length > 2000) {
+                status.textContent = 'Ý kiến phải có từ 5 đến 2.000 ký tự.';
+                status.className = 'text-sm min-h-5 text-red-600';
                 return;
             }
 
-            const surveyData = {
-                timestamp: timestamp,
-                rating: rating,
-                comments: comments
-            };
-
-            const owner = 'Studydrives';
-            const repo = 'english-resource-web';
-            const filePath = `submissions/survey-${Date.now()}.json`;
-
-            const contentEncoded = btoa(unescape(encodeURIComponent(JSON.stringify(surveyData, null, 2))));
+            const originalButtonText = submitButton.textContent;
+            form.dataset.submitting = 'true';
+            submitButton.disabled = true;
+            submitButton.textContent = 'Đang gửi...';
+            status.textContent = 'Đang gửi đánh giá của bạn...';
+            status.className = 'text-sm min-h-5 text-neutral-500';
 
             try {
-                const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`, {
-                    method: 'PUT',
+                const response = await fetch(SURVEY_API_URL, {
+                    method: 'POST',
                     headers: {
-                        'Authorization': 'Bearer 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',
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        message: `Thêm phản hồi khảo sát mới: ${timestamp}`,
-                        content: contentEncoded
+                        rating: rating,
+                        comments: comments
                     })
                 });
 
-                if (response.ok) {
-                    alert('Gửi khảo sát thành công và đã lưu lên GitHub.');
-                    document.getElementById('surveyForm').reset();
-                } else {
-                    alert('Có lỗi xảy ra khi gửi khảo sát.');
+                const result = await response.json().catch(() => null);
+
+                if (!response.ok || !result || result.success !== true) {
+                    const message = result?.details
+                        ? `${result.error || 'Không thể lưu đánh giá.'} (${result.details})`
+                        : (result?.error || `Không thể lưu đánh giá (HTTP ${response.status}).`);
+
+                    throw new Error(message);
                 }
+
+                form.reset();
+                status.textContent = 'Gửi đánh giá thành công. Cảm ơn bạn đã đóng góp!';
+                status.className = 'text-sm min-h-5 text-green-700';
             } catch (error) {
-                console.error(error);
-                alert('Lỗi kết nối khi gửi khảo sát.');
+                console.error('Survey submission failed:', error);
+                status.textContent = error.message || 'Không thể gửi đánh giá. Vui lòng thử lại.';
+                status.className = 'text-sm min-h-5 text-red-600';
+            } finally {
+                form.dataset.submitting = 'false';
+                submitButton.disabled = false;
+                submitButton.textContent = originalButtonText;
             }
         }
 
-        // ================= VIRTUAL FEEDBACKS (28+ Review) =================
+        // VIRTUAL FEEDBACKS
         const virtualFeedbacks = [
             { name: "Trần Minh Quân", year: "Sinh viên Năm 3", major: "Ngôn ngữ Anh", stars: 5, comment: "Web tối giản đỉnh chóp lun, tìm tài liệu Business English ôn thi cuối kỳ phê lòi :v", date: "Hôm qua" },
             { name: "Lê Hoàng Yến", year: "Sinh viên Năm 2", major: "Quản trị KD", stars: 4, comment: "Kho tài liệu phong phú vãi, phần Quiz 5 câu hay phết. Mong web add thêm audio nghe nha.", date: "2 ngày trước" },
