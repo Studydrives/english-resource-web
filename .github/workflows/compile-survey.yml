@@ -1,0 +1,53 @@
+name: Tong hop ket qua khao sat
+
+on:
+  push:
+    paths:
+      - 'submissions/*.json'
+
+jobs:
+  build-survey-report:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Ma nguoi dung checkout
+        uses: actions/checkout@v4
+
+      - name: Thiet lap Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Tong hop du lieu JSON thanh Markdown
+        run: |
+          node -e '
+            const fs = require("fs");
+            const path = require("path");
+            
+            const dir = "./submissions";
+            const files = fs.readdirSync(dir).filter(file => file.endsWith(".json"));
+            
+            let markdownContent = "# Tổng Hợp Kết Quả Khảo Sát\n\n";
+            markdownContent += "| Thời gian | Đánh giá | Ý kiến đóng góp |\n";
+            markdownContent += "| :--- | :--- | :--- |\n";
+            
+            files.forEach(file => {
+              const filePath = path.join(dir, file);
+              const data = JSON.parse(fs.readFileSync(filePath, "utf8"));
+              markdownContent += `| ${data.timestamp} | ${data.rating} | ${data.comments.replace(/\|/g, "-")} |\n`;
+            });
+            
+            fs.writeFileSync("survey-report.md", markdownContent);
+          '
+
+      - name: Cau hinh Git User
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit va day bao cao len Repository
+        run: |
+          git add survey-report.md
+          git commit -m "Cap nhat bao cao tong hop khao sat tu dong" || exit 0
+          git push
