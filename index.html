@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HUFLIT Study & Document Hub - Studocu Style</title>
+    <title>HUFLIT English Learning & Resource Hub</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome for Icons -->
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -14,9 +14,7 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
                 }
             }
         }
@@ -24,239 +22,317 @@
 </head>
 <body class="bg-white text-neutral-900 font-sans antialiased selection:bg-black selection:text-white">
 
-    <!-- TOP NAVIGATION BAR -->
-    <header class="sticky top-0 z-50 bg-white border-b border-neutral-200">
+    <!-- HEADER / NAVIGATION BAR -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <!-- Logo & Brand -->
+            <!-- Brand Logo -->
+            <a href="#home" class="flex items-center space-x-2">
+                <div class="w-9 h-9 bg-black text-white flex items-center justify-center font-bold text-lg rounded-lg">H</div>
+                <span class="font-bold text-xl tracking-tight">HUFLIT <span class="font-light text-neutral-500">Docs</span></span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                <a href="#home" class="hover:text-neutral-500 transition">Home</a>
+                <a href="#resource" class="hover:text-neutral-500 transition">Resource</a>
+                <a href="#quiz" class="hover:text-neutral-500 transition">Question Quiz</a>
+                <a href="#feedback" class="hover:text-neutral-500 transition">Feedback</a>
+            </nav>
+
+            <!-- User Auth Buttons -->
             <div class="flex items-center space-x-3">
-                <a href="#" class="flex items-center space-x-2">
-                    <div class="w-9 h-9 bg-black text-white flex items-center justify-center font-bold text-lg rounded">H</div>
-                    <span class="font-bold text-xl tracking-tight">HUFLIT <span class="font-light text-neutral-500">Docs</span></span>
-                </a>
-            </div>
-
-            <!-- Quick Search Input (Header) -->
-            <div class="hidden md:flex flex-1 max-w-md mx-8">
-                <div class="relative w-full">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-neutral-400">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </span>
-                    <input type="text" id="headerSearch" placeholder="Tìm kiếm giáo trình, tài liệu tiếng Anh, đề thi..." 
-                        class="w-full pl-10 pr-4 py-2 bg-neutral-100 border border-transparent rounded-full text-sm focus:outline-none focus:bg-white focus:border-black transition">
-                </div>
-            </div>
-
-            <!-- Auth Actions -->
-            <div class="flex items-center space-x-4">
                 <div id="userSection" class="hidden flex items-center space-x-3">
-                    <span id="userNameDisplay" class="text-sm font-medium text-neutral-700"></span>
-                    <button onclick="handleSignOut()" class="text-sm border border-neutral-300 px-3 py-1.5 rounded-full hover:bg-neutral-100 transition">Đăng xuất</button>
+                    <span id="userNameDisplay" class="text-sm font-medium text-neutral-700 bg-neutral-100 px-3 py-1 rounded-full border border-neutral-200"></span>
+                    <button onclick="handleSignOut()" class="text-xs border border-neutral-300 px-3 py-1.5 rounded-full hover:bg-neutral-100 transition">Sign Out</button>
                 </div>
                 <div id="guestSection">
-                    <button onclick="openAuthModal()" class="bg-black text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-neutral-800 transition">Đăng nhập</button>
+                    <button onclick="openAuthModal()" class="bg-black text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-neutral-800 transition">Sign In</button>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- HERO SECTION & SEARCH -->
-    <section class="py-16 px-4 bg-neutral-50 border-b border-neutral-200 text-center">
-        <div class="max-w-3xl mx-auto">
-            <span class="text-xs uppercase tracking-widest font-semibold bg-neutral-200 px-3 py-1 rounded-full text-neutral-700">Nền tảng tài liệu học tập HUFLIT</span>
-            <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mt-4 mb-4">Chia sẻ tài liệu & Ôn tập thông minh</h1>
-            <p class="text-neutral-600 mb-8 text-base">Kho lưu trữ tài liệu tiếng Anh, giáo trình và đề thi chính thống dành riêng cho sinh viên HUFLIT.</p>
-            
-            <!-- Big Search Bar -->
-            <div class="relative max-w-2xl mx-auto">
-                <input type="text" id="heroSearchInput" placeholder="Nhập tên môn học, giảng viên hoặc từ khóa tài liệu..." 
-                    class="w-full pl-12 pr-28 py-4 bg-white border border-neutral-300 rounded-2xl shadow-sm text-base focus:outline-none focus:border-black transition">
-                <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-neutral-400 text-lg">
-                    <i class="fa-solid fa-search"></i>
-                </span>
-                <button onclick="performSearch()" class="absolute right-2 top-2 bottom-2 px-6 bg-black text-white font-medium rounded-xl hover:bg-neutral-800 transition text-sm">Tìm kiếm</button>
+    <!-- SECTION 1: HOME (Hero & Overview) -->
+    <section id="home" class="py-16 px-4 bg-neutral-50 border-b border-neutral-200">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <!-- Left Info -->
+            <div>
+                <span class="text-xs uppercase tracking-widest font-semibold bg-neutral-200 px-3 py-1 rounded-full text-neutral-700">HUFLIT Academic Platform</span>
+                <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mt-4 mb-4">Trang tổng hợp tài liệu & Ôn tập tiếng Anh HUFLIT</h1>
+                <p class="text-neutral-600 mb-6 leading-relaxed">
+                    Website được xây dựng nhằm hỗ trợ sinh viên HUFLIT dễ dàng tra cứu giáo trình, tài liệu chuyên ngành Business English, từ vựng và bài tập ngữ pháp hoàn toàn miễn phí. Đơn giản, trực quan và dễ sử dụng!
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#resource" class="bg-black text-white px-6 py-3 rounded-xl font-medium hover:bg-neutral-800 transition text-sm">Khám phá tài liệu</a>
+                    <a href="#quiz" class="border border-neutral-300 px-6 py-3 rounded-xl font-medium hover:bg-neutral-100 transition text-sm">Làm bài Quiz ngay</a>
+                </div>
+            </div>
+            <!-- Right Illustration Image -->
+            <div class="flex justify-center">
+                <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=800&q=80" 
+                     alt="Study Illustration" 
+                     class="rounded-2xl shadow-xl border border-neutral-200 object-cover max-h-96 w-full">
             </div>
         </div>
     </section>
 
-    <!-- MAIN CONTENT AREA -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
-        
-        <!-- Left & Center: Document Library & Survey -->
-        <div class="lg:col-span-2 space-y-12">
-            
-            <!-- Documents Grid -->
+    <!-- SEARCH BAR SECTION -->
+    <section class="py-8 bg-white border-b border-neutral-200">
+        <div class="max-w-3xl mx-auto px-4">
+            <div class="relative">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-neutral-400">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <input type="text" id="searchInput" onkeyup="filterResources()" 
+                       placeholder="Nhập tên môn học, bài báo cáo hoặc từ khóa cần tìm trong Resource..." 
+                       class="w-full pl-11 pr-4 py-3.5 bg-neutral-50 border border-neutral-300 rounded-2xl text-sm focus:outline-none focus:bg-white focus:border-black transition">
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: RESOURCE (15 Documents) -->
+    <section id="resource" class="py-16 px-4 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8">
             <div>
-                <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-bold tracking-tight">Tài liệu nổi bật</h2>
-                    <span class="text-sm text-neutral-500 font-medium">HUFLIT Verified</span>
+                <h2 class="text-3xl font-bold tracking-tight">Kho Tài Liệu Học Tập</h2>
+                <p class="text-neutral-500 text-sm mt-1">Bấm trực tiếp vào tài liệu bất kỳ để đọc nội dung bài học</p>
+            </div>
+            <span class="text-xs text-neutral-400 font-medium mt-2 md:mt-0">Tổng cộng 15 tài liệu khả dụng</span>
+        </div>
+
+        <!-- Document Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="resourceContainer">
+            <!-- Items rendered via JavaScript -->
+        </div>
+    </section>
+
+    <!-- SECTION 3: QUESTION QUIZ -->
+    <section id="quiz" class="py-16 px-4 bg-neutral-50 border-t border-b border-neutral-200">
+        <div class="max-w-3xl mx-auto">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold tracking-tight">Question Quiz</h2>
+                <p class="text-neutral-600 text-sm mt-1">Kiểm tra nhanh trình độ Tiếng Anh thương mại HUFLIT</p>
+            </div>
+
+            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-neutral-200 shadow-sm" id="quizContainer">
+                <div class="mb-6">
+                    <span id="quizNumber" class="text-xs font-semibold uppercase tracking-wider text-neutral-400">Câu hỏi 1/3</span>
+                    <h3 id="quizQuestion" class="text-lg font-bold mt-1">...</h3>
                 </div>
+                <div class="space-y-3" id="quizOptions">
+                    <!-- Options JS -->
+                </div>
+                <div class="mt-6 flex justify-between items-center pt-4 border-t border-neutral-100">
+                    <span id="quizFeedback" class="text-sm font-medium"></span>
+                    <button id="nextQuizBtn" onclick="nextQuestion()" class="hidden bg-black text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-neutral-800 transition">Câu tiếp theo</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: FEEDBACK & SURVEY -->
+    <section id="feedback" class="py-16 px-4 max-w-4xl mx-auto">
+        <div class="bg-white border border-neutral-200 rounded-2xl p-8 shadow-sm">
+            <div class="max-w-xl mx-auto text-center">
+                <h2 class="text-3xl font-bold tracking-tight mb-2">Đánh Giá & Khảo Sát</h2>
+                <p class="text-neutral-600 text-sm mb-6">Mọi ý kiến đóng góp của bạn đều giúp website hoàn thiện hơn mỗi ngày.</p>
                 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="documentList">
-                    <!-- Doc Item 1 -->
-                    <div class="border border-neutral-200 p-5 rounded-xl hover:border-black transition bg-white flex flex-col justify-between">
-                        <div>
-                            <span class="text-xs bg-neutral-100 text-neutral-700 px-2.5 py-1 rounded font-medium">Business English</span>
-                            <h3 class="font-semibold text-lg mt-3 mb-1">Advanced Business Vocabulary & Cases</h3>
-                            <p class="text-sm text-neutral-500 line-clamp-2">Tổng hợp từ vựng chuyên ngành thương mại, các tình huống giao tiếp mẫu và bài tập ứng dụng.</p>
-                        </div>
-                        <div class="mt-6 flex items-center justify-between pt-4 border-t border-neutral-100 text-xs text-neutral-500">
-                            <span><i class="fa-regular fa-file-pdf text-red-500 mr-1"></i> PDF • 4.2 MB</span>
-                            <button onclick="alert('Đang tải tài liệu xuống...')" class="font-semibold text-black underline hover:text-neutral-600">Tải ngay</button>
+                <form id="surveyForm" onsubmit="submitSurvey(event)" class="space-y-6 text-left">
+                    <div>
+                        <label class="block text-sm font-medium text-neutral-700 mb-2">Mức độ hài lòng của bạn (1 đến 5 sao):</label>
+                        <div class="flex space-x-3 text-3xl justify-center py-2" id="starContainer">
+                            <i class="fa-solid fa-star text-neutral-300 cursor-pointer hover:text-black transition" onclick="setRating(1)"></i>
+                            <i class="fa-solid fa-star text-neutral-300 cursor-pointer hover:text-black transition" onclick="setRating(2)"></i>
+                            <i class="fa-solid fa-star text-neutral-300 cursor-pointer hover:text-black transition" onclick="setRating(3)"></i>
+                            <i class="fa-solid fa-star text-neutral-300 cursor-pointer hover:text-black transition" onclick="setRating(4)"></i>
+                            <i class="fa-solid fa-star text-neutral-300 cursor-pointer hover:text-black transition" onclick="setRating(5)"></i>
                         </div>
                     </div>
 
-                    <!-- Doc Item 2 -->
-                    <div class="border border-neutral-200 p-5 rounded-xl hover:border-black transition bg-white flex flex-col justify-between">
-                        <div>
-                            <span class="text-xs bg-neutral-100 text-neutral-700 px-2.5 py-1 rounded font-medium">English Linguistics</span>
-                            <h3 class="font-semibold text-lg mt-3 mb-1">English Phonetics & Phonology Notes</h3>
-                            <p class="text-sm text-neutral-500 line-clamp-2">Tài liệu ôn tập cấu trúc âm vị học, nguyên âm, phụ âm và ngữ điệu chuẩn quốc tế.</p>
-                        </div>
-                        <div class="mt-6 flex items-center justify-between pt-4 border-t border-neutral-100 text-xs text-neutral-500">
-                            <span><i class="fa-regular fa-file-word text-blue-500 mr-1"></i> DOCX • 2.8 MB</span>
-                            <button onclick="alert('Đang tải tài liệu xuống...')" class="font-semibold text-black underline hover:text-neutral-600">Tải ngay</button>
-                        </div>
+                    <div>
+                        <label class="block text-sm font-medium text-neutral-700 mb-2">Góp ý nội dung hoặc trải nghiệm:</label>
+                        <textarea id="surveyComment" rows="3" required placeholder="Cảm nghĩ của bạn về trang web HUFLIT Docs..." class="w-full p-3.5 bg-neutral-50 border border-neutral-300 rounded-xl text-sm focus:outline-none focus:bg-white focus:border-black transition"></textarea>
                     </div>
-                </div>
-            </div>
 
-            <!-- SURVEY SECTION -->
-            <div class="bg-neutral-50 border border-neutral-200 rounded-2xl p-8">
-                <div class="max-w-xl">
-                    <h3 class="text-xl font-bold tracking-tight mb-2">Khảo sát trải nghiệm website</h3>
-                    <p class="text-sm text-neutral-600 mb-6">Ý kiến của bạn giúp chúng tôi cải thiện chất lượng tài liệu học tập tại HUFLIT tốt hơn.</p>
-                    
-                    <form id="surveyForm" onsubmit="submitSurvey(event)" class="space-y-5">
-                        <div>
-                            <label class="block text-sm font-medium text-neutral-700 mb-2">1. Mức độ hài lòng chung của bạn (1 đến 5 sao):</label>
-                            <div class="flex space-x-2 text-2xl" id="starRatingContainer">
-                                <i class="fa-solid fa-star text-neutral-300 cursor-pointer hover:text-black transition" onclick="setRating(1)" data-value="1"></i>
-                                <i class="fa-solid fa-star text-neutral-300 cursor-pointer hover:text-black transition" onclick="setRating(2)" data-value="2"></i>
-                                <i class="fa-solid fa-star text-neutral-300 cursor-pointer hover:text-black transition" onclick="setRating(3)" data-value="3"></i>
-                                <i class="fa-solid fa-star text-neutral-300 cursor-pointer hover:text-black transition" onclick="setRating(4)" data-value="4"></i>
-                                <i class="fa-solid fa-star text-neutral-300 cursor-pointer hover:text-black transition" onclick="setRating(5)" data-value="5"></i>
-                            </div>
-                            <input type="hidden" id="selectedRating" value="5">
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-neutral-700 mb-2">2. Góp ý hoặc đề xuất thêm tài liệu:</label>
-                            <textarea id="surveyComment" rows="3" placeholder="Nhập ý kiến của bạn ở đây..." class="w-full p-3 bg-white border border-neutral-300 rounded-xl text-sm focus:outline-none focus:border-black transition"></textarea>
-                        </div>
-
-                        <button type="submit" class="bg-black text-white px-6 py-2.5 rounded-xl font-medium text-sm hover:bg-neutral-800 transition">Gửi khảo sát</button>
-                        <p id="surveyThankYou" class="hidden text-green-600 text-sm font-medium mt-2">Cảm ơn bạn đã đóng góp ý kiến!</p>
-                    </form>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Right Column: AI Chatbot Widget -->
-        <div class="lg:col-span-1">
-            <div class="sticky top-24 border border-neutral-200 rounded-2xl bg-white shadow-sm flex flex-col h-[550px]">
-                <!-- Chatbot Header -->
-                <div class="p-4 border-b border-neutral-200 flex items-center justify-between bg-neutral-50 rounded-t-2xl">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center text-xs font-bold">AI</div>
-                        <div>
-                            <h4 class="text-sm font-bold">HUFLIT Assistant</h4>
-                            <p class="text-xs text-neutral-500">Trực tuyến hỗ trợ 24/7</p>
-                        </div>
-                    </div>
-                    <span class="w-2.5 h-2.5 bg-green-500 rounded-full"></span>
-                </div>
-
-                <!-- Chatbot Messages Body -->
-                <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-4 text-sm bg-white">
-                    <div class="flex items-start space-x-2">
-                        <div class="w-7 h-7 bg-black text-white rounded-full flex-shrink-0 flex items-center justify-center text-xs">AI</div>
-                        <div class="bg-neutral-100 p-3 rounded-2xl rounded-tl-none text-neutral-800 max-w-[80%]">
-                            Xin chào! Mình là trợ lý ảo HUFLIT. Bạn cần tìm tài liệu môn học nào hoặc cần hỗ trợ gì hôm nay?
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Chatbot Input -->
-                <div class="p-3 border-t border-neutral-200 bg-white rounded-b-2xl">
-                    <form onsubmit="handleChatSubmit(event)" class="flex items-center space-x-2">
-                        <input type="text" id="chatInput" placeholder="Nhập câu hỏi của bạn..." class="flex-1 px-4 py-2 border border-neutral-300 rounded-full text-sm focus:outline-none focus:border-black">
-                        <button type="submit" class="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center hover:bg-neutral-800 transition flex-shrink-0">
-                            <i class="fa-solid fa-paper-plane text-xs"></i>
-                        </button>
-                    </form>
-                </div>
+                    <button type="submit" class="w-full bg-black text-white py-3 rounded-xl font-medium text-sm hover:bg-neutral-800 transition">Gửi đánh giá</button>
+                    <p id="surveyThankYou" class="hidden text-center text-green-600 text-sm font-medium">✓ Cảm ơn bạn đã đóng góp ý kiến!</p>
+                </form>
             </div>
         </div>
-
-    </main>
+    </section>
 
     <!-- FOOTER -->
-    <footer class="border-t border-neutral-200 bg-neutral-50 py-8 mt-16 text-center text-sm text-neutral-500">
-        <div class="max-w-7xl mx-auto px-4">
-            <p class="font-semibold text-neutral-800 mb-1">HUFLIT English Learning & Reference Hub</p>
-            <p>Bản quyền thuộc về sinh viên HUFLIT • Phong cách Studocu tối giản</p>
-        </div>
+    <footer class="border-t border-neutral-200 bg-neutral-50 py-8 text-center text-sm text-neutral-500">
+        <p class="font-semibold text-neutral-800 mb-1">HUFLIT English Learning Hub & Reference System</p>
+        <p>Giao diện Đen - Trắng tối giản • Phong cách Studocu</p>
     </footer>
 
+    <!-- DOCUMENT VIEW MODAL (Khi bấm vào tài liệu) -->
+    <div id="docModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden border border-neutral-200">
+            <div class="p-6 border-b border-neutral-200 flex items-center justify-between bg-neutral-50">
+                <div>
+                    <span id="modalCategory" class="text-xs bg-black text-white px-2.5 py-1 rounded font-medium">Category</span>
+                    <h3 id="modalTitle" class="text-xl font-bold mt-2">Document Title</h3>
+                </div>
+                <button onclick="closeDocModal()" class="text-neutral-400 hover:text-black text-xl p-2"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-4 text-neutral-700 text-sm leading-relaxed" id="modalBody">
+                <!-- Document Content Here -->
+            </div>
+            <div class="p-4 border-t border-neutral-200 bg-neutral-50 text-right">
+                <button onclick="closeDocModal()" class="bg-black text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-neutral-800">Đóng bài đọc</button>
+            </div>
+        </div>
+    </div>
+
     <!-- SIGN IN MODAL -->
-    <div id="authModal" class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-8 relative shadow-2xl">
+    <div id="authModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-8 relative shadow-2xl border border-neutral-200">
             <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-neutral-400 hover:text-black">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
-            
             <div class="text-center mb-6">
-                <div class="w-12 h-12 bg-black text-white mx-auto rounded-xl flex items-center justify-center text-xl font-bold mb-3">H</div>
-                <h3 class="text-2xl font-bold">Đăng nhập tài khoản</h3>
-                <p class="text-sm text-neutral-500 mt-1">Truy cập toàn bộ tài liệu độc quyền HUFLIT</p>
+                <div class="w-12 h-12 bg-black text-white mx-auto rounded-xl flex items-center justify-center text-xl font-bold mb-2">H</div>
+                <h3 class="text-2xl font-bold">Sign In</h3>
+                <p class="text-xs text-neutral-500">Truy cập toàn bộ tài liệu học tập HUFLIT</p>
             </div>
-
-            <!-- Example credentials box -->
-            <div class="bg-neutral-100 border border-neutral-200 rounded-xl p-3 mb-5 text-xs text-neutral-700">
-                <p class="font-semibold mb-1"><i class="fa-solid fa-circle-info mr-1"></i> Tài khoản mẫu dùng thử (Example):</p>
-                <p>• Email: <code class="bg-white px-1 py-0.5 rounded border border-neutral-300 font-mono">student@huflit.edu.vn</code></p>
-                <p class="mt-1">• Mật khẩu: <code class="bg-white px-1 py-0.5 rounded border border-neutral-300 font-mono">123456</code></p>
+            <!-- Example instructions -->
+            <div class="bg-neutral-100 border border-neutral-200 rounded-xl p-3 mb-4 text-xs text-neutral-700">
+                <p class="font-semibold mb-1"><i class="fa-solid fa-circle-info mr-1"></i> Tài khoản Hướng dẫn (Example):</p>
+                <p>• Email: <code class="bg-white px-1.5 py-0.5 rounded font-mono border">student@huflit.edu.vn</code></p>
+                <p class="mt-1">• Password: <code class="bg-white px-1.5 py-0.5 rounded font-mono border">123456</code></p>
             </div>
-
             <form onsubmit="handleSignIn(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-neutral-600 mb-1">Email HUFLIT</label>
+                    <label class="block text-xs font-semibold uppercase text-neutral-600 mb-1">HUFLIT Email</label>
                     <input type="email" id="loginEmail" required placeholder="student@huflit.edu.vn" class="w-full px-4 py-2.5 border border-neutral-300 rounded-xl text-sm focus:outline-none focus:border-black">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-neutral-600 mb-1">Mật khẩu</label>
+                    <label class="block text-xs font-semibold uppercase text-neutral-600 mb-1">Password</label>
                     <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full px-4 py-2.5 border border-neutral-300 rounded-xl text-sm focus:outline-none focus:border-black">
                 </div>
-                <button type="submit" class="w-full bg-black text-white py-3 rounded-xl font-medium hover:bg-neutral-800 transition text-sm">Đăng nhập ngay</button>
+                <button type="submit" class="w-full bg-black text-white py-3 rounded-xl font-medium hover:bg-neutral-800 transition text-sm">Đăng nhập</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- CHATBOT BUBBLE (Bong bóng chat góc phải) -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <!-- Floating Toggle Button -->
+        <button onclick="toggleChat()" id="chatBubbleBtn" class="w-14 h-14 bg-black text-white rounded-full shadow-2xl flex items-center justify-center text-xl hover:scale-105 transition duration-200">
+            <i class="fa-solid fa-comments"></i>
+        </button>
+
+        <!-- Chat Window (Popup) -->
+        <div id="chatBox" class="hidden absolute bottom-16 right-0 w-80 sm:w-96 bg-white border border-neutral-200 rounded-2xl shadow-2xl flex flex-col h-96 overflow-hidden">
+            <!-- Header -->
+            <div class="p-3.5 bg-black text-white flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <span class="w-2.5 h-2.5 bg-green-400 rounded-full"></span>
+                    <span class="text-sm font-bold">HUFLIT AI Support</span>
+                </div>
+                <button onclick="toggleChat()" class="text-neutral-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <!-- Messages Area -->
+            <div id="chatMessages" class="flex-1 p-3 overflow-y-auto space-y-3 text-xs bg-neutral-50">
+                <div class="bg-white p-3 rounded-xl border border-neutral-200 text-neutral-800 max-w-[85%]">
+                    Xin chào! Bạn cần hỗ trợ gì về tài liệu hay đề thi HUFLIT hôm nay?
+                </div>
+            </div>
+            <!-- Input Area -->
+            <form onsubmit="handleChatSubmit(event)" class="p-2 border-t border-neutral-200 bg-white flex items-center space-x-2">
+                <input type="text" id="chatInput" placeholder="Nhập câu hỏi..." class="flex-1 px-3 py-2 bg-neutral-100 border border-transparent rounded-xl text-xs focus:outline-none focus:bg-white focus:border-black">
+                <button type="submit" class="w-8 h-8 bg-black text-white rounded-xl flex items-center justify-center text-xs"><i class="fa-solid fa-paper-plane"></i></button>
             </form>
         </div>
     </div>
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Auth Logic Mock
-        function openAuthModal() {
-            document.getElementById('authModal').classList.remove('hidden');
+        // DATA: 15 Documents
+        const resourcesData = [
+            { id: 1, title: "Academic Essay Writing Guide", category: "Business English", desc: "Hướng dẫn cấu trúc câu, từ nối và từ vựng học thuật cho bài luận IELTS/HUFLIT.", content: "<b>Nội dung chính:</b><br><br>1. <b>Introduction:</b> Hook, background information, and thesis statement.<br>2. <b>Body Paragraphs:</b> Topic sentence, supporting ideas, examples, and concluding sentence.<br>3. <b>Academic Words:</b> Furthermore, Consequently, In contrast, Substantial, Implement." },
+            { id: 2, title: "English Phonetics & Phonology", category: "Linguistics", desc: "Tóm tắt bảng phiên âm IPA, quy tắc trọng âm và ngữ điệu câu.", content: "<b>Tóm tắt Phonetics:</b><br><br>- 44 Âm trong bảng IPA (20 Nguyên âm & 24 Phụ âm).<br>- Quy tắc nhấn trọng âm từ có 2 và 3 âm tiết.<br>- Intonation: Lên giọng ở câu hỏi Yes/No, xuống giọng ở câu phát biểu." },
+            { id: 3, title: "Corporate Recruitment Strategies", category: "Human Resources", desc: "Bài mẫu nghiên cứu quy trình tuyển dụng và đánh giá ứng viên doanh nghiệp.", content: "<b>Nội dung chính:</b><br><br>1. Candidate Sourcing & Job Description Design.<br>2. Interview Techniques: STAR Method (Situation, Task, Action, Result).<br>3. Employee Onboarding Workflow." },
+            { id: 4, title: "Digital Device Utilization Paper", category: "Methodology", desc: "Báo cáo nghiên cứu tác động của thiết bị kỹ thuật số đến khả năng tập trung.", content: "<b>Tóm tắt nghiên cứu (Khảo sát 100 sinh viên):</b><br><br>- 72% sinh viên bị xao nhãng bởi thông báo smartphone.<br>- Giải pháp Pomodoro giúp gia tăng 35% mức độ tập trung học tập." },
+            { id: 5, title: "Business Communication & Emails", category: "Business English", desc: "Các mẫu Email viết thư thương mại, khiếu nại và đặt hàng bằng tiếng Anh.", content: "<b>Mẫu Email đặt hàng chuẩn:</b><br><br>Dear Mr./Ms. [Name],<br>I am writing to formally place an order for the following items...<br>Sincerely,<br>[Your Name]" },
+            { id: 6, title: "Intercultural Communication Notes", category: "Linguistics", desc: "Bài giảng về giao thoa văn hóa trong môi trường làm việc đa quốc gia.", content: "<b>Nội dung bài học:</b><br><br>- High-context vs Low-context Cultures.<br>- Non-verbal communication nuances.<br>- Strategies for overcoming language barriers in business." },
+            { id: 7, title: "IELTS Speaking Part 2 & 3 Topics", category: "Exam Prep", desc: "Tổng hợp 20 đề thi Speaking kèm câu trả lời mẫu đạt Band 7.0+.", content: "<b>Topic: Describe a product you bought:</b><br><br>- What it is & Where you bought it.<br>- Why you chose it and how frequently you use it.<br>- Vocabulary: State-of-the-art, Value for money, Durable." },
+            { id: 8, title: "Financial English Vocabulary", category: "Finance", desc: "Bộ 100 từ vựng tài chính: Profit, Balance Sheet, Asset, Revenue.", content: "<b>Từ vựng tài chính cơ bản:</b><br><br>- <b>Assets:</b> Tài sản.<br>- <b>Liabilities:</b> Nợ phải trả.<br>- <b>Revenue:</b> Doanh thu.<br>- <b>Expenditure:</b> Chi phí." },
+            { id: 9, title: "Customer Service Operation Manual", category: "Customer Care", desc: "Quy trình xử lý khiếu nại và giao tiếp với khách hàng qua điện thoại.", content: "<b>Quy tắc HEAT trong Customer Care:</b><br><br>1. <b>H</b>ear (Lắng nghe).<br>2. <b>E</b>mpathize (Đồng cảm).<br>3. <b>A</b>pologize (Xin lỗi).<br>4. <b>T</b>ake Action (Xử lý)." },
+            { id: 10, title: "Syntax & Sentence Structure Analysis", category: "Linguistics", desc: "Phân tích cú pháp câu đơn, câu phức và các lỗi ngữ pháp thường gặp.", content: "<b>Cấu trúc cú pháp:</b><br><br>- Phân biệt Clause và Phrase.<br>- Cách dùng mệnh đề quan hệ (Relative Clauses).<br>- Sửa lỗi Run-on sentences và Comma Splices." },
+            { id: 11, title: "Global Supply Chain Fundamentals", category: "Business English", desc: "Tài liệu tổng quan về chuỗi cung ứng và vận tải logistics quốc tế.", content: "<b>Thuật ngữ Logistics:</b><br><br>- Supply Chain Management (SCM).<br>- Freight Forwarder & Bill of Lading.<br>- Incoterms 2020 (FOB, CIF, EXW)." },
+            { id: 12, title: "Public Speaking & Presentation Skills", category: "Soft Skills", desc: "Kỹ năng thuyết trình tiếng Anh tự tin trước đám đông.", content: "<b>3 Bước mở đầu bài thuyết trình hiệu quả:</b><br><br>1. Grab attention with a rhetorical question or statistic.<br>2. State your main purpose clearly.<br>3. Outline the agenda points." },
+            { id: 13, title: "English Grammar In Use - Advanced", category: "Grammar", desc: "Hệ thống lại các thì nâng cao và thể bị động đặc biệt.", content: "<b>Ngữ pháp nâng cao:</b><br><br>- Inversion (Đảo ngữ): Seldom have I seen...<br>- Mixed Conditionals (Câu điều kiện hỗn hợp).<br>- Subjunctive Mood (Thức giả định)." },
+            { id: 14, title: "Marketing Strategy Case Studies", category: "Marketing", desc: "Phân tích chiến lược marketing 4P của các thương hiệu hàng đầu.", content: "<b>Mô hình 4P trong Marketing:</b><br><br>- Product (Sản phẩm)<br>- Price (Giá cả)<br>- Place (Kênh phân phối)<br>- Promotion (Xúc tiến bán hàng)" },
+            { id: 15, title: "HUFLIT Final Exam Preparation Set", category: "Exam Prep", desc: "Đề thi mẫu tổng hợp kỹ năng Nghe - Đọc môn Tiếng Anh chuyên ngành.", content: "<b>Đề thi mẫu (Sample Question):</b><br><br>Read the passage and choose the best answer: 'The corporate restructuring aimed to streamline operations...'<br>Question 1: What was the main purpose of restructuring?" }
+        ];
+
+        // Render Resources
+        function renderResources(items) {
+            const container = document.getElementById('resourceContainer');
+            if(items.length === 0) {
+                container.innerHTML = `<p class="col-span-full text-center text-neutral-400 py-8">Không tìm thấy tài liệu phù hợp.</p>`;
+                return;
+            }
+            container.innerHTML = items.map(doc => `
+                <div onclick="openDocModal(${doc.id})" class="border border-neutral-200 p-5 rounded-2xl bg-white hover:border-black transition cursor-pointer flex flex-col justify-between group shadow-sm hover:shadow">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-semibold bg-neutral-100 text-neutral-700 px-2.5 py-1 rounded-md">${doc.category}</span>
+                            <i class="fa-regular fa-file-lines text-neutral-400 group-hover:text-black transition"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mt-3 mb-2 group-hover:underline">${doc.title}</h3>
+                        <p class="text-xs text-neutral-500 line-clamp-2 leading-relaxed">${doc.desc}</p>
+                    </div>
+                    <div class="mt-5 pt-3 border-t border-neutral-100 flex items-center justify-between text-xs font-medium text-neutral-600">
+                        <span>Bấm để xem nội dung</span>
+                        <i class="fa-solid fa-arrow-right text-xs transform group-hover:translate-x-1 transition"></i>
+                    </div>
+                </div>
+            `).join('');
         }
-        function closeAuthModal() {
-            document.getElementById('authModal').classList.add('hidden');
+        renderResources(resourcesData);
+
+        // Filter Resources via Search
+        function filterResources() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = resourcesData.filter(d => 
+                d.title.toLowerCase().includes(query) || 
+                d.category.toLowerCase().includes(query) ||
+                d.desc.toLowerCase().includes(query)
+            );
+            renderResources(filtered);
         }
 
+        // Modal Document Viewer
+        function openDocModal(id) {
+            const doc = resourcesData.find(d => d.id === id);
+            if(!doc) return;
+            document.getElementById('modalCategory').innerText = doc.category;
+            document.getElementById('modalTitle').innerText = doc.title;
+            document.getElementById('modalBody').innerHTML = doc.content;
+            document.getElementById('docModal').classList.remove('hidden');
+        }
+        function closeDocModal() {
+            document.getElementById('docModal').classList.add('hidden');
+        }
+
+        // Auth Logic
+        function openAuthModal() { document.getElementById('authModal').classList.remove('hidden'); }
+        function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
         function handleSignIn(e) {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value;
-            // Mock login success based on example credentials or any input
             localStorage.setItem('huflit_user', email);
             updateAuthUI();
             closeAuthModal();
         }
-
         function handleSignOut() {
             localStorage.removeItem('huflit_user');
             updateAuthUI();
         }
-
         function updateAuthUI() {
             const user = localStorage.getItem('huflit_user');
             if (user) {
@@ -268,88 +344,95 @@
                 document.getElementById('guestSection').classList.remove('hidden');
             }
         }
-        // Run on load
         updateAuthUI();
 
-        // Rating Logic
-        let currentRating = 5;
+        // Question Quiz Logic
+        const quizData = [
+            { q: "Từ nào đồng nghĩa với 'Implement' trong tiếng Anh thương mại?", options: ["Cancel", "Execute", "Delay", "Reject"], correct: 1 },
+            { q: "Cấu trúc nào đúng khi viết Email trang trọng?", options: ["Hey bro,", "Dear Mr. Smith,", "What's up,", "Yo Smith!"], correct: 1 },
+            { q: "'Assets' trong tài chính nghĩa là gì?", options: ["Các khoản nợ", "Chi phí quảng cáo", "Tài sản", "Thuế thu nhập"], correct: 2 }
+        ];
+        let currentQuizIndex = 0;
+
+        function loadQuiz() {
+            const quiz = quizData[currentQuizIndex];
+            document.getElementById('quizNumber').innerText = `Câu hỏi ${currentQuizIndex + 1}/${quizData.length}`;
+            document.getElementById('quizQuestion').innerText = quiz.q;
+            document.getElementById('quizFeedback').innerText = '';
+            document.getElementById('nextQuizBtn').classList.add('hidden');
+
+            const optionsContainer = document.getElementById('quizOptions');
+            optionsContainer.innerHTML = quiz.options.map((opt, idx) => `
+                <button onclick="checkAnswer(${idx})" class="w-full text-left p-3.5 border border-neutral-200 rounded-xl text-sm font-medium hover:border-black transition bg-white">
+                    ${String.fromCharCode(65 + idx)}. ${opt}
+                </button>
+            `).join('');
+        }
+        function checkAnswer(idx) {
+            const quiz = quizData[currentQuizIndex];
+            const feedback = document.getElementById('quizFeedback');
+            if(idx === quiz.correct) {
+                feedback.innerHTML = `<span class="text-green-600">✓ Chính xác! Bạn làm rất tốt.</span>`;
+            } else {
+                feedback.innerHTML = `<span class="text-red-500">✗ Chưa đúng. Đáp án đúng là: ${quiz.options[quiz.correct]}</span>`;
+            }
+            document.getElementById('nextQuizBtn').classList.remove('hidden');
+        }
+        function nextQuestion() {
+            currentQuizIndex = (currentQuizIndex + 1) % quizData.length;
+            loadQuiz();
+        }
+        loadQuiz();
+
+        // Rating Star Survey
+        let selectedStar = 5;
         function setRating(val) {
-            currentRating = val;
-            document.getElementById('selectedRating').value = val;
-            const stars = document.querySelectorAll('#starRatingContainer i');
-            stars.forEach((star, index) => {
-                if (index < val) {
-                    star.classList.remove('text-neutral-300');
-                    star.classList.add('text-black');
+            selectedStar = val;
+            const stars = document.querySelectorAll('#starContainer i');
+            stars.forEach((s, idx) => {
+                if(idx < val) {
+                    s.classList.remove('text-neutral-300');
+                    s.classList.add('text-black');
                 } else {
-                    star.classList.remove('text-black');
-                    star.classList.add('text-neutral-300');
+                    s.classList.remove('text-black');
+                    s.classList.add('text-neutral-300');
                 }
             });
         }
-        // Initialize 5 stars default active
         setRating(5);
 
         function submitSurvey(e) {
             e.preventDefault();
-            const comment = document.getElementById('surveyComment').value;
-            const thankMsg = document.getElementById('surveyThankYou');
-            thankMsg.classList.remove('hidden');
+            const msg = document.getElementById('surveyThankYou');
+            msg.classList.remove('hidden');
             setTimeout(() => {
-                thankMsg.classList.add('hidden');
+                msg.classList.add('hidden');
                 document.getElementById('surveyForm').reset();
                 setRating(5);
             }, 3000);
         }
 
-        // Chatbot Logic
+        // Chatbot Toggle & Logic
+        function toggleChat() {
+            document.getElementById('chatBox').classList.toggle('hidden');
+        }
         function handleChatSubmit(e) {
             e.preventDefault();
-            const inputField = document.getElementById('chatInput');
-            const message = inputField.value.trim();
-            if(!message) return;
+            const input = document.getElementById('chatInput');
+            const msg = input.value.trim();
+            if(!msg) return;
 
-            const chatMessages = document.getElementById('chatMessages');
-            
-            // Append User message
-            chatMessages.innerHTML += `
-                <div class="flex items-start justify-end space-x-2">
-                    <div class="bg-black text-white p-3 rounded-2xl rounded-tr-none max-w-[80%]">${escapeHtml(message)}</div>
-                </div>
-            `;
-            inputField.value = '';
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            const box = document.getElementById('chatMessages');
+            box.innerHTML += `<div class="bg-black text-white p-2.5 rounded-xl ml-auto max-w-[85%] text-right">${msg}</div>`;
+            input.value = '';
+            box.scrollTop = box.scrollHeight;
 
-            // Simulate Bot Response after 600ms
             setTimeout(() => {
-                let reply = "Cảm ơn bạn đã hỏi! Bạn có thể tìm kiếm tài liệu giáo trình trực tiếp qua thanh tìm kiếm phía trên hoặc tải các file PDF/DOCX có sẵn nhé.";
-                const lower = message.toLowerCase();
-                if(lower.includes('business') || lower.includes('anh')) {
-                    reply = "Tài liệu Business English hiện có sẵn ở mục Tài liệu nổi bật, bạn có thể tải về hoàn toàn miễn phí!";
-                } else if(lower.includes('đăng nhập') || lower.includes('login')) {
-                    reply = "Bạn có thể bấm vào nút 'Đăng nhập' ở góc trên bên phải và sử dụng tài khoản mẫu: student@huflit.edu.vn / 123456.";
-                }
-
-                chatMessages.innerHTML += `
-                    <div class="flex items-start space-x-2">
-                        <div class="w-7 h-7 bg-black text-white rounded-full flex-shrink-0 flex items-center justify-center text-xs">AI</div>
-                        <div class="bg-neutral-100 p-3 rounded-2xl rounded-tl-none text-neutral-800 max-w-[80%]">${reply}</div>
-                    </div>
-                `;
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 600);
-        }
-
-        function escapeHtml(text) {
-            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        }
-
-        // Search action mockup
-        function performSearch() {
-            const val = document.getElementById('heroSearchInput').value;
-            if(val) {
-                alert("Đang tìm kiếm kết quả cho: " + val);
-            }
+                let reply = "Cảm ơn bạn! Bạn có thể sử dụng thanh tìm kiếm để lọc nhanh 15 tài liệu bài học có sẵn trên trang nhé.";
+                if(msg.toLowerCase().includes('hi') || msg.toLowerCase().includes('chào')) reply = "Chào bạn! Mình có thể giúp gì cho bạn hôm nay?";
+                box.innerHTML += `<div class="bg-white p-2.5 rounded-xl border border-neutral-200 text-neutral-800 max-w-[85%]">${reply}</div>`;
+                box.scrollTop = box.scrollHeight;
+            }, 500);
         }
     </script>
 </body>
