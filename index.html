@@ -1,13 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HUFLIT English Hub - Multi-page Academic System</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <script>
         tailwind.config = {
             theme: {
@@ -15,17 +16,21 @@
                     fontFamily: { sans: ['Inter', 'sans-serif'] }
                 }
             }
-        }
+        };
     </script>
 </head>
+
 <body class="bg-white text-neutral-900 font-sans antialiased selection:bg-black selection:text-white flex flex-col min-h-screen">
 
     <!-- HEADER / NAVIGATION BAR -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+
             <button onclick="switchPage('home')" class="flex items-center space-x-2 text-left">
                 <div class="w-9 h-9 bg-black text-white flex items-center justify-center font-bold text-lg rounded-lg">H</div>
-                <span class="font-bold text-xl tracking-tight">HUFLIT <span class="font-light text-neutral-500">Docs</span></span>
+                <span class="font-bold text-xl tracking-tight">
+                    HUFLIT <span class="font-light text-neutral-500">Docs</span>
+                </span>
             </button>
 
             <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
@@ -36,125 +41,233 @@
             </nav>
 
             <div class="flex items-center space-x-3">
+
                 <div id="userSection" class="hidden flex items-center space-x-3">
                     <span id="userNameDisplay" class="text-sm font-medium text-neutral-700 bg-neutral-100 px-3 py-1 rounded-full border border-neutral-200"></span>
                     <button onclick="handleSignOut()" class="text-xs border border-neutral-300 px-3 py-1.5 rounded-full hover:bg-neutral-100 transition">Sign Out</button>
                 </div>
+
                 <div id="guestSection">
                     <button onclick="openAuthModal()" class="bg-black text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-neutral-800 transition">Sign In</button>
                 </div>
+
             </div>
         </div>
     </header>
 
-    <!-- MAIN CONTENT CONTAINER -->
+    <!-- MAIN CONTENT -->
     <main class="flex-1">
 
         <!-- PAGE 1: HOME -->
         <div id="page-home" class="page-content py-16 px-4 space-y-20">
+
             <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
                 <div>
-                    <span class="text-xs uppercase tracking-widest font-semibold bg-neutral-200 px-3 py-1 rounded-full text-neutral-700">HUFLIT Academic Platform</span>
-                    <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mt-4 mb-4">Trang tổng hợp tài liệu & Ôn tập tiếng Anh HUFLIT</h1>
+                    <span class="text-xs uppercase tracking-widest font-semibold bg-neutral-200 px-3 py-1 rounded-full text-neutral-700">
+                        HUFLIT Academic Platform
+                    </span>
+
+                    <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mt-4 mb-4">
+                        Trang tổng hợp tài liệu & Ôn tập tiếng Anh HUFLIT
+                    </h1>
+
                     <p class="text-neutral-600 mb-6 leading-relaxed">
                         Nền tảng hỗ trợ sinh viên tra cứu hơn 25+ giáo trình chuyên ngành, tài liệu Business English và luyện tập trắc nghiệm thông minh. Giao diện tối giản, tối ưu hóa trải nghiệm học tập.
                     </p>
+
                     <div class="flex flex-wrap gap-4">
-                        <button onclick="switchPage('resource')" class="bg-black text-white px-6 py-3 rounded-xl font-medium hover:bg-neutral-800 transition text-sm">Khám phá Resource ngay</button>
-                        <button onclick="switchPage('quiz')" class="border border-neutral-300 px-6 py-3 rounded-xl font-medium hover:bg-neutral-100 transition text-sm">Làm Quiz 5 câu</button>
+                        <button onclick="switchPage('resource')" class="bg-black text-white px-6 py-3 rounded-xl font-medium hover:bg-neutral-800 transition text-sm">
+                            Khám phá Resource ngay
+                        </button>
+
+                        <button onclick="switchPage('quiz')" class="border border-neutral-300 px-6 py-3 rounded-xl font-medium hover:bg-neutral-100 transition text-sm">
+                            Làm Quiz 5 câu
+                        </button>
                     </div>
                 </div>
+
                 <div class="flex justify-center">
-                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="HUFLIT Students" class="rounded-2xl shadow-xl border border-neutral-200 object-cover max-h-96 w-full">
+                    <img
+                        src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80"
+                        alt="HUFLIT Students"
+                        class="rounded-2xl shadow-xl border border-neutral-200 object-cover max-h-96 w-full">
                 </div>
+
             </div>
 
+            <!-- INTRODUCTION -->
             <section class="max-w-7xl mx-auto bg-neutral-50 border border-neutral-200 rounded-3xl p-8 sm:p-12">
+
                 <div class="text-center max-w-2xl mx-auto mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight">Giới thiệu & Lợi ích / Introduction & Benefits</h2>
-                    <p class="text-neutral-500 text-sm mt-2">Tại sao sinh viên HUFLIT nên sử dụng nền tảng này? / Why HUFLIT students should use this platform?</p>
+                    <h2 class="text-3xl font-bold tracking-tight">
+                        Giới thiệu & Lợi ích / Introduction & Benefits
+                    </h2>
+
+                    <p class="text-neutral-500 text-sm mt-2">
+                        Tại sao sinh viên HUFLIT nên sử dụng nền tảng này? / Why HUFLIT students should use this platform?
+                    </p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
                     <div class="bg-white p-6 rounded-2xl border border-neutral-200 shadow-sm">
                         <div class="w-10 h-10 bg-black text-white rounded-xl flex items-center justify-center font-bold mb-4">01</div>
                         <h3 class="font-bold text-lg mb-1">Tài liệu chọn lọc chính thống</h3>
                         <p class="text-xs text-neutral-400 mb-3 italic">Curated Official Resources</p>
-                        <p class="text-xs text-neutral-600 leading-relaxed">Cung cấp hơn 25+ tài liệu chuyên sâu về Business English, Ngữ pháp nâng cao, Kỹ năng mềm và Đề thi mẫu bám sát chương trình HUFLIT.</p>
+                        <p class="text-xs text-neutral-600 leading-relaxed">
+                            Cung cấp hơn 25+ tài liệu chuyên sâu về Business English, Ngữ pháp nâng cao, Kỹ năng mềm và Đề thi mẫu bám sát chương trình HUFLIT.
+                        </p>
                     </div>
+
                     <div class="bg-white p-6 rounded-2xl border border-neutral-200 shadow-sm">
                         <div class="w-10 h-10 bg-black text-white rounded-xl flex items-center justify-center font-bold mb-4">02</div>
                         <h3 class="font-bold text-lg mb-1">Đọc trực tuyến & Tra cứu nhanh</h3>
                         <p class="text-xs text-neutral-400 mb-3 italic">Instant Reading & Smart Search</p>
-                        <p class="text-xs text-neutral-600 leading-relaxed">Không cần tải file rườm rà. Gợi ý tìm kiếm thông minh giúp bạn tra cứu đúng từ khóa và xem trước nội dung bài học ngay lập tức.</p>
+                        <p class="text-xs text-neutral-600 leading-relaxed">
+                            Không cần tải file rườm rà. Gợi ý tìm kiếm thông minh giúp bạn tra cứu đúng từ khóa và xem trước nội dung bài học ngay lập tức.
+                        </p>
                     </div>
+
                     <div class="bg-white p-6 rounded-2xl border border-neutral-200 shadow-sm">
                         <div class="w-10 h-10 bg-black text-white rounded-xl flex items-center justify-center font-bold mb-4">03</div>
                         <h3 class="font-bold text-lg mb-1">Cộng đồng đánh giá chân thực</h3>
                         <p class="text-xs text-neutral-400 mb-3 italic">Authentic Student Feedback</p>
-                        <p class="text-xs text-neutral-600 leading-relaxed">Không gian để sinh viên các khóa chia sẻ trải nghiệm, đóng góp ý kiến cải thiện tài liệu và tự kiểm tra năng lực qua hệ thống trắc nghiệm.</p>
+                        <p class="text-xs text-neutral-600 leading-relaxed">
+                            Không gian để sinh viên các khóa chia sẻ trải nghiệm, đóng góp ý kiến cải thiện tài liệu và tự kiểm tra năng lực qua hệ thống trắc nghiệm.
+                        </p>
                     </div>
+
                 </div>
             </section>
         </div>
 
         <!-- PAGE 2: RESOURCE -->
         <div id="page-resource" class="page-content hidden py-16 px-4 max-w-7xl mx-auto">
+
             <div class="max-w-3xl mx-auto mb-10 text-center">
-                <h2 class="text-3xl font-bold tracking-tight mb-2">Kho Tài Liệu Học Tập (25+ Resources)</h2>
-                <p class="text-neutral-500 text-sm mb-6">Tra cứu nhanh tài liệu học thuật chi tiết kèm từ khóa dài cho sinh viên HUFLIT</p>
+
+                <h2 class="text-3xl font-bold tracking-tight mb-2">
+                    Kho Tài Liệu Học Tập (25+ Resources)
+                </h2>
+
+                <p class="text-neutral-500 text-sm mb-6">
+                    Tra cứu nhanh tài liệu học thuật chi tiết kèm từ khóa dài cho sinh viên HUFLIT
+                </p>
 
                 <div class="relative">
+
                     <div class="relative flex items-center">
-                        <span class="absolute left-4 text-neutral-400"><i class="fa-solid fa-magnifying-glass"></i></span>
-                        <input type="text" id="searchInput" oninput="handleSearchInput()" placeholder="Nhập từ khóa dài (VD: Business English, IELTS Speaking, HR Strategy)..." class="w-full pl-11 pr-4 py-3.5 bg-neutral-50 border border-neutral-300 rounded-2xl text-sm focus:outline-none focus:bg-white focus:border-black transition shadow-sm">
+                        <span class="absolute left-4 text-neutral-400">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </span>
+
+                        <input
+                            type="text"
+                            id="searchInput"
+                            oninput="handleSearchInput()"
+                            placeholder="Nhập từ khóa dài (VD: Business English, IELTS Speaking, HR Strategy)..."
+                            class="w-full pl-11 pr-4 py-3.5 bg-neutral-50 border border-neutral-300 rounded-2xl text-sm focus:outline-none focus:bg-white focus:border-black transition shadow-sm">
                     </div>
-                    <div id="searchSuggestions" class="hidden absolute left-0 right-0 mt-2 bg-white border border-neutral-200 rounded-2xl shadow-xl z-30 max-h-60 overflow-y-auto text-left"></div>
+
+                    <div
+                        id="searchSuggestions"
+                        class="hidden absolute left-0 right-0 mt-2 bg-white border border-neutral-200 rounded-2xl shadow-xl z-30 max-h-60 overflow-y-auto text-left">
+                    </div>
+
                 </div>
             </div>
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="resourceContainer"></div>
+
         </div>
 
         <!-- PAGE 3: QUESTION QUIZ -->
         <div id="page-quiz" class="page-content hidden py-16 px-4 max-w-3xl mx-auto">
+
             <div class="text-center mb-8">
-                <span class="text-xs font-semibold bg-neutral-100 text-neutral-700 px-3 py-1 rounded-full uppercase tracking-wider">HUFLIT Knowledge Test</span>
-                <h2 class="text-3xl font-bold tracking-tight mt-2">Question Quiz (5 Câu hỏi)</h2>
-                <p class="text-neutral-600 text-sm mt-1">Kiểm tra nhanh năng lực tiếng Anh chuyên ngành</p>
+                <span class="text-xs font-semibold bg-neutral-100 text-neutral-700 px-3 py-1 rounded-full uppercase tracking-wider">
+                    HUFLIT Knowledge Test
+                </span>
+
+                <h2 class="text-3xl font-bold tracking-tight mt-2">
+                    Question Quiz (5 Câu hỏi)
+                </h2>
+
+                <p class="text-neutral-600 text-sm mt-1">
+                    Kiểm tra nhanh năng lực tiếng Anh chuyên ngành
+                </p>
             </div>
 
             <div class="bg-white p-6 sm:p-8 rounded-2xl border border-neutral-200 shadow-sm" id="quizCard">
+
                 <div class="flex justify-between items-center mb-4">
-                    <span id="quizProgress" class="text-xs font-semibold text-neutral-400 uppercase">Câu hỏi 1/5</span>
-                    <span id="quizScoreTracker" class="text-xs font-bold bg-neutral-100 px-2.5 py-1 rounded">Điểm: 0</span>
+                    <span id="quizProgress" class="text-xs font-semibold text-neutral-400 uppercase">
+                        Câu hỏi 1/5
+                    </span>
+
+                    <span id="quizScoreTracker" class="text-xs font-bold bg-neutral-100 px-2.5 py-1 rounded">
+                        Điểm: 0
+                    </span>
                 </div>
+
                 <h3 id="quizQuestion" class="text-lg font-bold mb-6 text-neutral-800">...</h3>
+
                 <div class="space-y-3" id="quizOptions"></div>
+
                 <div class="mt-6 pt-4 border-t border-neutral-100 flex justify-between items-center">
                     <span id="quizFeedbackMsg" class="text-sm font-medium"></span>
-                    <button id="nextQuizBtn" onclick="nextQuizQuestion()" class="hidden bg-black text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-neutral-800 transition">Câu tiếp theo</button>
+
+                    <button
+                        id="nextQuizBtn"
+                        onclick="nextQuizQuestion()"
+                        class="hidden bg-black text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-neutral-800 transition">
+                        Câu tiếp theo
+                    </button>
                 </div>
+
             </div>
 
             <div id="quizResultBox" class="hidden bg-neutral-50 border border-neutral-200 p-8 rounded-2xl text-center space-y-4">
-                <h3 class="text-2xl font-bold">Hoàn thành bài Quiz! 🎉</h3>
+                <h3 class="text-2xl font-bold">Hoàn thành bài Quiz!</h3>
                 <p id="quizFinalScoreText" class="text-lg font-medium text-neutral-700"></p>
-                <button onclick="restartQuiz()" class="bg-black text-white px-6 py-2.5 rounded-xl text-sm font-medium hover:bg-neutral-800 transition">Làm lại bài Quiz</button>
+
+                <button
+                    onclick="restartQuiz()"
+                    class="bg-black text-white px-6 py-2.5 rounded-xl text-sm font-medium hover:bg-neutral-800 transition">
+                    Làm lại bài Quiz
+                </button>
             </div>
+
         </div>
 
         <!-- PAGE 4: FEEDBACK & SURVEY -->
         <div id="page-feedback" class="page-content hidden py-16 px-4 max-w-5xl mx-auto space-y-12">
 
+            <!-- SURVEY FORM -->
             <div class="bg-white border border-neutral-200 rounded-2xl p-8 shadow-sm">
+
                 <div class="max-w-xl mx-auto">
-                    <h2 class="text-2xl font-bold tracking-tight mb-2 text-center">Phiếu Khảo Sát Ý Kiến</h2>
-                    <p class="text-neutral-600 text-sm mb-6 text-center">Đóng góp của bạn giúp chúng tôi cải thiện trải nghiệm học tập.</p>
+
+                    <h2 class="text-2xl font-bold tracking-tight mb-2 text-center">
+                        Phiếu Khảo Sát Ý Kiến
+                    </h2>
+
+                    <p class="text-neutral-600 text-sm mb-6 text-center">
+                        Đóng góp của bạn giúp chúng tôi cải thiện trải nghiệm học tập.
+                    </p>
 
                     <form id="surveyForm" onsubmit="submitSurvey(event)" class="space-y-4">
+
                         <div>
-                            <label class="block text-xs font-semibold uppercase text-neutral-600 mb-1">Đánh giá dịch vụ / trải nghiệm:</label>
-                            <select id="rating" class="w-full p-3 bg-neutral-50 border border-neutral-300 rounded-xl text-sm focus:outline-none focus:border-black">
+                            <label class="block text-xs font-semibold uppercase text-neutral-600 mb-1">
+                                Đánh giá dịch vụ / trải nghiệm:
+                            </label>
+
+                            <select
+                                id="rating"
+                                class="w-full p-3 bg-neutral-50 border border-neutral-300 rounded-xl text-sm focus:outline-none focus:border-black">
+
                                 <option value="Rất tốt">Rất tốt</option>
                                 <option value="Bình thường">Bình thường</option>
                                 <option value="Cần cải thiện">Cần cải thiện</option>
@@ -162,169 +275,344 @@
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold uppercase text-neutral-600 mb-1">Ý kiến đóng góp chi tiết:</label>
-                            <textarea id="comments" rows="4" required minlength="5" maxlength="2000" placeholder="Nhập ý kiến của bạn..." class="w-full p-3 bg-neutral-50 border border-neutral-300 rounded-xl text-sm focus:outline-none focus:border-black"></textarea>
+                            <label class="block text-xs font-semibold uppercase text-neutral-600 mb-1">
+                                Ý kiến đóng góp chi tiết:
+                            </label>
+
+                            <textarea
+                                id="comments"
+                                rows="4"
+                                required
+                                minlength="5"
+                                maxlength="2000"
+                                placeholder="Nhập ý kiến của bạn..."
+                                class="w-full p-3 bg-neutral-50 border border-neutral-300 rounded-xl text-sm focus:outline-none focus:border-black">
+                            </textarea>
                         </div>
 
-                        <p id="surveyStatus" class="text-sm min-h-5" role="status" aria-live="polite"></p>
+                        <p
+                            id="surveyStatus"
+                            class="text-sm min-h-5"
+                            role="status"
+                            aria-live="polite">
+                        </p>
 
-                        <button type="submit" class="w-full bg-black text-white py-3 rounded-xl font-medium text-sm hover:bg-neutral-800 transition disabled:opacity-60 disabled:cursor-not-allowed">Gửi Khảo Sát</button>
+                        <button
+                            type="submit"
+                            class="w-full bg-black text-white py-3 rounded-xl font-medium text-sm hover:bg-neutral-800 transition disabled:opacity-60 disabled:cursor-not-allowed">
+                            Gửi Khảo Sát
+                        </button>
+
                     </form>
                 </div>
             </div>
 
+            <!-- COMMUNITY FEEDBACKS -->
             <div>
+
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-xl font-bold tracking-tight">Đánh giá từ cộng đồng sinh viên HUFLIT (28+ Review)</h3>
-                    <span class="text-xs text-neutral-400">Cập nhật liên tục</span>
+                    <div>
+                        <h3 class="text-xl font-bold tracking-tight">
+                            Đánh giá từ cộng đồng sinh viên HUFLIT
+                        </h3>
+                        <p class="text-xs text-neutral-400 mt-1">
+                            Review mẫu và những đóng góp được lưu trên thiết bị của bạn.
+                        </p>
+                    </div>
+
+                    <span id="reviewCount" class="text-xs text-neutral-400 whitespace-nowrap">
+                        28 Reviews
+                    </span>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="virtualFeedbackList"></div>
+
+                <div
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                    id="virtualFeedbackList">
+                </div>
+
             </div>
+
         </div>
 
     </main>
 
     <!-- FOOTER -->
     <footer class="border-t border-neutral-200 bg-neutral-50 py-8 text-center text-sm text-neutral-500">
-        <p class="font-semibold text-neutral-800 mb-1">HUFLIT English Learning Hub & Reference System</p>
+        <p class="font-semibold text-neutral-800 mb-1">
+            HUFLIT English Learning Hub & Reference System
+        </p>
         <p>Hệ thống đa trang • Thiết kế tối giản đen trắng • Chữ ký HUFLIT</p>
     </footer>
 
     <!-- DOCUMENT VIEW MODAL -->
     <div id="docModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+
         <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden border border-neutral-200">
+
             <div class="p-6 border-b border-neutral-200 flex items-center justify-between bg-neutral-50">
                 <div>
-                    <span id="modalCategory" class="text-xs bg-black text-white px-2.5 py-1 rounded font-medium">Category</span>
-                    <h3 id="modalTitle" class="text-xl font-bold mt-2">Document Title</h3>
+                    <span id="modalCategory" class="text-xs bg-black text-white px-2.5 py-1 rounded font-medium">
+                        Category
+                    </span>
+
+                    <h3 id="modalTitle" class="text-xl font-bold mt-2">
+                        Document Title
+                    </h3>
                 </div>
-                <button onclick="closeDocModal()" class="text-neutral-400 hover:text-black text-xl p-2"><i class="fa-solid fa-xmark"></i></button>
+
+                <button onclick="closeDocModal()" class="text-neutral-400 hover:text-black text-xl p-2">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
+
             <div class="p-6 overflow-y-auto space-y-4 text-neutral-700 text-sm leading-relaxed" id="modalBody"></div>
+
             <div class="p-4 border-t border-neutral-200 bg-neutral-50 text-right">
-                <button onclick="closeDocModal()" class="bg-black text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-neutral-800">Đóng bài đọc</button>
+                <button onclick="closeDocModal()" class="bg-black text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-neutral-800">
+                    Đóng bài đọc
+                </button>
             </div>
+
         </div>
     </div>
 
     <!-- SIGN IN MODAL -->
     <div id="authModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+
         <div class="bg-white rounded-2xl max-w-md w-full p-8 relative shadow-2xl border border-neutral-200">
-            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-neutral-400 hover:text-black"><i class="fa-solid fa-xmark text-lg"></i></button>
+
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-neutral-400 hover:text-black">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
             <div class="text-center mb-6">
-                <div class="w-12 h-12 bg-black text-white mx-auto rounded-xl flex items-center justify-center text-xl font-bold mb-2">H</div>
+                <div class="w-12 h-12 bg-black text-white mx-auto rounded-xl flex items-center justify-center text-xl font-bold mb-2">
+                    H
+                </div>
+
                 <h3 class="text-2xl font-bold">Sign In</h3>
-                <p class="text-xs text-neutral-500">Truy cập toàn bộ tài liệu học tập HUFLIT</p>
+                <p class="text-xs text-neutral-500">
+                    Truy cập toàn bộ tài liệu học tập HUFLIT
+                </p>
             </div>
+
             <div class="bg-neutral-100 border border-neutral-200 rounded-xl p-3 mb-4 text-xs text-neutral-700">
-                <p class="font-semibold mb-1"><i class="fa-solid fa-circle-info mr-1"></i> Tài khoản Hướng dẫn (Example):</p>
-                <p>• Email: <code class="bg-white px-1.5 py-0.5 rounded font-mono border">student@huflit.edu.vn</code></p>
-                <p class="mt-1">• Password: <code class="bg-white px-1.5 py-0.5 rounded font-mono border">123456</code></p>
+                <p class="font-semibold mb-1">
+                    <i class="fa-solid fa-circle-info mr-1"></i>
+                    Tài khoản Hướng dẫn (Example):
+                </p>
+
+                <p>
+                    • Email:
+                    <code class="bg-white px-1.5 py-0.5 rounded font-mono border">student@huflit.edu.vn</code>
+                </p>
+
+                <p class="mt-1">
+                    • Password:
+                    <code class="bg-white px-1.5 py-0.5 rounded font-mono border">123456</code>
+                </p>
             </div>
+
             <form onsubmit="handleSignIn(event)" class="space-y-4">
+
                 <div>
-                    <label class="block text-xs font-semibold uppercase text-neutral-600 mb-1">HUFLIT Email</label>
-                    <input type="email" id="loginEmail" required placeholder="student@huflit.edu.vn" class="w-full px-4 py-2.5 border border-neutral-300 rounded-xl text-sm focus:outline-none focus:border-black">
+                    <label class="block text-xs font-semibold uppercase text-neutral-600 mb-1">
+                        HUFLIT Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="loginEmail"
+                        autocomplete="username"
+                        required
+                        placeholder="student@huflit.edu.vn"
+                        class="w-full px-4 py-2.5 border border-neutral-300 rounded-xl text-sm focus:outline-none focus:border-black">
                 </div>
+
                 <div>
-                    <label class="block text-xs font-semibold uppercase text-neutral-600 mb-1">Password</label>
-                    <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full px-4 py-2.5 border border-neutral-300 rounded-xl text-sm focus:outline-none focus:border-black">
+                    <label class="block text-xs font-semibold uppercase text-neutral-600 mb-1">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        autocomplete="current-password"
+                        required
+                        placeholder="••••••••"
+                        class="w-full px-4 py-2.5 border border-neutral-300 rounded-xl text-sm focus:outline-none focus:border-black">
                 </div>
-                <button type="submit" class="w-full bg-black text-white py-3 rounded-xl font-medium hover:bg-neutral-800 transition text-sm">Đăng nhập</button>
+
+                <button type="submit" class="w-full bg-black text-white py-3 rounded-xl font-medium hover:bg-neutral-800 transition text-sm">
+                    Đăng nhập
+                </button>
+
             </form>
         </div>
     </div>
 
-    <!-- DRAGGABLE ROBOT CHATBOT BUBBLE -->
+    <!-- DRAGGABLE ROBOT CHATBOT -->
     <div id="draggableRobot" class="fixed bottom-6 right-6 z-50 cursor-grab active:cursor-grabbing select-none">
+
         <button onclick="toggleChat()" id="chatBubbleBtn" class="w-16 h-16 bg-gradient-to-tr from-purple-600 via-pink-500 to-amber-400 text-white rounded-full shadow-2xl flex items-center justify-center text-3xl hover:scale-105 transition duration-200 border-2 border-white">
             <i class="fa-solid fa-robot"></i>
         </button>
 
         <div id="chatBox" class="hidden absolute bottom-20 right-0 w-80 sm:w-96 bg-white border border-neutral-200 rounded-2xl shadow-2xl flex flex-col h-[420px] overflow-hidden">
+
             <div class="p-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white flex items-center justify-between cursor-default">
                 <div class="flex items-center space-x-2">
                     <span class="w-2.5 h-2.5 bg-green-400 rounded-full"></span>
                     <span class="text-sm font-bold">HUFLIT Study Robot (Pro)</span>
                 </div>
-                <button onclick="toggleChat()" class="text-white/80 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+
+                <button onclick="toggleChat()" class="text-white/80 hover:text-white">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
             </div>
+
             <div id="chatMessages" class="flex-1 p-3 overflow-y-auto space-y-3 text-xs bg-neutral-50">
                 <div class="bg-white p-3 rounded-xl border border-neutral-200 text-neutral-800 max-w-[85%] shadow-sm">
                     Hé lô bạn nha! Mình là Robot trợ lý học tập đa sắc màu. Bạn có thể kéo thả icon mình đi quanh màn hình luôn đó. Cần tìm tài liệu gì cứ hỏi nhe!
                 </div>
             </div>
+
             <form onsubmit="handleChatSubmit(event)" class="p-2 border-t border-neutral-200 bg-white flex items-center space-x-2">
-                <input type="text" id="chatInput" placeholder="Hỏi robot bất cứ điều gì..." class="flex-1 px-3 py-2 bg-neutral-100 border border-transparent rounded-xl text-xs focus:outline-none focus:bg-white focus:border-purple-600">
-                <button type="submit" class="w-8 h-8 bg-purple-600 text-white rounded-xl flex items-center justify-center text-xs"><i class="fa-solid fa-paper-plane"></i></button>
+                <input
+                    type="text"
+                    id="chatInput"
+                    placeholder="Hỏi robot bất cứ điều gì..."
+                    class="flex-1 px-3 py-2 bg-neutral-100 border border-transparent rounded-xl text-xs focus:outline-none focus:bg-white focus:border-purple-600">
+
+                <button type="submit" class="w-8 h-8 bg-purple-600 text-white rounded-xl flex items-center justify-center text-xs">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
             </form>
+
         </div>
     </div>
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Multi-page Navigation Switcher
+
+        // ==========================================
+        // MULTI-PAGE NAVIGATION
+        // ==========================================
+
         function switchPage(pageId) {
-            document.querySelectorAll('.page-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.page-content').forEach(el => {
+                el.classList.add('hidden');
+            });
+
             document.getElementById(`page-${pageId}`).classList.remove('hidden');
 
             ['home', 'resource', 'quiz', 'feedback'].forEach(id => {
                 const btn = document.getElementById(`nav-${id}`);
-                if(id === pageId) {
+
+                if (id === pageId) {
                     btn.className = "transition text-black font-semibold border-b-2 border-black pb-1";
                 } else {
                     btn.className = "transition text-neutral-500 hover:text-black pb-1";
                 }
             });
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // 25 Detailed Resources Data with Long Keywords
+        // ==========================================
+        // RESOURCE DATA
+        // ==========================================
+
         const resourcesData = [
             { id: 1, title: "Academic Essay Writing Guide & Advanced Structure", category: "Business English", desc: "Hướng dẫn cấu trúc câu học thuật dài, từ nối và từ vựng nâng cao cho bài luận IELTS/HUFLIT.", content: "<b>Key words dài:</b> Academic Vocabulary Acquisition, Structural Layout Optimization, Thesis Statement Development.<br><br><b>Nội dung chính:</b><br>1. <b>Introduction:</b> Hook, background information, and thesis statement.<br>2. <b>Body Paragraphs:</b> Topic sentence, supporting ideas, examples.<br>3. <b>Academic Words:</b> Furthermore, Consequently, In contrast, Substantial, Implement." },
+
             { id: 2, title: "English Phonetics & Phonology Masterclass", category: "Linguistics", desc: "Tóm tắt bảng phiên âm IPA quốc tế, quy tắc trọng âm và ngữ điệu câu nâng cao.", content: "<b>Key words dài:</b> International Phonetic Alphabet, Stress Patterns in Multi-syllable Words, Intonation Contours.<br><br><b>Nội dung chính:</b><br>- 44 Âm IPA (20 Nguyên âm & 24 Phụ âm).<br>- Quy tắc nhấn trọng âm từ có 2 và 3 âm tiết.<br>- Intonation: Lên giọng câu hỏi Yes/No, xuống giọng câu phát biểu." },
+
             { id: 3, title: "Corporate Recruitment Strategies & HR Workflow", category: "Human Resources", desc: "Nghiên cứu quy trình tuyển dụng nhân sự, đánh giá ứng viên và onboarding template.", content: "<b>Key words dài:</b> Candidate Evaluation Parameters, Formal Employment Onboarding Templates, STAR Interview Method.<br><br><b>Nội dung chính:</b><br>1. Candidate Sourcing & Job Description Design.<br>2. Interview Techniques: STAR Method (Situation, Task, Action, Result).<br>3. Employee Onboarding Workflow." },
+
             { id: 4, title: "Digital Device Utilization & Academic Concentration", category: "Methodology", desc: "Báo cáo nghiên cứu tác động của thiết bị kỹ thuật số đến khả năng tập trung của sinh viên.", content: "<b>Key words dài:</b> Digital Device Utilization Patterns, Academic Concentration Levels, Behavioral Impacts Analysis.<br><br><b>Nội dung chính:</b><br>- Khảo sát mẫu 100 sinh viên HUFLIT.<br>- 72% bị xao nhãng bởi thông báo smartphone.<br>- Giải pháp Pomodoro Technique giúp tăng 35% tập trung." },
+
             { id: 5, title: "Business Communication & Professional Email Writing", category: "Business English", desc: "Các mẫu Email viết thư thương mại, khiếu nại, phản hồi và đặt hàng chuẩn quốc tế.", content: "<b>Key words dài:</b> Formal Business Correspondence, Complaint Resolution Emails, Order Placement Templates.<br><br><b>Nội dung chính:</b><br>- Mẫu Email đặt hàng chuẩn.<br>- Cách từ chối lịch sự trong giao dịch thương mại.<br>- Cấu trúc thư đòi nợ / thanh toán." },
+
             { id: 6, title: "Intercultural Communication in Multinational Firms", category: "Linguistics", desc: "Bài giảng về giao thoa văn hóa và sắc thái giao tiếp phi ngôn ngữ trong công sở.", content: "<b>Key words dài:</b> High-context vs Low-context Cultures, Non-verbal Communication Nuances, Cross-cultural Barriers.<br><br><b>Nội dung chính:</b><br>- Phân biệt văn hóa ngữ cảnh cao và thấp.<br>- Tránh hiểu lầm trong đàm phán quốc tế." },
+
             { id: 7, title: "IELTS Speaking Part 2 & 3 Comprehensive Topics", category: "Exam Prep", desc: "Tổng hợp 20 đề thi Speaking kèm câu trả lời mẫu đạt Band 7.0+ từ chuyên gia.", content: "<b>Key words dài:</b> Band 7.0+ Vocabulary Bank, Idiomatic Expressions, Structured Cue Card Answers.<br><br><b>Nội dung chính:</b><br>- Topic: Describe a product you bought.<br>- Từ vựng: State-of-the-art, Value for money, Durable." },
+
             { id: 8, title: "Financial English Vocabulary & Balance Sheet Analysis", category: "Finance", desc: "Bộ 100 từ vựng tài chính doanh nghiệp: Profit, Balance Sheet, Asset, Revenue.", content: "<b>Key words dài:</b> Corporate Finance Terminology, Asset and Liability Management, Revenue Stream Analysis.<br><br><b>Nội dung chính:</b><br>- Assets: Tài sản.<br>- Liabilities: Nợ phải trả.<br>- Revenue: Doanh thu.<br>- Expenditure: Chi phí." },
+
             { id: 9, title: "Customer Service Operation Manual & HEAT Rule", category: "Customer Care", desc: "Quy trình xử lý khiếu nại và giao tiếp chăm sóc khách hàng qua đường dây nóng.", content: "<b>Key words dài:</b> Customer Service Representative Standards, Conflict Resolution Protocols, HEAT Framework.<br><br><b>Nội dung chính:</b><br>- Quy tắc HEAT: Hear, Empathize, Apologize, Take Action.<br>- Kỹ năng xử lý khách hàng khó tính." },
+
             { id: 10, title: "Syntax & Sentence Structure Advanced Analysis", category: "Linguistics", desc: "Phân tích cú pháp câu đơn, câu phức và khắc phục các lỗi ngữ pháp thường gặp.", content: "<b>Key words dài:</b> Syntactic Structure Analysis, Relative Clause Clauses, Run-on Sentence Correction.<br><br><b>Nội dung chính:</b><br>- Phân biệt Clause và Phrase.<br>- Cách dùng mệnh đề quan hệ xác định và không xác định." },
+
             { id: 11, title: "Global Supply Chain Fundamentals & Incoterms 2020", category: "Business English", desc: "Tài liệu tổng quan về chuỗi cung ứng, vận tải logistics và điều kiện thương mại quốc tế.", content: "<b>Key words dài:</b> Supply Chain Management, International Logistics Operations, Incoterms 2020 Guidelines.<br><br><b>Nội dung chính:</b><br>- SCM Framework.<br>- Freight Forwarder & Bill of Lading.<br>- Các điều kiện FOB, CIF, EXW." },
+
             { id: 12, title: "Public Speaking & Professional Presentation Skills", category: "Soft Skills", desc: "Kỹ năng thuyết trình tiếng Anh tự tin, kiểm soát ngôn ngữ cơ thể trước đám đông.", content: "<b>Key words dài:</b> Dynamic Public Speaking Techniques, Audience Engagement Strategies, Body Language Control.<br><br><b>Nội dung chính:</b><br>- 3 Bước mở đầu bài thuyết trình ấn tượng.<br>- Cách thiết kế slide tối giản không rườm rà." },
+
             { id: 13, title: "English Grammar In Use - Advanced Structures", category: "Grammar", desc: "Hệ thống lại các thì nâng cao, mệnh đề trạng ngữ và thể bị động đặc biệt.", content: "<b>Key words dài:</b> Advanced Grammatical Structures, Subject-Verb Inversion, Mixed Conditionals.<br><br><b>Nội dung chính:</b><br>- Đảo ngữ (Inversion): Seldom have I seen...<br>- Câu điều kiện hỗn hợp (Mixed Conditionals)." },
+
             { id: 14, title: "Marketing Strategy Case Studies & 4P Model", category: "Marketing", desc: "Phân tích chiến lược marketing thực chiến và mô hình 4P của các tập đoàn lớn.", content: "<b>Key words dài:</b> Strategic Marketing Management, The 4P Marketing Mix Framework, Consumer Behavior Analysis.<br><br><b>Nội dung chính:</b><br>- Product, Price, Place, Promotion.<br>- Phân tích case study thực tế." },
+
             { id: 15, title: "HUFLIT Final Exam Preparation Set (Reading & Listening)", category: "Exam Prep", desc: "Đề thi mẫu tổng hợp kỹ năng Nghe - Đọc môn Tiếng Anh chuyên ngành thương mại.", content: "<b>Key words dài:</b> Standardized English Assessment, Reading Comprehension Strategies, Mock Test Practice.<br><br><b>Nội dung chính:</b><br>- Đề thi mẫu kèm đáp án chi tiết và giải thích ngữ pháp." },
+
             { id: 16, title: "Negotiation Skills in International Business", category: "Business English", desc: "Bí quyết đàm phán hợp đồng, thỏa thuận giá cả và giải quyết bất đồng trong kinh doanh.", content: "<b>Key words dài:</b> Win-win Negotiation Tactics, Contractual Terms Agreement, Conflict Management.<br><br><b>Nội dung chính:</b><br>- Chuẩn bị trước khi đàm phán.<br>- Các chiến thuật nhượng bộ và chốt deal hiệu quả." },
+
             { id: 17, title: "Business Ethics and Corporate Social Responsibility", category: "Business English", desc: "Tìm hiểu về đạo đức kinh doanh và trách nhiệm xã hội của doanh nghiệp hiện đại.", content: "<b>Key words dài:</b> Corporate Social Responsibility (CSR), Ethical Decision Making, Sustainable Business Practices.<br><br><b>Nội dung chính:</b><br>- Vai trò của CSR trong xây dựng thương hiệu.<br>- Các chuẩn mực đạo đức nghề nghiệp." },
+
             { id: 18, title: "E-Commerce Trends and Digital Marketing Essentials", category: "Marketing", desc: "Tổng quan về thương mại điện tử, SEO, Social Media Marketing trong kỷ nguyên số.", content: "<b>Key words dài:</b> E-Commerce Ecosystem, Digital Marketing Channels, Search Engine Optimization.<br><br><b>Nội dung chính:</b><br>- Mô hình B2B, B2C, C2C.<br>- Xu hướng chuyển đổi số doanh nghiệp." },
+
             { id: 19, title: "Leadership and Team Management in Workplace", category: "Soft Skills", desc: "Nghệ thuật lãnh đạo đội nhóm, phân chia công việc và truyền cảm hứng nhân viên.", content: "<b>Key words dài:</b> Transformational Leadership Styles, Team Motivation Strategies, Delegation of Authority.<br><br><b>Nội dung chính:</b><br>- Phong cách lãnh đạo linh hoạt.<br>- Kỹ năng giải quyết xung đột nội bộ." },
+
             { id: 20, title: "Project Management Fundamentals (Agile & Scrum)", category: "Business English", desc: "Phương pháp quản lý dự án linh hoạt theo tiêu chuẩn Agile và khung làm việc Scrum.", content: "<b>Key words dài:</b> Agile Project Management, Scrum Framework, Sprint Planning and Retrospective.<br><br><b>Nội dung chính:</b><br>- Các giai đoạn trong một Sprint.<br>- Vai trò Product Owner và Scrum Master." },
+
             { id: 21, title: "Risk Management in Global Trade Operations", category: "Finance", desc: "Nhận diện và quản lý rủi ro tài chính, rủi ro tỷ giá trong xuất nhập khẩu.", content: "<b>Key words dài:</b> Foreign Exchange Risk, Financial Hedging Strategies, Trade Credit Insurance.<br><br><b>Nội dung chính:</b><br>- Phân loại các rủi ro thương mại quốc tế.<br>- Biện pháp phòng ngừa tổn thất." },
+
             { id: 22, title: "Advanced English Pronunciation and Accent Reduction", category: "Linguistics", desc: "Luyện phát âm chuẩn giọng Anh - Mỹ, ngắt nghỉ câu và nuốt âm tự nhiên.", content: "<b>Key words dài:</b> Accent Reduction Techniques, Connected Speech Phenomena, Elision and Assimilation.<br><br><b>Nội dung chính:</b><br>- Quy tắc nối âm (Linking sounds).<br>- Hiện tượng nuốt âm trong văn nói tốc độ nhanh." },
+
             { id: 23, title: "Translation Theory and Practice for Business", category: "Linguistics", desc: "Kỹ thuật biên dịch tài liệu kinh tế, thương mại Anh - Việt chuẩn xác.", content: "<b>Key words dài:</b> Economic Translation Strategies, Equivalent Terminology Matching, Glossaries Management.<br><br><b>Nội dung chính:</b><br>- Các lỗi dịch thuật thường gặp.<br>- Phương pháp dịch nghĩa tương đương." },
+
             { id: 24, title: "Cross-Cultural Business Etiquette Worldwide", category: "Business English", desc: "Văn hóa giao tiếp, tặng quà và quy tắc ứng xử khi làm việc với đối tác quốc tế.", content: "<b>Key words dài:</b> Global Business Etiquette, International Protocol Rules, Cultural Sensitivity Training.<br><br><b>Nội dung chính:</b><br>- Văn hóa giao tiếp ở Châu Á, Châu Âu và Châu Mỹ.<br>- Những điều kiêng kỵ cần tránh." },
+
             { id: 25, title: "Startup Pitch Deck Writing and Funding Strategies", category: "Marketing", desc: "Hướng dẫn cấu trúc một bài thuyết trình gọi vốn đầu tư (Pitch Deck) chuẩn quốc tế.", content: "<b>Key words dài:</b> Startup Funding Acquisition, Pitch Deck Structure Design, Investor Presentation Skills.<br><br><b>Nội dung chính:</b><br>- Problem & Solution statement.<br>- Business Model & Financial Projections." }
         ];
 
-        // Render Resources
+        // ==========================================
+        // RESOURCE RENDERING
+        // ==========================================
+
         function renderResources(items) {
             const container = document.getElementById('resourceContainer');
-            if(items.length === 0) {
-                container.innerHTML = `<p class="col-span-full text-center text-neutral-400 py-8">Không tìm thấy tài liệu phù hợp.</p>`;
+
+            if (items.length === 0) {
+                container.innerHTML = `
+                    <p class="col-span-full text-center text-neutral-400 py-8">
+                        Không tìm thấy tài liệu phù hợp.
+                    </p>
+                `;
                 return;
             }
+
             container.innerHTML = items.map(doc => `
-                <div onclick="openDocModal(${doc.id})" class="border border-neutral-200 p-5 rounded-2xl bg-white hover:border-black transition cursor-pointer flex flex-col justify-between group shadow-sm hover:shadow">
+                <div onclick="openDocModal(${doc.id})"
+                    class="border border-neutral-200 p-5 rounded-2xl bg-white hover:border-black transition cursor-pointer flex flex-col justify-between group shadow-sm hover:shadow">
+
                     <div>
                         <div class="flex items-center justify-between">
-                            <span class="text-xs font-semibold bg-neutral-100 text-neutral-700 px-2.5 py-1 rounded-md">${doc.category}</span>
+                            <span class="text-xs font-semibold bg-neutral-100 text-neutral-700 px-2.5 py-1 rounded-md">
+                                ${doc.category}
+                            </span>
+
                             <i class="fa-regular fa-file-lines text-neutral-400 group-hover:text-black transition"></i>
                         </div>
-                        <h3 class="font-bold text-base mt-3 mb-2 group-hover:underline">${doc.title}</h3>
-                        <p class="text-xs text-neutral-500 line-clamp-2 leading-relaxed">${doc.desc}</p>
+
+                        <h3 class="font-bold text-base mt-3 mb-2 group-hover:underline">
+                            ${doc.title}
+                        </h3>
+
+                        <p class="text-xs text-neutral-500 line-clamp-2 leading-relaxed">
+                            ${doc.desc}
+                        </p>
                     </div>
+
                     <div class="mt-5 pt-3 border-t border-neutral-100 flex items-center justify-between text-xs font-medium text-neutral-600">
                         <span>Bấm để xem nội dung</span>
                         <i class="fa-solid fa-arrow-right text-xs transform group-hover:translate-x-1 transition"></i>
@@ -332,9 +620,13 @@
                 </div>
             `).join('');
         }
+
         renderResources(resourcesData);
 
-        // Autocomplete Search Bar Logic
+        // ==========================================
+        // AUTOCOMPLETE SEARCH
+        // ==========================================
+
         function handleSearchInput() {
             const query = document.getElementById('searchInput').value.toLowerCase().trim();
             const suggestionBox = document.getElementById('searchSuggestions');
@@ -347,63 +639,110 @@
 
             renderResources(filtered);
 
-            if(query === '' || filtered.length === 0) {
+            if (query === '' || filtered.length === 0) {
                 suggestionBox.classList.add('hidden');
                 suggestionBox.innerHTML = '';
                 return;
             }
 
             suggestionBox.innerHTML = filtered.slice(0, 5).map(item => `
-                <div onclick="selectSuggestion('${item.title}')" class="p-3 hover:bg-neutral-100 cursor-pointer text-sm border-b border-neutral-100 flex items-center justify-between">
+                <div
+                    onclick="selectSuggestion('${item.title}')"
+                    class="p-3 hover:bg-neutral-100 cursor-pointer text-sm border-b border-neutral-100 flex items-center justify-between">
+
                     <span class="font-medium text-neutral-800">${item.title}</span>
-                    <span class="text-xs text-neutral-400 bg-neutral-100 px-2 py-0.5 rounded">${item.category}</span>
+
+                    <span class="text-xs text-neutral-400 bg-neutral-100 px-2 py-0.5 rounded">
+                        ${item.category}
+                    </span>
                 </div>
             `).join('');
+
             suggestionBox.classList.remove('hidden');
         }
 
         function selectSuggestion(title) {
             document.getElementById('searchInput').value = title;
             document.getElementById('searchSuggestions').classList.add('hidden');
+
             const filtered = resourcesData.filter(d => d.title === title);
             renderResources(filtered);
         }
 
-        // Modal Document Viewer
+        // ==========================================
+        // DOCUMENT VIEWER
+        // ==========================================
+
         function openDocModal(id) {
             const doc = resourcesData.find(d => d.id === id);
-            if(!doc) return;
+
+            if (!doc) return;
+
             document.getElementById('modalCategory').innerText = doc.category;
             document.getElementById('modalTitle').innerText = doc.title;
             document.getElementById('modalBody').innerHTML = doc.content;
             document.getElementById('docModal').classList.remove('hidden');
         }
+
         function closeDocModal() {
             document.getElementById('docModal').classList.add('hidden');
         }
 
-        // 5 QUESTIONS QUIZ LOGIC
+        // ==========================================
+        // QUIZ DATA
+        // ==========================================
+
         const quizData = [
-            { q: "1. Từ nào đồng nghĩa với 'Implement' trong tiếng Anh thương mại?", options: ["Cancel", "Execute", "Delay", "Reject"], correct: 1 },
-            { q: "2. Cấu trúc mở đầu nào phù hợp nhất khi viết Email trang trọng?", options: ["Hey bro,", "Dear Mr. Smith,", "What's up,", "Yo!"], correct: 1 },
-            { q: "3. Trong tài chính doanh nghiệp, 'Assets' có nghĩa là gì?", options: ["Các khoản nợ", "Chi phí vận hành", "Tài sản", "Thuế"], correct: 2 },
-            { q: "4. Phương pháp quản lý thời gian giúp tăng 35% tập trung được nhắc đến là gì?", options: ["Pomodoro", "Workflow", "Incoterms", "STAR Method"], correct: 0 },
-            { q: "5. Quy tắc HEAT trong chăm sóc khách hàng bao gồm bước nào đầu tiên?", options: ["Apologize", "Take Action", "Hear", "Empathize"], correct: 2 }
+            {
+                q: "1. Từ nào đồng nghĩa với 'Implement' trong tiếng Anh thương mại?",
+                options: ["Cancel", "Execute", "Delay", "Reject"],
+                correct: 1
+            },
+            {
+                q: "2. Cấu trúc mở đầu nào phù hợp nhất khi viết Email trang trọng?",
+                options: ["Hey bro,", "Dear Mr. Smith,", "What's up,", "Yo!"],
+                correct: 1
+            },
+            {
+                q: "3. Trong tài chính doanh nghiệp, 'Assets' có nghĩa là gì?",
+                options: ["Các khoản nợ", "Chi phí vận hành", "Tài sản", "Thuế"],
+                correct: 2
+            },
+            {
+                q: "4. Phương pháp quản lý thời gian giúp tăng 35% tập trung được nhắc đến là gì?",
+                options: ["Pomodoro", "Workflow", "Incoterms", "STAR Method"],
+                correct: 0
+            },
+            {
+                q: "5. Quy tắc HEAT trong chăm sóc khách hàng bao gồm bước nào đầu tiên?",
+                options: ["Apologize", "Take Action", "Hear", "Empathize"],
+                correct: 2
+            }
         ];
+
         let currentQIndex = 0;
         let score = 0;
 
         function loadQuizQuestion() {
             const quiz = quizData[currentQIndex];
-            document.getElementById('quizProgress').innerText = `Câu hỏi ${currentQIndex + 1}/5`;
-            document.getElementById('quizScoreTracker').innerText = `Điểm: ${score}`;
+
+            document.getElementById('quizProgress').innerText =
+                `Câu hỏi ${currentQIndex + 1}/5`;
+
+            document.getElementById('quizScoreTracker').innerText =
+                `Điểm: ${score}`;
+
             document.getElementById('quizQuestion').innerText = quiz.q;
             document.getElementById('quizFeedbackMsg').innerText = '';
             document.getElementById('nextQuizBtn').classList.add('hidden');
 
             const optionsContainer = document.getElementById('quizOptions');
+
             optionsContainer.innerHTML = quiz.options.map((opt, idx) => `
-                <button onclick="selectQuizAnswer(${idx})" class="quiz-opt-btn w-full text-left p-3.5 border border-neutral-200 rounded-xl text-sm font-medium hover:border-black transition bg-white">
+                <button
+                    onclick="selectQuizAnswer(${idx})"
+                    class="quiz-opt-btn w-full text-left p-3.5 border border-neutral-200 rounded-xl text-sm font-medium hover:border-black transition bg-white">
+
                     ${String.fromCharCode(65 + idx)}. ${opt}
                 </button>
             `).join('');
@@ -416,56 +755,83 @@
 
             buttons.forEach((btn, idx) => {
                 btn.disabled = true;
-                if(idx === quiz.correct) {
+
+                if (idx === quiz.correct) {
                     btn.classList.add('bg-green-50', 'border-green-500', 'font-bold');
-                } else if(idx === selectedIndex) {
+                } else if (idx === selectedIndex) {
                     btn.classList.add('bg-red-50', 'border-red-500');
                 }
             });
 
-            if(selectedIndex === quiz.correct) {
+            if (selectedIndex === quiz.correct) {
                 score += 20;
-                feedback.innerHTML = `<span class="text-green-600 font-semibold">✓ Chính xác (+20 điểm)!</span>`;
+                feedback.innerHTML = `
+                    <span class="text-green-600 font-semibold">
+                        ✓ Chính xác (+20 điểm)!
+                    </span>
+                `;
             } else {
-                feedback.innerHTML = `<span class="text-red-500 font-semibold">✗ Chưa đúng đáp án chuẩn.</span>`;
+                feedback.innerHTML = `
+                    <span class="text-red-500 font-semibold">
+                        ✗ Chưa đúng đáp án chuẩn.
+                    </span>
+                `;
             }
+
             document.getElementById('quizScoreTracker').innerText = `Điểm: ${score}`;
             document.getElementById('nextQuizBtn').classList.remove('hidden');
         }
 
         function nextQuizQuestion() {
             currentQIndex++;
-            if(currentQIndex < quizData.length) {
+
+            if (currentQIndex < quizData.length) {
                 loadQuizQuestion();
             } else {
                 document.getElementById('quizCard').classList.add('hidden');
                 document.getElementById('quizResultBox').classList.remove('hidden');
-                document.getElementById('quizFinalScoreText').innerText = `Tổng số điểm của bạn: ${score} / 100 điểm.`;
+
+                document.getElementById('quizFinalScoreText').innerText =
+                    `Tổng số điểm của bạn: ${score} / 100 điểm.`;
             }
         }
 
         function restartQuiz() {
             currentQIndex = 0;
             score = 0;
+
             document.getElementById('quizResultBox').classList.add('hidden');
             document.getElementById('quizCard').classList.remove('hidden');
+
             loadQuizQuestion();
         }
+
         loadQuizQuestion();
 
-        // SUBMIT SURVEY THROUGH CLOUDFLARE WORKER
-        const SURVEY_API_URL = 'https://english-resource-survey-api.nguyenquangtuan2208st.workers.dev/';
+        // ==========================================
+        // SURVEY SUBMISSION THROUGH CLOUDFLARE WORKER
+        // ==========================================
 
+        const SURVEY_API_URL =
+            'https://english-resource-survey-api.nguyenquangtuan2208st.workers.dev/';
+
+        const LOCAL_FEEDBACKS_STORAGE_KEY =
+            'huflit_english_hub_local_reviews_v1';
+
+        // Prevent multiple submissions while one request is running.
         async function submitSurvey(event) {
             event.preventDefault();
 
             const form = document.getElementById('surveyForm');
             const submitButton = form.querySelector('button[type="submit"]');
             const status = document.getElementById('surveyStatus');
+
             const rating = document.getElementById('rating').value;
             const comments = document.getElementById('comments').value.trim();
 
-            if (form.dataset.submitting === 'true') return;
+            if (form.dataset.submitting === 'true') {
+                return;
+            }
 
             if (comments.length < 5 || comments.length > 2000) {
                 status.textContent = 'Ý kiến phải có từ 5 đến 2.000 ký tự.';
@@ -474,9 +840,11 @@
             }
 
             const originalButtonText = submitButton.textContent;
+
             form.dataset.submitting = 'true';
             submitButton.disabled = true;
             submitButton.textContent = 'Đang gửi...';
+
             status.textContent = 'Đang gửi đánh giá của bạn...';
             status.className = 'text-sm min-h-5 text-neutral-500';
 
@@ -487,8 +855,8 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        rating: rating,
-                        comments: comments
+                        rating,
+                        comments
                     })
                 });
 
@@ -502,13 +870,64 @@
                     throw new Error(message);
                 }
 
+                // Create a local review only after GitHub confirms success.
+                const newReview = {
+                    id: result.file || `local-${Date.now()}-${crypto.randomUUID()}`,
+                    name: 'Người dùng ẩn danh',
+                    year: 'Đánh giá mới',
+                    major: 'Khách truy cập',
+                    stars: {
+                        'Rất tốt': 5,
+                        'Bình thường': 3,
+                        'Cần cải thiện': 1
+                    }[rating] || 3,
+                    rating,
+                    comment: comments,
+                    date: new Date().toLocaleString('vi-VN'),
+                    createdAt: new Date().toISOString()
+                };
+
+                // Add the new review to the top of the list immediately.
+                localFeedbacks.unshift(newReview);
+
+                // Keep the maximum number of local reviews manageable.
+                localFeedbacks = localFeedbacks.slice(0, 100);
+
+                // Render immediately without waiting for a page reload.
+                renderVirtualFeedbacks();
+
+                // Save to this browser's LocalStorage.
+                const savedLocally = saveLocalFeedbacks();
+
                 form.reset();
-                status.textContent = 'Gửi đánh giá thành công. Cảm ơn bạn đã đóng góp!';
-                status.className = 'text-sm min-h-5 text-green-700';
+
+                if (savedLocally) {
+                    status.textContent =
+                        'Gửi thành công! Đánh giá đã hiển thị và được lưu trên thiết bị này.';
+
+                    status.className = 'text-sm min-h-5 text-green-700';
+                } else {
+                    status.textContent =
+                        'Gửi thành công và đã hiển thị, nhưng trình duyệt không cho phép lưu cục bộ.';
+
+                    status.className = 'text-sm min-h-5 text-amber-700';
+                }
+
+                // Scroll to the newly submitted review.
+                document.getElementById('virtualFeedbackList')
+                    .scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+
             } catch (error) {
                 console.error('Survey submission failed:', error);
-                status.textContent = error.message || 'Không thể gửi đánh giá. Vui lòng thử lại.';
+
+                status.textContent =
+                    error.message || 'Không thể gửi đánh giá. Vui lòng thử lại.';
+
                 status.className = 'text-sm min-h-5 text-red-600';
+
             } finally {
                 form.dataset.submitting = 'false';
                 submitButton.disabled = false;
@@ -516,98 +935,528 @@
             }
         }
 
-        // VIRTUAL FEEDBACKS
+        // ==========================================
+        // ORIGINAL 28 VIRTUAL FEEDBACKS
+        // ==========================================
+
         const virtualFeedbacks = [
-            { name: "Trần Minh Quân", year: "Sinh viên Năm 3", major: "Ngôn ngữ Anh", stars: 5, comment: "Web tối giản đỉnh chóp lun, tìm tài liệu Business English ôn thi cuối kỳ phê lòi :v", date: "Hôm qua" },
-            { name: "Lê Hoàng Yến", year: "Sinh viên Năm 2", major: "Quản trị KD", stars: 4, comment: "Kho tài liệu phong phú vãi, phần Quiz 5 câu hay phết. Mong web add thêm audio nghe nha.", date: "2 ngày trước" },
-            { name: "Nguyễn Hải Nam", year: "Sinh viên Năm 4", major: "Hệ thống thông tin", stars: 5, comment: "Giao diện mượt, search gợi ý nhanh gọn. Thích nhất khoản k cần tải file rườm rà click đọc lun.", date: "3 ngày trước" },
-            { name: "Phạm Quỳnh Chi", year: "Sinh viên Năm 1", major: "Kế toán - Kiểm toán", stars: 5, comment: "Mới vô trường k biết kiếm tài liệu đâu, may ô giới thiệu web này. Quá ổn áp cho sv năm 1!", date: "3 ngày trước" },
-            { name: "Đặng Tuấn Kiệt", year: "Sinh viên Năm 3", major: "Ngôn ngữ Anh", stars: 4, comment: "Font chữ đẹp, màu đen trắng nhìn sang kiểu Studocu. Tốc độ load web nhanh ko bị lag.", date: "4 ngày trước" },
-            { name: "Vũ Thị Thảo", year: "Sinh viên Năm 2", major: "Marketing", stars: 5, comment: "Tài liệu marketing case study đọc cuốn cực. Cho web 10 điểm k nhưng nhé hahaha.", date: "5 ngày trước" },
-            { name: "Hoàng Văn Long", year: "Sinh viên Năm 4", major: "Tài chính Ngân hàng", stars: 4, comment: "Nhiều từ vựng chuyên ngành khá chuẩn. Cần bổ sung thêm đề thi mẫu các năm trc nữa là hoàn hảo.", date: "5 ngày trước" },
-            { name: "Bùi Ngọc Mai", year: "Sinh viên Năm 1", major: "Quản trị Khách sạn", stars: 5, comment: "Giao diện tối giản xịn xò quá chời. Bot robot chat cute phô mai que nữa chứ :3", date: "6 ngày trước" },
-            { name: "Ngô Quang Huy", year: "Sinh viên Năm 3", major: "Luật Thương mại", stars: 5, comment: "Đọc phần Supply Chain với Incoterms 2020 thấy tóm tắt ngắn gọn dễ hiểu vãi.", date: "1 tuần trước" },
-            { name: "Lý Gia Hân", year: "Sinh viên Năm 2", major: "Ngôn ngữ Anh", stars: 4, comment: "Nói chung là ưng cái bụng, lướt mượt mà, tài liệu không bịa đặt lung tung.", date: "1 tuần trước" }
+
+            {
+                name: "Trần Minh Quân",
+                year: "Sinh viên Năm 3",
+                major: "Ngôn ngữ Anh",
+                stars: 5,
+                comment: "Web tối giản đỉnh chóp lun, tìm tài liệu Business English ôn thi cuối kỳ phê lòi :v",
+                date: "Hôm qua"
+            },
+
+            {
+                name: "Lê Hoàng Yến",
+                year: "Sinh viên Năm 2",
+                major: "Quản trị KD",
+                stars: 4,
+                comment: "Kho tài liệu phong phú vãi, phần Quiz 5 câu hay phết. Mong web add thêm audio nghe nha.",
+                date: "2 ngày trước"
+            },
+
+            {
+                name: "Nguyễn Hải Nam",
+                year: "Sinh viên Năm 4",
+                major: "Hệ thống thông tin",
+                stars: 5,
+                comment: "Giao diện mượt, search gợi ý nhanh gọn. Thích nhất khoản k cần tải file rườm rà click đọc lun.",
+                date: "3 ngày trước"
+            },
+
+            {
+                name: "Phạm Quỳnh Chi",
+                year: "Sinh viên Năm 1",
+                major: "Kế toán - Kiểm toán",
+                stars: 5,
+                comment: "Mới vô trường k biết kiếm tài liệu đâu, may ô giới thiệu web này. Quá ổn áp cho sv năm 1!",
+                date: "3 ngày trước"
+            },
+
+            {
+                name: "Đặng Tuấn Kiệt",
+                year: "Sinh viên Năm 3",
+                major: "Ngôn ngữ Anh",
+                stars: 4,
+                comment: "Font chữ đẹp, màu đen trắng nhìn sang kiểu Studocu. Tốc độ load web nhanh ko bị lag.",
+                date: "4 ngày trước"
+            },
+
+            {
+                name: "Vũ Thị Thảo",
+                year: "Sinh viên Năm 2",
+                major: "Marketing",
+                stars: 5,
+                comment: "Tài liệu marketing case study đọc cuốn cực. Cho web 10 điểm k nhưng nhé hahaha.",
+                date: "5 ngày trước"
+            },
+
+            {
+                name: "Hoàng Văn Long",
+                year: "Sinh viên Năm 4",
+                major: "Tài chính Ngân hàng",
+                stars: 4,
+                comment: "Nhiều từ vựng chuyên ngành khá chuẩn. Cần bổ sung thêm đề thi mẫu các năm trc nữa là hoàn hảo.",
+                date: "5 ngày trước"
+            },
+
+            {
+                name: "Bùi Ngọc Mai",
+                year: "Sinh viên Năm 1",
+                major: "Quản trị Khách sạn",
+                stars: 5,
+                comment: "Giao diện tối giản xịn xò quá chời. Bot robot chat cute phô mai que nữa chứ :3",
+                date: "6 ngày trước"
+            },
+
+            {
+                name: "Ngô Quang Huy",
+                year: "Sinh viên Năm 3",
+                major: "Luật Thương mại",
+                stars: 5,
+                comment: "Đọc phần Supply Chain với Incoterms 2020 thấy tóm tắt ngắn gọn dễ hiểu vãi.",
+                date: "1 tuần trước"
+            },
+
+            {
+                name: "Lý Gia Hân",
+                year: "Sinh viên Năm 2",
+                major: "Ngôn ngữ Anh",
+                stars: 4,
+                comment: "Nói chung là ưng cái bụng, lướt mượt mà, tài liệu không bịa đặt lung tung.",
+                date: "1 tuần trước"
+            },
+
+            {
+                name: "Trương Minh Triết",
+                year: "Sinh viên Năm 3",
+                major: "CNTT",
+                stars: 5,
+                comment: "Web code sạch sẽ phết, dev web này tay nghề cao nha. Cho 5 sao k phải nghĩ.",
+                date: "1 tuần trước"
+            },
+
+            {
+                name: "Phan Thanh Trúc",
+                year: "Sinh viên Năm 4",
+                major: "Quan hệ Quốc tế",
+                stars: 5,
+                comment: "Tài liệu intercultural communication đỉnh thực sự, support ôn thi cực tốt.",
+                date: "1 tuần trước"
+            },
+
+            {
+                name: "Đỗ Hoàng Nam",
+                year: "Sinh viên Năm 1",
+                major: "Quản trị KD",
+                stars: 4,
+                comment: "Mới đầu tưởng khó dùng hóa ra bấm phát ra bài đọc lun, tiện lợi ghê.",
+                date: "8 ngày trước"
+            },
+
+            {
+                name: "Lương Khánh Linh",
+                year: "Sinh viên Năm 2",
+                major: "Kế toán",
+                stars: 5,
+                comment: "Từ vựng tài chính ghi chú rõ ràng, học k bị ngợp. Thanks ad nhiều nha!",
+                date: "9 ngày trước"
+            },
+
+            {
+                name: "Mai Quốc Bảo",
+                year: "Sinh viên Năm 3",
+                major: "Ngôn ngữ Anh",
+                stars: 5,
+                comment: "Đỉnh của chóp, phần quiz làm cuốn vl, sai câu nào nó sửa luôn cho biết.",
+                date: "10 ngày trước"
+            },
+
+            {
+                name: "Hồ Thị Kim Oanh",
+                year: "Sinh viên Năm 2",
+                major: "Marketing",
+                stars: 4,
+                comment: "Nên làm thêm chế độ nền tối (dark mode) thì tuyệt vời ông mặt trời luôn ad ơi.",
+                date: "10 ngày trước"
+            },
+
+            {
+                name: "Dương Minh Khang",
+                year: "Sinh viên Năm 4",
+                major: "Tài chính",
+                stars: 5,
+                comment: "Tài liệu stock với asset đầy đủ, đọc xong vỡ ra đc khối thứ hay ho.",
+                date: "11 ngày trước"
+            },
+
+            {
+                name: "Cao Thị Phương",
+                year: "Sinh viên Năm 1",
+                major: "Ngôn ngữ Anh",
+                stars: 5,
+                comment: "Ấn tượng nhất là phần search bar, gõ nhẹ cái là ra gợi ý luôn khỏi mất công tìm.",
+                date: "12 ngày trước"
+            },
+
+            {
+                name: "Tôn Thất Minh",
+                year: "Sinh viên Năm 3",
+                major: "Logistics",
+                stars: 4,
+                comment: "Logistics fundamentals chuẩn bài, đúng thứ sinh viên ngành mình cần tìm.",
+                date: "12 ngày trước"
+            },
+
+            {
+                name: "Trịnh Thùy Dương",
+                year: "Sinh viên Năm 2",
+                major: "Quản trị KD",
+                stars: 5,
+                comment: "Cho 5 sao khích lệ tinh thần team dev nhé, web xịn mịn quá trời quá đất.",
+                date: "13 ngày trước"
+            },
+
+            {
+                name: "Phạm Nhật Huy",
+                year: "Sinh viên Năm 4",
+                major: "CNTT",
+                stars: 5,
+                comment: "Giao diện responsive tốt, lướt trên đt hay laptop đều mượt như sunsilk.",
+                date: "14 ngày trước"
+            },
+
+            {
+                name: "Lâm Bảo Vy",
+                year: "Sinh viên Năm 1",
+                major: "Kế toán",
+                stars: 4,
+                comment: "Khá ổn áp, mong web update thêm nhiều bài tập ngữ pháp nâng cao hơn nữa.",
+                date: "14 ngày trước"
+            },
+
+            {
+                name: "Vương Gia Huy",
+                year: "Sinh viên Năm 3",
+                major: "Ngôn ngữ Anh",
+                stars: 5,
+                comment: "Không có điểm gì để chê, tài liệu chất lượng cao, đúng chuẩn HUFLIT.",
+                date: "15 ngày trước"
+            },
+
+            {
+                name: "Tạ Thuỳ Trang",
+                year: "Sinh viên Năm 2",
+                major: "Marketing",
+                stars: 5,
+                comment: "Bấm vào đọc bài thấy trình bày khoa học, từ khóa dài dễ nhớ kinh khủng.",
+                date: "16 ngày trước"
+            },
+
+            {
+                name: "Bùi Quang Vinh",
+                year: "Sinh viên Năm 4",
+                major: "Tài chính",
+                stars: 4,
+                comment: "Nói chung là rất đáng thử cho ai đang lười tìm giáo trình dày cộp.",
+                date: "17 ngày trước"
+            },
+
+            {
+                name: "Đinh Ngọc Hân",
+                year: "Sinh viên Năm 1",
+                major: "Quản trị KD",
+                stars: 5,
+                comment: "Yêu web từ cái nhìn đầu tiên, đen trắng tối giản đúng gu tui luôn haha.",
+                date: "18 ngày trước"
+            },
+
+            {
+                name: "Lê Minh Tuấn",
+                year: "Sinh viên Năm 3",
+                major: "Logistics",
+                stars: 5,
+                comment: "Quá tuyệt vời, vote 5 sao không cần suy nghĩ nhiều nha anh em ơi.",
+                date: "19 ngày trước"
+            },
+
+            {
+                name: "Nguyễn Hoàng Mai",
+                year: "Sinh viên Năm 2",
+                major: "Ngôn ngữ Anh",
+                stars: 5,
+                comment: "Tài liệu writing guide cứu cánh tui qua môn mấy lần rồi đấy, cảm ơn web nhiều!",
+                date: "20 ngày trước"
+            }
         ];
+
+        // ==========================================
+        // LOCALSTORAGE - LOCAL REVIEWS
+        // ==========================================
+
+        function loadLocalFeedbacks() {
+            try {
+                const stored = JSON.parse(
+                    localStorage.getItem(LOCAL_FEEDBACKS_STORAGE_KEY) || '[]'
+                );
+
+                if (!Array.isArray(stored)) {
+                    return [];
+                }
+
+                return stored.filter(review =>
+                    review &&
+                    typeof review === 'object' &&
+                    typeof review.comment === 'string' &&
+                    review.comment.trim().length > 0 &&
+                    typeof review.date === 'string' &&
+                    Number.isInteger(review.stars) &&
+                    review.stars >= 1 &&
+                    review.stars <= 5
+                ).slice(0, 100);
+
+            } catch (error) {
+                console.warn('Could not load local reviews:', error);
+                return [];
+            }
+        }
+
+        let localFeedbacks = loadLocalFeedbacks();
+
+        function saveLocalFeedbacks() {
+            try {
+                localStorage.setItem(
+                    LOCAL_FEEDBACKS_STORAGE_KEY,
+                    JSON.stringify(localFeedbacks.slice(0, 100))
+                );
+
+                return true;
+
+            } catch (error) {
+                console.warn('Could not save local reviews:', error);
+                return false;
+            }
+        }
+
+        // Escape user-provided content before rendering.
+        function escapeReviewText(value) {
+            return String(value ?? '').replace(/[&<>"']/g, character => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            })[character]);
+        }
+
+        // ==========================================
+        // RENDER REVIEWS
+        // ==========================================
 
         function renderVirtualFeedbacks() {
             const list = document.getElementById('virtualFeedbackList');
-            list.innerHTML = virtualFeedbacks.map(f => `
-                <div class="border border-neutral-200 rounded-2xl p-6 bg-white shadow-sm flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="font-bold text-sm">${f.name}</span>
-                            <span class="text-xs text-neutral-400">${f.date}</span>
+
+            // Local reviews appear first, followed by the original 28.
+            const allFeedbacks = [
+                ...localFeedbacks,
+                ...virtualFeedbacks
+            ];
+
+            const countElement = document.getElementById('reviewCount');
+
+            countElement.textContent =
+                `${allFeedbacks.length} Reviews`;
+
+            list.innerHTML = allFeedbacks.map(review => {
+
+                const safeStars = Math.min(
+                    5,
+                    Math.max(1, Number(review.stars) || 1)
+                );
+
+                const starsHtml = Array.from(
+                    { length: safeStars },
+                    () => '<i class="fa-solid fa-star"></i>'
+                ).join('');
+
+                const ratingHtml = review.rating
+                    ? `
+                        <span class="inline-block text-xs bg-neutral-100 text-neutral-700 px-2 py-1 rounded mb-3">
+                            ${escapeReviewText(review.rating)}
+                        </span>
+                    `
+                    : '';
+
+                const localBadge = review.id
+                    ? `
+                        <span class="text-xs text-green-700 bg-green-50 px-2 py-1 rounded-full">
+                            Local review
+                        </span>
+                    `
+                    : '';
+
+                return `
+                    <div class="border border-neutral-200 rounded-2xl p-6 bg-white shadow-sm flex flex-col justify-between">
+
+                        <div>
+
+                            <div class="flex items-center justify-between mb-2 gap-3">
+                                <span class="font-bold text-sm">
+                                    ${escapeReviewText(review.name || 'Người dùng ẩn danh')}
+                                </span>
+
+                                <span class="text-xs text-neutral-400 text-right">
+                                    ${escapeReviewText(review.date)}
+                                </span>
+                            </div>
+
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="text-xs text-neutral-500">
+                                    ${escapeReviewText(review.year || '')}
+                                    ${review.major ? `• Ngành: ${escapeReviewText(review.major)}` : ''}
+                                </div>
+
+                                ${localBadge}
+                            </div>
+
+                            <div class="flex text-amber-400 text-xs mb-3">
+                                ${starsHtml}
+                            </div>
+
+                            ${ratingHtml}
+
+                            <p class="text-xs text-neutral-700 leading-relaxed whitespace-pre-wrap break-words">
+                                "${escapeReviewText(review.comment)}"
+                            </p>
+
                         </div>
-                        <div class="text-xs text-neutral-500 mb-3">${f.year} • Ngành: ${f.major}</div>
-                        <div class="flex text-amber-400 text-xs mb-3">
-                            ${'<i class="fa-solid fa-star"></i>'.repeat(f.stars)}
-                        </div>
-                        <p class="text-xs text-neutral-700 leading-relaxed">"${f.comment}"</p>
+
                     </div>
-                </div>
-            `).join('');
+                `;
+
+            }).join('');
         }
+
+        // Load local reviews and render all 28 original reviews.
         renderVirtualFeedbacks();
 
-        // Auth Logic Mock
-        function openAuthModal() { document.getElementById('authModal').classList.remove('hidden'); }
-        function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
+        // ==========================================
+        // AUTH LOGIC
+        // ==========================================
+
+        function openAuthModal() {
+            document.getElementById('authModal').classList.remove('hidden');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.add('hidden');
+        }
+
         function handleSignIn(e) {
             e.preventDefault();
+
             const email = document.getElementById('loginEmail').value;
+
             localStorage.setItem('huflit_user', email);
+
             updateAuthUI();
             closeAuthModal();
         }
+
         function handleSignOut() {
             localStorage.removeItem('huflit_user');
             updateAuthUI();
         }
+
         function updateAuthUI() {
             const user = localStorage.getItem('huflit_user');
+
             if (user) {
                 document.getElementById('userSection').classList.remove('hidden');
                 document.getElementById('guestSection').classList.add('hidden');
-                document.getElementById('userNameDisplay').innerText = user.split('@')[0];
+
+                document.getElementById('userNameDisplay').innerText =
+                    user.split('@')[0];
+
             } else {
                 document.getElementById('userSection').classList.add('hidden');
                 document.getElementById('guestSection').classList.remove('hidden');
             }
         }
+
         updateAuthUI();
 
-        // Chatbot Toggle & Draggable Logic
+        // ==========================================
+        // CHATBOT
+        // ==========================================
+
         function toggleChat() {
             document.getElementById('chatBox').classList.toggle('hidden');
         }
 
         function handleChatSubmit(e) {
             e.preventDefault();
+
             const input = document.getElementById('chatInput');
             const msg = input.value.trim();
-            if(!msg) return;
+
+            if (!msg) return;
 
             const box = document.getElementById('chatMessages');
-            box.innerHTML += `<div class="bg-purple-600 text-white p-2.5 rounded-xl ml-auto max-w-[85%] text-right">${msg}</div>`;
+
+            const userMessage = document.createElement('div');
+            userMessage.className =
+                'bg-purple-600 text-white p-2.5 rounded-xl ml-auto max-w-[85%] text-right';
+
+            userMessage.textContent = msg;
+
+            box.appendChild(userMessage);
+
             input.value = '';
             box.scrollTop = box.scrollHeight;
 
             setTimeout(() => {
-                let reply = "Xịn quá! Bạn có thể tra cứu hơn 25 tài liệu ở mục Resource hoặc làm bài Quiz 5 câu để kiểm tra kiến thức nhé.";
-                if(msg.toLowerCase().includes('hi') || msg.toLowerCase().includes('chào')) reply = "Chào bạn sinh viên HUFLIT! Robot sẵn sàng hỗ trợ bạn nè.";
-                box.innerHTML += `<div class="bg-white p-2.5 rounded-xl border border-neutral-200 text-neutral-800 max-w-[85%] shadow-sm">${reply}</div>`;
+
+                let reply =
+                    "Xịn quá! Bạn có thể tra cứu hơn 25 tài liệu ở mục Resource hoặc làm bài Quiz 5 câu để kiểm tra kiến thức nhé.";
+
+                if (
+                    msg.toLowerCase().includes('hi') ||
+                    msg.toLowerCase().includes('chào')
+                ) {
+                    reply = "Chào bạn sinh viên HUFLIT! Robot sẵn sàng hỗ trợ bạn nè.";
+                }
+
+                const botMessage = document.createElement('div');
+
+                botMessage.className =
+                    'bg-white p-2.5 rounded-xl border border-neutral-200 text-neutral-800 max-w-[85%] shadow-sm';
+
+                botMessage.textContent = reply;
+
+                box.appendChild(botMessage);
+
                 box.scrollTop = box.scrollHeight;
+
             }, 500);
         }
 
-        // Draggable Robot Widget Implementation
+        // ==========================================
+        // DRAGGABLE ROBOT
+        // ==========================================
+
         const dragItem = document.getElementById("draggableRobot");
+
         let active = false;
         let currentX;
         let currentY;
         let initialX;
         let initialY;
+
         let xOffset = 0;
         let yOffset = 0;
 
@@ -621,6 +1470,7 @@
 
         function dragStart(e) {
             if (e.target.closest('#chatBox')) return;
+
             if (e.type === "touchstart") {
                 initialX = e.touches[0].clientX - xOffset;
                 initialY = e.touches[0].clientY - yOffset;
@@ -628,6 +1478,7 @@
                 initialX = e.clientX - xOffset;
                 initialY = e.clientY - yOffset;
             }
+
             if (e.target === dragItem || dragItem.contains(e.target)) {
                 active = true;
             }
@@ -642,6 +1493,7 @@
         function drag(e) {
             if (active) {
                 e.preventDefault();
+
                 if (e.type === "touchmove") {
                     currentX = e.touches[0].clientX - initialX;
                     currentY = e.touches[0].clientY - initialY;
@@ -649,15 +1501,19 @@
                     currentX = e.clientX - initialX;
                     currentY = e.clientY - initialY;
                 }
+
                 xOffset = currentX;
                 yOffset = currentY;
+
                 setTranslate(currentX, currentY, dragItem);
             }
         }
 
         function setTranslate(xPos, yPos, el) {
-            el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+            el.style.transform =
+                `translate3d(${xPos}px, ${yPos}px, 0)`;
         }
+
     </script>
 </body>
 </html>
