@@ -1,1 +1,353 @@
+/*
+ * HUFLIT English Hub
+ * Global styles
+ */
 
+/* ========================================
+   1. GLOBAL RESET & BASE
+======================================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+}
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+/* ========================================
+   2. ACCESSIBILITY
+======================================== */
+
+:focus-visible {
+    outline: 3px solid #7c3aed;
+    outline-offset: 3px;
+}
+
+::selection {
+    background: #171717;
+    color: #ffffff;
+}
+
+/* ========================================
+   3. PAGE NAVIGATION
+======================================== */
+
+.page-content {
+    width: 100%;
+    animation: pageFadeIn 0.25s ease both;
+}
+
+@keyframes pageFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   4. DOCUMENT VIEWER
+======================================== */
+
+#docModal {
+    overscroll-behavior: contain;
+}
+
+#modalBody {
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+.document-viewer-content {
+    cursor: default;
+    user-select: text;
+    -webkit-user-select: text;
+}
+
+.document-viewer-content button {
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.document-viewer-content table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.document-viewer-content th,
+.document-viewer-content td {
+    vertical-align: top;
+}
+
+.document-viewer-content p {
+    overflow-wrap: anywhere;
+}
+
+.document-viewer-content pre,
+.document-viewer-content code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+/* ========================================
+   5. RESOURCE CARDS
+======================================== */
+
+#resourceContainer > * {
+    min-width: 0;
+}
+
+#resourceContainer > *:focus-visible {
+    outline-offset: 4px;
+}
+
+#resourceContainer article,
+#resourceContainer > div {
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+@media (hover: hover) {
+    #resourceContainer > div:hover {
+        transform: translateY(-3px);
+    }
+}
+
+/* ========================================
+   6. SEARCH SUGGESTIONS
+======================================== */
+
+#searchSuggestions {
+    overscroll-behavior: contain;
+}
+
+#searchSuggestions:empty {
+    display: none;
+}
+
+#searchInput::-webkit-search-cancel-button {
+    cursor: pointer;
+}
+
+/* ========================================
+   7. QUIZ
+======================================== */
+
+.quiz-opt-btn {
+    width: 100%;
+    text-align: left;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.quiz-opt-btn:disabled {
+    opacity: 1;
+    cursor: default;
+}
+
+.quiz-opt-btn:focus-visible {
+    outline-offset: 2px;
+}
+
+/* ========================================
+   8. SURVEY
+======================================== */
+
+#surveyForm input,
+#surveyForm select,
+#surveyForm textarea {
+    width: 100%;
+}
+
+#surveyForm textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+#surveyStatus:empty {
+    display: none;
+}
+
+#surveyStatus[data-status="success"] {
+    color: #15803d;
+}
+
+#surveyStatus[data-status="error"] {
+    color: #dc2626;
+}
+
+/* ========================================
+   9. CHATBOT
+======================================== */
+
+#draggableRobot {
+    touch-action: none;
+}
+
+#chatBubbleBtn {
+    touch-action: manipulation;
+}
+
+#chatBox {
+    touch-action: auto;
+    user-select: text;
+    -webkit-user-select: text;
+}
+
+#chatMessages {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    overflow-wrap: anywhere;
+    overscroll-behavior: contain;
+}
+
+#chatMessages > * {
+    max-width: 85%;
+    word-break: break-word;
+}
+
+#chatInput {
+    min-width: 0;
+}
+
+/* ========================================
+   10. FORM ELEMENTS
+======================================== */
+
+input,
+textarea,
+select {
+    max-width: 100%;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #a3a3a3;
+    opacity: 1;
+}
+
+/* ========================================
+   11. SCROLLBAR
+======================================== */
+
+#modalBody::-webkit-scrollbar,
+#chatMessages::-webkit-scrollbar,
+#searchSuggestions::-webkit-scrollbar {
+    width: 7px;
+}
+
+#modalBody::-webkit-scrollbar-thumb,
+#chatMessages::-webkit-scrollbar-thumb,
+#searchSuggestions::-webkit-scrollbar-thumb {
+    background: #d4d4d4;
+    border-radius: 999px;
+}
+
+#modalBody::-webkit-scrollbar-track,
+#chatMessages::-webkit-scrollbar-track,
+#searchSuggestions::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Firefox */
+#modalBody,
+#chatMessages,
+#searchSuggestions {
+    scrollbar-width: thin;
+    scrollbar-color: #d4d4d4 transparent;
+}
+
+/* ========================================
+   12. RESPONSIVE
+======================================== */
+
+@media (max-width: 640px) {
+    html {
+        scroll-padding-top: 4rem;
+    }
+
+    #draggableRobot {
+        right: 1rem;
+        bottom: 1rem;
+    }
+
+    #chatBox {
+        width: min(90vw, 360px);
+        right: 0;
+    }
+
+    #docModal {
+        padding: 0.5rem;
+    }
+
+    #docModal > div {
+        max-height: 95vh;
+    }
+
+    #modalBody {
+        padding: 1rem;
+    }
+}
+
+/* ========================================
+   13. REDUCED MOTION
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
