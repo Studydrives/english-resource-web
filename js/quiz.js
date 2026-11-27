@@ -2,143 +2,292 @@
 
 /**
  * HUFLIT English Hub
- * Quiz logic
+ * Randomized English Quiz
  */
+
+const QUIZ_SIZE = 5;
+const POINTS_PER_QUESTION = 20;
 
 const quizData = [
     {
-        q: "1. Từ nào đồng nghĩa với 'Implement' trong tiếng Anh thương mại?",
-        options: ['Cancel', 'Execute', 'Delay', 'Reject'],
+        question: 'Which sentence is grammatically correct?',
+        options: [
+            'She go to school every day.',
+            'She goes to school every day.',
+            'She going to school every day.',
+            'She gone to school every day.'
+        ],
         correct: 1
     },
     {
-        q: '2. Cấu trúc mở đầu nào phù hợp nhất khi viết Email trang trọng?',
-        options: ['Hey bro,', 'Dear Mr. Smith,', "What's up,", 'Yo!'],
+        question: 'What is the past tense of "buy"?',
+        options: ['Buyed', 'Bought', 'Buying', 'Buys'],
         correct: 1
     },
     {
-        q: "3. Trong tài chính doanh nghiệp, 'Assets' có nghĩa là gì?",
-        options: ['Các khoản nợ', 'Chi phí vận hành', 'Tài sản', 'Thuế'],
-        correct: 2
+        question: 'Choose the correct article: "He is ___ honest person."',
+        options: ['a', 'an', 'the', 'no article'],
+        correct: 1
     },
     {
-        q: '4. Phương pháp quản lý thời gian giúp tăng 35% tập trung được nhắc đến là gì?',
-        options: ['Pomodoro', 'Workflow', 'Incoterms', 'STAR Method'],
+        question: 'Which word is a synonym of "important"?',
+        options: ['Significant', 'Ordinary', 'Useless', 'Minor'],
         correct: 0
     },
     {
-        q: '5. Quy tắc HEAT trong chăm sóc khách hàng bao gồm bước nào đầu tiên?',
-        options: ['Apologize', 'Take Action', 'Hear', 'Empathize'],
+        question: 'What does "deadline" mean?',
+        options: [
+            'Starting date',
+            'Final time to complete something',
+            'Meeting location',
+            'Break time'
+        ],
+        correct: 1
+    },
+    {
+        question: 'Choose the correct form: "If I ___ rich, I would travel the world."',
+        options: ['am', 'was', 'were', 'be'],
         correct: 2
+    },
+    {
+        question: 'Which phrase is appropriate in a formal business email?',
+        options: [
+            'Hey buddy!',
+            'What’s up?',
+            'Dear Mr. Smith,',
+            'Yo!'
+        ],
+        correct: 2
+    },
+    {
+        question: 'What is the opposite of "increase"?',
+        options: ['Expand', 'Improve', 'Decrease', 'Develop'],
+        correct: 2
+    },
+    {
+        question: 'Choose the correct preposition: "She is interested ___ learning English."',
+        options: ['on', 'at', 'in', 'for'],
+        correct: 2
+    },
+    {
+        question: 'What does "ASAP" stand for?',
+        options: [
+            'As Soon As Possible',
+            'At Some Available Point',
+            'As Simple As Planned',
+            'After Sending A Proposal'
+        ],
+        correct: 0
+    },
+    {
+        question: 'Which sentence uses the present perfect tense?',
+        options: [
+            'I visited London last year.',
+            'I have visited London.',
+            'I visit London every year.',
+            'I am visiting London now.'
+        ],
+        correct: 1
+    },
+    {
+        question: 'What does "negotiate" mean?',
+        options: [
+            'To avoid communication',
+            'To discuss in order to reach an agreement',
+            'To cancel a contract',
+            'To write a report'
+        ],
+        correct: 1
+    },
+    {
+        question: 'Choose the correct word: "The company ___ new employees every year."',
+        options: ['recruit', 'recruits', 'recruiting', 'recruited'],
+        correct: 1
+    },
+    {
+        question: 'Which expression is suitable for asking someone to repeat information politely?',
+        options: [
+            'Say it again!',
+            'What?',
+            'Could you repeat that, please?',
+            'Speak louder!'
+        ],
+        correct: 2
+    },
+    {
+        question: 'What does "revenue" mean?',
+        options: [
+            'Company expenses',
+            'Money earned from business activities',
+            'Employee salaries',
+            'Company debt'
+        ],
+        correct: 1
+    },
+    {
+        question: 'Choose the correct passive voice: "They built this bridge in 2020."',
+        options: [
+            'This bridge built in 2020.',
+            'This bridge was built in 2020.',
+            'This bridge is building in 2020.',
+            'This bridge has build in 2020.'
+        ],
+        correct: 1
+    },
+    {
+        question: 'What is the plural form of "analysis"?',
+        options: ['Analysises', 'Analysiseses', 'Analyses', 'Analysis'],
+        correct: 2
+    },
+    {
+        question: 'Which word best completes the sentence: "We look forward to ___ from you."',
+        options: ['hear', 'hearing', 'heard', 'hears'],
+        correct: 1
+    },
+    {
+        question: 'What does "customer satisfaction" refer to?',
+        options: [
+            'Customer complaints only',
+            'How satisfied customers are with a product or service',
+            'The number of company employees',
+            'The company’s monthly expenses'
+        ],
+        correct: 1
+    },
+    {
+        question: 'Choose the correct reported speech: He said, "I am busy."',
+        options: [
+            'He said he is busy.',
+            'He said he was busy.',
+            'He said I was busy.',
+            'He says he busy.'
+        ],
+        correct: 1
     }
 ];
 
+let activeQuiz = [];
 let currentQIndex = 0;
 let score = 0;
 let hasAnswered = false;
 
-function getQuizElements() {
-    return {
-        progress: document.getElementById('quizProgress'),
-        scoreTracker: document.getElementById('quizScoreTracker'),
-        question: document.getElementById('quizQuestion'),
-        feedback: document.getElementById('quizFeedbackMsg'),
-        options: document.getElementById('quizOptions'),
-        nextButton: document.getElementById('nextQuizBtn'),
-        card: document.getElementById('quizCard'),
-        resultBox: document.getElementById('quizResultBox'),
-        finalScore: document.getElementById('quizFinalScoreText')
-    };
+function shuffleQuestions(questions) {
+    const shuffled = [...questions];
+
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const randomIndex = Math.floor(Math.random() * (i + 1));
+
+        [shuffled[i], shuffled[randomIndex]] = [
+            shuffled[randomIndex],
+            shuffled[i]
+        ];
+    }
+
+    return shuffled;
+}
+
+function startQuiz() {
+    activeQuiz = shuffleQuestions(quizData).slice(0, QUIZ_SIZE);
+
+    currentQIndex = 0;
+    score = 0;
+    hasAnswered = false;
+
+    loadQuizQuestion();
 }
 
 function loadQuizQuestion() {
-    const elements = getQuizElements();
-    const quiz = quizData[currentQIndex];
+    const questionElement = document.getElementById('questionText');
+    const optionsElement = document.getElementById('optionsContainer');
+    const progressElement = document.getElementById('quizProgress');
 
-    if (!quiz || Object.values(elements).some((element) => !element)) {
-        console.error('[Quiz] Required quiz elements are missing.');
+    if (!questionElement || !optionsElement) {
+        console.error('[Quiz] Required quiz elements not found.');
         return;
     }
 
+    if (currentQIndex >= activeQuiz.length) {
+        showQuizResult();
+        return;
+    }
+
+    const question = activeQuiz[currentQIndex];
+
     hasAnswered = false;
 
-    elements.progress.textContent =
-        `Câu hỏi ${currentQIndex + 1}/${quizData.length}`;
+    questionElement.textContent = question.question;
+    optionsElement.replaceChildren();
 
-    elements.scoreTracker.textContent = `Điểm: ${score}`;
-    elements.question.textContent = quiz.q;
-    elements.feedback.textContent = '';
-    elements.feedback.className = '';
-    elements.nextButton.classList.add('hidden');
+    if (progressElement) {
+        progressElement.textContent =
+            `Câu hỏi ${currentQIndex + 1}/${QUIZ_SIZE}`;
+    }
 
-    elements.options.replaceChildren();
-
-    quiz.options.forEach((option, index) => {
+    question.options.forEach((option, index) => {
         const button = document.createElement('button');
 
         button.type = 'button';
         button.className =
-            'quiz-opt-btn w-full text-left p-3.5 border border-neutral-200 rounded-xl text-sm font-medium hover:border-black transition bg-white';
+            'w-full text-left p-4 border border-neutral-200 rounded-xl ' +
+            'hover:border-black hover:bg-neutral-50 transition';
 
-        button.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
+        button.textContent = option;
 
         button.addEventListener('click', () => {
             selectQuizAnswer(index);
         });
 
-        elements.options.appendChild(button);
+        optionsElement.appendChild(button);
     });
 }
 
 function selectQuizAnswer(selectedIndex) {
-    const quiz = quizData[currentQIndex];
-    const elements = getQuizElements();
-
-    if (!quiz || hasAnswered) {
-        return;
-    }
-
-    if (
-        !Number.isInteger(selectedIndex) ||
-        selectedIndex < 0 ||
-        selectedIndex >= quiz.options.length
-    ) {
+    if (hasAnswered || currentQIndex >= activeQuiz.length) {
         return;
     }
 
     hasAnswered = true;
 
-    const buttons = elements.options.querySelectorAll('.quiz-opt-btn');
+    const question = activeQuiz[currentQIndex];
+    const optionButtons = document.querySelectorAll(
+        '#optionsContainer button'
+    );
 
-    buttons.forEach((button, index) => {
+    optionButtons.forEach((button, index) => {
         button.disabled = true;
+        button.classList.remove(
+            'hover:border-black',
+            'hover:bg-neutral-50'
+        );
 
-        if (index === quiz.correct) {
+        if (index === question.correct) {
             button.classList.add(
-                'bg-green-50',
                 'border-green-500',
-                'font-bold'
+                'bg-green-50',
+                'text-green-700'
             );
         } else if (index === selectedIndex) {
             button.classList.add(
+                'border-red-500',
                 'bg-red-50',
-                'border-red-500'
+                'text-red-700'
             );
         }
     });
 
-    if (selectedIndex === quiz.correct) {
-        score += 20;
-
-        elements.feedback.textContent = '✓ Chính xác (+20 điểm)!';
-        elements.feedback.className = 'text-green-600 font-semibold';
-    } else {
-        elements.feedback.textContent = '✗ Chưa đúng đáp án chuẩn.';
-        elements.feedback.className = 'text-red-500 font-semibold';
+    if (selectedIndex === question.correct) {
+        score += POINTS_PER_QUESTION;
     }
 
-    elements.scoreTracker.textContent = `Điểm: ${score}`;
-    elements.nextButton.classList.remove('hidden');
+    const nextButton = document.getElementById('nextQuestionBtn');
+
+    if (nextButton) {
+        nextButton.classList.remove('hidden');
+        nextButton.textContent =
+            currentQIndex === QUIZ_SIZE - 1
+                ? 'Xem kết quả'
+                : 'Câu tiếp theo';
+    }
 }
 
 function nextQuizQuestion() {
@@ -148,33 +297,82 @@ function nextQuizQuestion() {
 
     currentQIndex++;
 
-    if (currentQIndex < quizData.length) {
-        loadQuizQuestion();
+    if (currentQIndex >= activeQuiz.length) {
+        showQuizResult();
         return;
     }
 
-    const elements = getQuizElements();
+    const nextButton = document.getElementById('nextQuestionBtn');
 
-    elements.card.classList.add('hidden');
-    elements.resultBox.classList.remove('hidden');
+    if (nextButton) {
+        nextButton.classList.add('hidden');
+    }
 
-    elements.finalScore.textContent =
-        `Tổng số điểm của bạn: ${score} / 100 điểm.`;
+    loadQuizQuestion();
+}
+
+function showQuizResult() {
+    const questionElement = document.getElementById('questionText');
+    const optionsElement = document.getElementById('optionsContainer');
+    const progressElement = document.getElementById('quizProgress');
+    const nextButton = document.getElementById('nextQuestionBtn');
+
+    if (questionElement) {
+        questionElement.textContent = 'Bạn đã hoàn thành bài kiểm tra!';
+    }
+
+    if (optionsElement) {
+        optionsElement.replaceChildren();
+
+        const result = document.createElement('p');
+
+        result.className =
+            'text-center text-2xl font-bold text-neutral-800 py-6';
+
+        result.textContent = `Điểm của bạn: ${score}/${QUIZ_SIZE * POINTS_PER_QUESTION}`;
+
+        optionsElement.appendChild(result);
+
+        const message = document.createElement('p');
+
+        message.className = 'text-center text-neutral-500';
+
+        if (score === 100) {
+            message.textContent = 'Xuất sắc! Bạn đã trả lời đúng tất cả.';
+        } else if (score >= 60) {
+            message.textContent = 'Làm tốt lắm! Hãy tiếp tục luyện tập.';
+        } else {
+            message.textContent = 'Hãy ôn tập thêm và thử lại nhé.';
+        }
+
+        optionsElement.appendChild(message);
+    }
+
+    if (progressElement) {
+        progressElement.textContent = 'Hoàn thành 5/5';
+    }
+
+    if (nextButton) {
+        nextButton.classList.add('hidden');
+    }
 }
 
 function restartQuiz() {
-    const elements = getQuizElements();
+    startQuiz();
 
-    currentQIndex = 0;
-    score = 0;
-    hasAnswered = false;
+    const nextButton = document.getElementById('nextQuestionBtn');
 
-    elements.resultBox.classList.add('hidden');
-    elements.card.classList.remove('hidden');
-
-    loadQuizQuestion();
+    if (nextButton) {
+        nextButton.classList.add('hidden');
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    loadQuizQuestion();
+    const nextButton = document.getElementById('nextQuestionBtn');
+
+    if (nextButton) {
+        nextButton.addEventListener('click', nextQuizQuestion);
+    }
+
+    startQuiz();
 });
