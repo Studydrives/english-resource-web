@@ -2,44 +2,45 @@
 
 /**
  * HUFLIT English Hub
- * Full-page document viewer
+ * Document viewer modal
  */
 
-function openDocModal(id) {
-    if (typeof resourcesData === 'undefined') {
-        console.error('[DocumentViewer] resourcesData is not available.');
-        return;
-    }
-
-    const doc = resourcesData.find((item) => item.id === Number(id));
-
-    if (!doc) {
-        console.warn(`[DocumentViewer] Document not found: ${id}`);
-        return;
-    }
-
+function openDocModal(resourceId) {
     const modal = document.getElementById('docModal');
-    const category = document.getElementById('modalCategory');
-    const pageBadge = document.getElementById('modalPageBadge');
-    const title = document.getElementById('modalTitle');
-    const body = document.getElementById('modalBody');
 
-    if (!modal || !category || !pageBadge || !title || !body) {
-        console.error('[DocumentViewer] Required modal elements are missing.');
+    if (!modal || typeof resourcesData === 'undefined') {
+        console.error('[DocumentViewer] Modal or resource data not found.');
         return;
     }
 
-    category.textContent = doc.category;
-    pageBadge.textContent = `Trang tài liệu #${doc.id} / ${resourcesData.length}`;
-    title.textContent = doc.title;
+    const resource = resourcesData.find(
+        (item) => item.id === Number(resourceId)
+    );
 
-    // Document content contains intentional HTML formatting.
-    body.innerHTML = doc.content;
+    if (!resource) {
+        console.error('[DocumentViewer] Resource not found:', resourceId);
+        return;
+    }
+
+    const title = modal.querySelector('#docTitle');
+    const content = modal.querySelector('#docContent');
+
+    if (!title || !content) {
+        console.error('[DocumentViewer] Modal content elements not found.');
+        return;
+    }
+
+    title.textContent = resource.title;
+    content.textContent = resource.content || resource.desc || '';
 
     modal.classList.remove('hidden');
+    modal.classList.add('flex');
+
     document.body.style.overflow = 'hidden';
 
-    const closeButton = modal.querySelector('button[onclick="closeDocModal()"]');
+    const closeButton = modal.querySelector(
+        '#closeDocModal, [data-close-doc-modal]'
+    );
 
     if (closeButton) {
         closeButton.focus();
@@ -53,18 +54,36 @@ function closeDocModal() {
         return;
     }
 
+    modal.classList.remove('flex');
     modal.classList.add('hidden');
+
     document.body.style.overflow = '';
 }
 
-document.addEventListener('keydown', (event) => {
-    if (event.key !== 'Escape') {
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('docModal');
+
+    if (!modal) {
         return;
     }
 
-    const modal = document.getElementById('docModal');
+    const closeButton = modal.querySelector(
+        '#closeDocModal, [data-close-doc-modal]'
+    );
 
-    if (modal && !modal.classList.contains('hidden')) {
-        closeDocModal();
+    if (closeButton) {
+        closeButton.addEventListener('click', closeDocModal);
     }
+
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            closeDocModal();
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
+            closeDocModal();
+        }
+    });
 });
