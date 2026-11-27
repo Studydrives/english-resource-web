@@ -1,3 +1,4 @@
+
 'use strict';
 
 /**
@@ -14,7 +15,7 @@ function renderResources(items) {
     }
 
     if (!Array.isArray(items) || items.length === 0) {
-        container.innerHTML = '';
+        container.replaceChildren();
 
         const message = document.createElement('p');
         message.className = 'col-span-full text-center text-neutral-400 py-8';
@@ -53,9 +54,7 @@ function renderResources(items) {
 
             <div class="mt-5 pt-3 border-t border-neutral-100 flex items-center justify-between text-xs font-medium text-neutral-600">
                 <span>Mở trang tài liệu (1 page)</span>
-                <span aria-hidden="true" class="text-xs group-hover:translate-x-1 transition">
-                    →
-                </span>
+                <span aria-hidden="true" class="text-xs group-hover:translate-x-1 transition">→</span>
             </div>
         </div>
     `).join('');
@@ -105,6 +104,13 @@ function handleSearchInput() {
         return;
     }
 
+    if (!query) {
+        renderResources(resourcesData);
+        suggestionBox.replaceChildren();
+        suggestionBox.classList.add('hidden');
+        return;
+    }
+
     const filtered = resourcesData.filter((resource) => {
         const searchableContent = [
             resource.title,
@@ -117,10 +123,9 @@ function handleSearchInput() {
     });
 
     renderResources(filtered);
+    suggestionBox.replaceChildren();
 
-    suggestionBox.innerHTML = '';
-
-    if (!query || filtered.length === 0) {
+    if (filtered.length === 0) {
         suggestionBox.classList.add('hidden');
         return;
     }
@@ -170,8 +175,16 @@ function selectSuggestion(resourceId) {
 
     if (suggestionBox) {
         suggestionBox.classList.add('hidden');
-        suggestionBox.innerHTML = '';
+        suggestionBox.replaceChildren();
     }
 
     renderResources([resource]);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof resourcesData !== 'undefined') {
+        renderResources(resourcesData);
+    } else {
+        console.error('[Search] Resource data is not available.');
+    }
+});
