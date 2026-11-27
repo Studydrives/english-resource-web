@@ -7,13 +7,28 @@
 
 function toggleChat() {
     const chatBox = document.getElementById('chatBox');
+    const chatButton = document.getElementById('chatBubbleBtn');
 
     if (!chatBox) {
         console.warn('[Chatbot] Chat box not found.');
         return;
     }
 
-    chatBox.classList.toggle('hidden');
+    const shouldOpen = chatBox.hidden;
+
+    chatBox.hidden = !shouldOpen;
+    chatBox.classList.toggle('hidden', !shouldOpen);
+    chatBox.setAttribute('aria-hidden', String(!shouldOpen));
+
+    if (chatButton) {
+        chatButton.setAttribute('aria-expanded', String(shouldOpen));
+    }
+
+    if (shouldOpen) {
+        document.getElementById('chatInput')?.focus();
+    } else {
+        chatButton?.focus();
+    }
 }
 
 function appendChatMessage(container, message, type) {
@@ -33,16 +48,15 @@ function appendChatMessage(container, message, type) {
 }
 
 function getChatbotReply(message) {
-    const normalizedMessage = message.toLowerCase();
+    const normalizedMessage = message
+        .toLowerCase()
+        .trim();
 
-    if (
-        normalizedMessage.includes('hi') ||
-        normalizedMessage.includes('chào')
-    ) {
+    if (/^(hi|hello|hey|chào|xin chào)\b/.test(normalizedMessage)) {
         return 'Chào bạn sinh viên HUFLIT! Robot sẵn sàng hỗ trợ bạn nè.';
     }
 
-    return 'Xịn quá! Bạn có thể tra cứu 25 trang tài liệu ở mục Resource hoặc làm bài Quiz 5 câu để kiểm tra kiến thức nhé.';
+    return 'Bạn có thể tra cứu 25 trang tài liệu ở mục Resource hoặc làm bài Quiz 5 câu để kiểm tra kiến thức nhé.';
 }
 
 function handleChatSubmit(event) {
@@ -63,12 +77,16 @@ function handleChatSubmit(event) {
     }
 
     appendChatMessage(chatMessages, message, 'user');
+
     input.value = '';
     input.focus();
 
     window.setTimeout(() => {
-        const reply = getChatbotReply(message);
-        appendChatMessage(chatMessages, reply, 'bot');
+        appendChatMessage(
+            chatMessages,
+            getChatbotReply(message),
+            'bot'
+        );
     }, 500);
 }
 
@@ -87,29 +105,6 @@ function initializeDraggableRobot() {
     let initialY = 0;
     let currentX = 0;
     let currentY = 0;
-    let xOffset = 0;
-    let yOffset = 0;
-
-    function getPointerPosition(event) {
-        if (event.touches?.length) {
-            return {
-                x: event.touches[0].clientX,
-                y: event.touches[0].clientY
-            };
-        }
-
-        if (event.changedTouches?.length) {
-            return {
-                x: event.changedTouches[0].clientX,
-                y: event.changedTouches[0].clientY
-            };
-        }
-
-        return {
-            x: event.clientX,
-            y: event.clientY
-        };
-    }
 
     function dragStart(event) {
         if (event.target.closest('#chatBox')) {
@@ -120,22 +115,15 @@ function initializeDraggableRobot() {
             return;
         }
 
-        const pointer = getPointerPosition(event);
+        const pointer = {
+            x: event.clientX,
+            y: event.clientY
+        };
 
-        initialX = pointer.x - xOffset;
-        initialY = pointer.y - yOffset;
+        initialX = pointer.x - currentX;
+        initialY = pointer.y - currentY;
 
         active = true;
-    }
-
-    function dragEnd() {
-        if (!active) {
-            return;
-        }
-
-        initialX = currentX;
-        initialY = currentY;
-        active = false;
     }
 
     function drag(event) {
@@ -143,40 +131,29 @@ function initializeDraggableRobot() {
             return;
         }
 
-        if (event.cancelable) {
-            event.preventDefault();
-        }
+        event.preventDefault();
 
-        const pointer = getPointerPosition(event);
+        currentX = event.clientX - initialX;
+        currentY = event.clientY - initialY;
 
-        currentX = pointer.x - initialX;
-        currentY = pointer.y - initialY;
-
-        xOffset = currentX;
-        yOffset = currentY;
-
-        setTranslate(currentX, currentY, dragItem);
+        dragItem.style.transform =
+            `translate3d(${currentX}px, ${currentY}px, 0)`;
     }
 
-    function setTranslate(x, y, element) {
-        element.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    function dragEnd() {
+        active = false;
     }
 
-    dragItem.addEventListener('mousedown', dragStart);
-    window.addEventListener('mouseup', dragEnd);
-    window.addEventListener('mousemove', drag);
-
-    dragItem.addEventListener('touchstart', dragStart, {
-        passive: true
-    });
-
-    window.addEventListener('touchend', dragEnd);
-    window.addEventListener('touchcancel', dragEnd);
-    window.addEventListener('touchmove', drag, {
-        passive: false
-    });
+    dragItem.addEventListener('pointerdown', dragStart);
+    window.addEventListener('pointermove', drag);
+    window.addEventListener('pointerup', dragEnd);
+    window.addEventListener('pointercancel', dragEnd);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     initializeDraggableRobot();
+
+    const chatForm = document.getElementById('chatForm');
+
+    chatForm?.addEventListener('submit', handleChatSubmit);
 });
