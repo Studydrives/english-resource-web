@@ -1,3 +1,4 @@
+
 'use strict';
 
 /**
@@ -186,23 +187,67 @@ function shuffleQuestions(questions) {
     return shuffled;
 }
 
+function getQuizElements() {
+    return {
+        card: document.getElementById('quizCard'),
+        question: document.getElementById('quizQuestion'),
+        options: document.getElementById('quizOptions'),
+        progress: document.getElementById('quizProgress'),
+        score: document.getElementById('quizScoreTracker'),
+        feedback: document.getElementById('quizFeedbackMsg'),
+        next: document.getElementById('nextQuizBtn'),
+        result: document.getElementById('quizResultBox'),
+        finalScore: document.getElementById('quizFinalScoreText')
+    };
+}
+
 function startQuiz() {
+    if (quizData.length < QUIZ_SIZE) {
+        console.error('[Quiz] Not enough questions.');
+        return;
+    }
+
     activeQuiz = shuffleQuestions(quizData).slice(0, QUIZ_SIZE);
 
     currentQIndex = 0;
     score = 0;
     hasAnswered = false;
 
+    const elements = getQuizElements();
+
+    if (!elements.question || !elements.options || !elements.card) {
+        console.error('[Quiz] Required HTML elements not found.');
+        return;
+    }
+
+    elements.card.classList.remove('hidden');
+    elements.result?.classList.add('hidden');
+
+    if (elements.next) {
+        elements.next.classList.add('hidden');
+    }
+
+    if (elements.feedback) {
+        elements.feedback.textContent = '';
+    }
+
+    updateScore();
     loadQuizQuestion();
 }
 
-function loadQuizQuestion() {
-    const questionElement = document.getElementById('questionText');
-    const optionsElement = document.getElementById('optionsContainer');
-    const progressElement = document.getElementById('quizProgress');
+function updateScore() {
+    const elements = getQuizElements();
 
-    if (!questionElement || !optionsElement) {
-        console.error('[Quiz] Required quiz elements not found.');
+    if (elements.score) {
+        elements.score.textContent = `Điểm: ${score}`;
+    }
+}
+
+function loadQuizQuestion() {
+    const elements = getQuizElements();
+
+    if (!elements.question || !elements.options) {
+        console.error('[Quiz] Question or options container not found.');
         return;
     }
 
@@ -215,12 +260,21 @@ function loadQuizQuestion() {
 
     hasAnswered = false;
 
-    questionElement.textContent = question.question;
-    optionsElement.replaceChildren();
+    elements.question.textContent = question.question;
+    elements.options.replaceChildren();
 
-    if (progressElement) {
-        progressElement.textContent =
+    if (elements.progress) {
+        elements.progress.textContent =
             `Câu hỏi ${currentQIndex + 1}/${QUIZ_SIZE}`;
+    }
+
+    if (elements.feedback) {
+        elements.feedback.textContent = '';
+        elements.feedback.className = 'text-sm font-medium';
+    }
+
+    if (elements.next) {
+        elements.next.classList.add('hidden');
     }
 
     question.options.forEach((option, index) => {
@@ -228,16 +282,13 @@ function loadQuizQuestion() {
 
         button.type = 'button';
         button.className =
-            'w-full text-left p-4 border border-neutral-200 rounded-xl ' +
-            'hover:border-black hover:bg-neutral-50 transition';
+            'quiz-opt-btn w-full text-left p-4 border border-neutral-200 ' +
+            'rounded-xl hover:border-black hover:bg-neutral-50 transition';
 
         button.textContent = option;
+        button.addEventListener('click', () => selectQuizAnswer(index));
 
-        button.addEventListener('click', () => {
-            selectQuizAnswer(index);
-        });
-
-        optionsElement.appendChild(button);
+        elements.options.appendChild(button);
     });
 }
 
@@ -246,15 +297,24 @@ function selectQuizAnswer(selectedIndex) {
         return;
     }
 
+    const question = activeQuiz[currentQIndex];
+
+    if (
+        !Number.isInteger(selectedIndex) ||
+        selectedIndex < 0 ||
+        selectedIndex >= question.options.length
+    ) {
+        return;
+    }
+
     hasAnswered = true;
 
-    const question = activeQuiz[currentQIndex];
-    const optionButtons = document.querySelectorAll(
-        '#optionsContainer button'
-    );
+    const elements = getQuizElements();
+    const buttons = elements.options.querySelectorAll('button');
 
-    optionButtons.forEach((button, index) => {
+    buttons.forEach((button, index) => {
         button.disabled = true;
+
         button.classList.remove(
             'hover:border-black',
             'hover:bg-neutral-50'
@@ -275,18 +335,31 @@ function selectQuizAnswer(selectedIndex) {
         }
     });
 
-    if (selectedIndex === question.correct) {
+    const isCorrect = selectedIndex === question.correct;
+
+    if (isCorrect) {
         score += POINTS_PER_QUESTION;
     }
 
-    const nextButton = document.getElementById('nextQuestionBtn');
+    updateScore();
 
-    if (nextButton) {
-        nextButton.classList.remove('hidden');
-        nextButton.textContent =
+    if (elements.feedback) {
+        elements.feedback.textContent = isCorrect
+            ? 'Chính xác! / Correct!'
+            : 'Chưa chính xác. Hãy ghi nhớ đáp án đúng nhé.';
+
+        elements.feedback.className = isCorrect
+            ? 'text-sm font-medium text-green-600'
+            : 'text-sm font-medium text-red-600';
+    }
+
+    if (elements.next) {
+        elements.next.textContent =
             currentQIndex === QUIZ_SIZE - 1
-                ? 'Xem kết quả'
-                : 'Câu tiếp theo';
+                ? 'Xem kết quả / View Result'
+                : 'Câu tiếp theo / Next';
+
+        elements.next.classList.remove('hidden');
     }
 }
 
@@ -302,77 +375,37 @@ function nextQuizQuestion() {
         return;
     }
 
-    const nextButton = document.getElementById('nextQuestionBtn');
-
-    if (nextButton) {
-        nextButton.classList.add('hidden');
-    }
-
     loadQuizQuestion();
 }
 
 function showQuizResult() {
-    const questionElement = document.getElementById('questionText');
-    const optionsElement = document.getElementById('optionsContainer');
-    const progressElement = document.getElementById('quizProgress');
-    const nextButton = document.getElementById('nextQuestionBtn');
+    const elements = getQuizElements();
 
-    if (questionElement) {
-        questionElement.textContent = 'Bạn đã hoàn thành bài kiểm tra!';
+    elements.card?.classList.add('hidden');
+    elements.result?.classList.remove('hidden');
+
+    if (elements.finalScore) {
+        elements.finalScore.textContent =
+            `Điểm của bạn: ${score}/${QUIZ_SIZE * POINTS_PER_QUESTION}`;
     }
 
-    if (optionsElement) {
-        optionsElement.replaceChildren();
-
-        const result = document.createElement('p');
-
-        result.className =
-            'text-center text-2xl font-bold text-neutral-800 py-6';
-
-        result.textContent = `Điểm của bạn: ${score}/${QUIZ_SIZE * POINTS_PER_QUESTION}`;
-
-        optionsElement.appendChild(result);
-
-        const message = document.createElement('p');
-
-        message.className = 'text-center text-neutral-500';
-
-        if (score === 100) {
-            message.textContent = 'Xuất sắc! Bạn đã trả lời đúng tất cả.';
-        } else if (score >= 60) {
-            message.textContent = 'Làm tốt lắm! Hãy tiếp tục luyện tập.';
-        } else {
-            message.textContent = 'Hãy ôn tập thêm và thử lại nhé.';
-        }
-
-        optionsElement.appendChild(message);
-    }
-
-    if (progressElement) {
-        progressElement.textContent = 'Hoàn thành 5/5';
-    }
-
-    if (nextButton) {
-        nextButton.classList.add('hidden');
+    if (elements.progress) {
+        elements.progress.textContent = 'Hoàn thành 5/5';
     }
 }
 
 function restartQuiz() {
     startQuiz();
-
-    const nextButton = document.getElementById('nextQuestionBtn');
-
-    if (nextButton) {
-        nextButton.classList.add('hidden');
-    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const nextButton = document.getElementById('nextQuestionBtn');
+    const elements = getQuizElements();
 
-    if (nextButton) {
-        nextButton.addEventListener('click', nextQuizQuestion);
+    if (!elements.next) {
+        console.error('[Quiz] Next button not found.');
+        return;
     }
 
+    // index.html already calls nextQuizQuestion() inline.
     startQuiz();
 });
