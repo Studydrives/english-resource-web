@@ -5,25 +5,55 @@
  * Main navigation and shared UI controls
  */
 
-function switchPage(pageId) {
-    const pages = document.querySelectorAll('.page-content');
-    const targetPage = document.getElementById(pageId);
+const PAGE_IDS = {
+    home: 'page-home',
+    resource: 'page-resource',
+    quiz: 'page-quiz',
+    feedback: 'page-feedback'
+};
 
-    if (!targetPage || !targetPage.classList.contains('page-content')) {
-        console.warn(`[Navigation] Page not found: ${pageId}`);
+function switchPage(pageId) {
+    const normalizedPageId = PAGE_IDS[pageId]
+        ? pageId
+        : Object.keys(PAGE_IDS).find(
+            (key) => PAGE_IDS[key] === pageId
+        );
+
+    if (!normalizedPageId) {
+        console.warn(`[Navigation] Invalid page: ${pageId}`);
         return;
     }
 
-    pages.forEach((page) => {
-        page.classList.toggle('hidden', page !== targetPage);
-        page.setAttribute('aria-hidden', String(page !== targetPage));
+    const targetPageId = PAGE_IDS[normalizedPageId];
+    const targetPage = document.getElementById(targetPageId);
+
+    if (!targetPage) {
+        console.error(`[Navigation] Page not found: ${targetPageId}`);
+        return;
+    }
+
+    document.querySelectorAll('.page-content').forEach((page) => {
+        const isActive = page === targetPage;
+
+        page.classList.toggle('hidden', !isActive);
+        page.setAttribute('aria-hidden', String(!isActive));
     });
 
-    document.querySelectorAll('[data-page-target]').forEach((button) => {
-        const isActive = button.dataset.pageTarget === pageId;
+    Object.keys(PAGE_IDS).forEach((key) => {
+        const button = document.getElementById(`nav-${key}`);
 
-        button.classList.toggle('text-blue-600', isActive);
-        button.classList.toggle('font-bold', isActive);
+        if (!button) {
+            return;
+        }
+
+        const isActive = key === normalizedPageId;
+
+        button.classList.toggle('text-black', isActive);
+        button.classList.toggle('font-semibold', isActive);
+        button.classList.toggle('border-b-2', isActive);
+        button.classList.toggle('border-black', isActive);
+
+        button.classList.toggle('text-neutral-500', !isActive);
         button.setAttribute('aria-current', isActive ? 'page' : 'false');
     });
 
@@ -53,6 +83,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (visiblePage) {
         visiblePage.setAttribute('aria-hidden', 'false');
+
+        const pageKey = Object.keys(PAGE_IDS).find(
+            (key) => PAGE_IDS[key] === visiblePage.id
+        );
+
+        if (pageKey) {
+            switchPage(pageKey);
+        }
     }
 
     document.querySelectorAll('.page-content.hidden').forEach((page) => {
