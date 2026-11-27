@@ -1,3 +1,4 @@
+
 /*
  * HUFLIT English Hub
  * Global styles
@@ -103,8 +104,8 @@ img {
 
 .document-viewer-content {
     cursor: default;
-    user-select: text;
-    -webkit-user-select: text;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .document-viewer-content button {
