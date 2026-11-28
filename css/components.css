@@ -1,1 +1,245 @@
 
+/*
+ * HUFLIT English Hub
+ * Component styles — Quiz, Survey and Feedback
+ */
+
+/* =========================================
+   QUIZ
+========================================= */
+
+#quizCard {
+    transition:
+        transform var(--motion-normal) var(--ease-out),
+        box-shadow var(--motion-normal) var(--ease-out);
+}
+
+#quizCard:hover {
+    transform: translateY(-2px);
+}
+
+#quizResultBox {
+    animation: quizResultIn 350ms var(--ease-out) both;
+}
+
+@keyframes quizResultIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.quiz-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.quiz-progress-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+}
+
+.quiz-progress-label {
+    font-size: .875rem;
+    font-weight: 600;
+}
+
+.quiz-score {
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+}
+
+#quizProgressTrack {
+    width: 100%;
+    height: 6px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #e5e5e5;
+}
+
+#quizProgressFill {
+    height: 100%;
+    width: 0;
+    border-radius: inherit;
+    background: #171717;
+    transition: width 350ms var(--ease-out);
+}
+
+.quiz-opt-btn {
+    width: 100%;
+    text-align: left;
+    transition:
+        background var(--motion-fast) ease,
+        border-color var(--motion-fast) ease,
+        transform var(--motion-fast) ease;
+}
+
+.quiz-opt-btn:hover:not(:disabled) {
+    transform: translateX(3px);
+    background: #f5f5f5;
+}
+
+.quiz-opt-btn:disabled {
+    cursor: default;
+}
+
+.quiz-opt-btn.correct,
+.quiz-opt-btn.answer-correct {
+    border-color: #16a34a;
+    background: #f0fdf4;
+    color: #166534;
+}
+
+.quiz-opt-btn.incorrect,
+.quiz-opt-btn.answer-incorrect {
+    border-color: #dc2626;
+    background: #fef2f2;
+    color: #991b1b;
+}
+
+.quiz-feedback-msg {
+    animation: quizFeedbackIn 240ms var(--ease-out) both;
+}
+
+@keyframes quizFeedbackIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.quiz-next-btn {
+    transition:
+        transform var(--motion-fast) ease,
+        opacity var(--motion-fast) ease;
+}
+
+.quiz-next-btn:hover {
+    transform: translateY(-2px);
+}
+
+.quiz-shake {
+    animation: quizShake 380ms ease;
+}
+
+@keyframes quizShake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
+}
+
+/* =========================================
+   SURVEY
+========================================= */
+
+.survey-panel {
+    border: 1px solid #e5e5e5;
+    border-radius: 1rem;
+    background: #fff;
+    transition:
+        box-shadow var(--motion-normal) ease,
+        border-color var(--motion-normal) ease;
+}
+
+.survey-panel:focus-within {
+    border-color: #a3a3a3;
+    box-shadow: 0 8px 28px rgba(0,0,0,.045);
+}
+
+#surveyForm input,
+#surveyForm select,
+#surveyForm textarea {
+    width: 100%;
+    min-width: 0;
+    border: 1px solid #d4d4d4;
+    border-radius: .65rem;
+    background: #fff;
+    padding: .75rem .875rem;
+    color: #171717;
+    transition:
+        border-color var(--motion-fast) ease,
+        box-shadow var(--motion-fast) ease;
+}
+
+#surveyForm input:focus,
+#surveyForm select:focus,
+#surveyForm textarea:focus {
+    outline: none;
+    border-color: #525252;
+    box-shadow: 0 0 0 3px rgba(82,82,82,.1);
+}
+
+#surveyForm textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.survey-submit-btn {
+    transition:
+        transform var(--motion-fast) ease,
+        background var(--motion-fast) ease,
+        box-shadow var(--motion-fast) ease;
+}
+
+.survey-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 18px rgba(0,0,0,.12);
+}
+
+.survey-status {
+    animation: quizFeedbackIn 240ms var(--ease-out) both;
+}
+
+/* =========================================
+   FEEDBACK
+========================================= */
+
+#virtualFeedbackList {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+}
+
+#virtualFeedbackList > * {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+#virtualFeedbackList > *:not(:last-child) {
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: .75rem;
+}
+
+/* =========================================
+   MOBILE COMPONENTS
+========================================= */
+
+@media (max-width: 640px) {
+    .quiz-toolbar {
+        align-items: stretch;
+        gap: .75rem;
+    }
+
+    .quiz-progress-info {
+        flex-wrap: wrap;
+    }
+
+    .survey-panel {
+        border-radius: .85rem;
+        padding: 1rem;
+    }
+}
+
