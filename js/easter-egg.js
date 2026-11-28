@@ -1236,23 +1236,7 @@
     function createMeteorShower(THREE, manager, scene) {
         const meteors = [];
         const bursts = [];
-        const burstGeometry = createGeometry(
-            THREE,
-            manager,
-            new THREE.BufferGeometry()
-        );
 
-        const burstMaterial = createMaterial(
-            manager,
-            new THREE.PointsMaterial({
-                color: 0xffd7a3,
-                size: 0.18,
-                transparent: true,
-                opacity: 0.95,
-                blending: THREE.AdditiveBlending,
-                depthWrite: false
-            })
-        );
 
         const ambient = new THREE.AmbientLight(0x8099c7, 1.1);
         scene.add(ambient);
@@ -1274,13 +1258,16 @@
         }
 
         function createBurst(position) {
-            if (bursts.length >= CONFIG.maxBursts) {
-                const oldest = bursts.shift();
+if (bursts.length >= CONFIG.maxBursts) {
+    const oldest = bursts.shift();
 
-                if (oldest) {
-                    scene.remove(oldest.points);
-                }
-            }
+    if (oldest) {
+        scene.remove(oldest.points);
+
+        manager.dispose(oldest.points.geometry);
+        manager.dispose(oldest.points.material);
+    }
+}
 
             const count = 28;
             const positions = new Float32Array(count * 3);
