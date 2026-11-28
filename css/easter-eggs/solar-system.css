@@ -1,0 +1,181 @@
+/*
+ * HUFLIT English Hub
+ * Cosmic Easter Eggs — Solar System
+ */
+
+/* =========================================================
+   SOLAR SYSTEM ATMOSPHERE
+   ========================================================= */
+
+.cosmic-experience[data-scene="solar-system"] {
+    background:
+        radial-gradient(ellipse at 50% 48%,
+            rgba(92, 43, 15, .2),
+            transparent 34%),
+        radial-gradient(ellipse at 50% 50%,
+            rgba(20, 32, 75, .28),
+            transparent 72%),
+        #02030a;
+}
+
+.cosmic-experience[data-scene="solar-system"] .cosmic-scene::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 50% 50%,
+            transparent 20%,
+            rgba(2, 3, 10, .15) 65%,
+            rgba(2, 3, 10, .65) 100%);
+    pointer-events: none;
+}
+
+/* =========================================================
+   SUNLIGHT & CORONA
+   ========================================================= */
+
+.cosmic-experience[data-scene="solar-system"] .cosmic-scene::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(62vw, 780px);
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background:
+        radial-gradient(circle,
+            rgba(255, 180, 75, .1) 0%,
+            rgba(255, 125, 38, .07) 24%,
+            rgba(255, 91, 30, .035) 42%,
+            transparent 70%);
+    filter: blur(28px);
+    pointer-events: none;
+    animation: solar-corona-pulse 7s ease-in-out infinite alternate;
+}
+
+@keyframes solar-corona-pulse {
+    from {
+        opacity: .45;
+        transform: translate(-50%, -50%) scale(.92);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.08);
+    }
+}
+
+/* =========================================================
+   SOLAR SYSTEM HEADING
+   ========================================================= */
+
+.cosmic-experience[data-scene="solar-system"] .cosmic-eyebrow {
+    color: rgba(255, 197, 130, .8);
+}
+
+.cosmic-experience[data-scene="solar-system"] .cosmic-title {
+    background: linear-gradient(
+        110deg,
+        #fff4d9 0%,
+        #ffc978 42%,
+        #fff0d1 70%,
+        #d9e7ff 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+}
+
+.cosmic-experience[data-scene="solar-system"] .cosmic-description {
+    color: rgba(255, 226, 193, .65);
+}
+
+/* =========================================================
+   SOLAR SYSTEM HUD
+   ========================================================= */
+
+.cosmic-experience[data-scene="solar-system"] .cosmic-hud {
+    border-color: rgba(255, 184, 105, .2);
+    background:
+        linear-gradient(135deg,
+            rgba(76, 43, 24, .42),
+            rgba(18, 15, 22, .48));
+    box-shadow:
+        0 12px 45px rgba(0, 0, 0, .25),
+        0 0 35px rgba(255, 130, 45, .045),
+        inset 0 1px 0 rgba(255, 220, 175, .08);
+}
+
+.cosmic-experience[data-scene="solar-system"] .cosmic-hud-label {
+    color: rgba(255, 194, 132, .7);
+}
+
+.cosmic-experience[data-scene="solar-system"] .cosmic-scene-label {
+    color: rgba(255, 210, 160, .48);
+}
+
+/* =========================================================
+   ORBITAL DECORATION
+   ========================================================= */
+
+.cosmic-experience[data-scene="solar-system"] .solar-orbit-decoration {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 1px solid rgba(177, 197, 255, .09);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.cosmic-experience[data-scene="solar-system"] .solar-orbit-decoration:nth-child(1) {
+    width: 24vw;
+    height: 24vw;
+}
+
+.cosmic-experience[data-scene="solar-system"] .solar-orbit-decoration:nth-child(2) {
+    width: 38vw;
+    height: 38vw;
+}
+
+.cosmic-experience[data-scene="solar-system"] .solar-orbit-decoration:nth-child(3) {
+    width: 54vw;
+    height: 54vw;
+}
+
+.cosmic-experience[data-scene="solar-system"] .solar-orbit-decoration:nth-child(4) {
+    width: 70vw;
+    height: 70vw;
+}
+
+/* =========================================================
+   RESPONSIVE SOLAR SYSTEM
+   ========================================================= */
+
+@media (max-width: 768px) {
+    .cosmic-experience[data-scene="solar-system"] .cosmic-scene::after {
+        width: 100vw;
+    }
+
+    .cosmic-experience[data-scene="solar-system"] .solar-orbit-decoration:nth-child(1) {
+        width: 42vw;
+        height: 42vw;
+    }
+
+    .cosmic-experience[data-scene="solar-system"] .solar-orbit-decoration:nth-child(2) {
+        width: 66vw;
+        height: 66vw;
+    }
+
+    .cosmic-experience[data-scene="solar-system"] .solar-orbit-decoration:nth-child(3) {
+        width: 92vw;
+        height: 92vw;
+    }
+
+    .cosmic-experience[data-scene="solar-system"] .solar-orbit-decoration:nth-child(4) {
+        width: 118vw;
+        height: 118vw;
+    }
+}
