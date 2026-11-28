@@ -1,1 +1,294 @@
 
+/*
+ * HUFLIT English Hub
+ * Home — Extended Content Sections
+ */
+
+/* =========================================
+   SHARED SECTION LAYOUT
+========================================= */
+
+.home-section {
+    position: relative;
+    padding: clamp(3rem, 7vw, 6rem) 0;
+}
+
+.home-section-header {
+    max-width: 720px;
+    margin: 0 auto 2.5rem;
+    text-align: center;
+}
+
+.home-section-header p {
+    color: #737373;
+    line-height: 1.8;
+}
+
+/* =========================================
+   LEARNING AREAS
+========================================= */
+
+.learning-areas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+
+.learning-area-card {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid #e5e5e5;
+    border-radius: 1.25rem;
+    background: #fff;
+    padding: 1.5rem;
+    transition:
+        transform var(--motion-normal) var(--ease-out),
+        border-color var(--motion-normal) ease,
+        box-shadow var(--motion-normal) ease;
+}
+
+.learning-area-card:hover {
+    transform: translateY(-5px);
+    border-color: #a3a3a3;
+    box-shadow: 0 18px 40px rgba(0,0,0,.07);
+}
+
+.learning-area-card h3 {
+    margin-bottom: .65rem;
+    font-weight: 700;
+}
+
+.learning-area-card p {
+    color: #737373;
+    font-size: .9rem;
+    line-height: 1.75;
+}
+
+/* =========================================
+   FEATURED RESOURCES
+========================================= */
+
+.featured-resources-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+
+.featured-resource-card {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid #e5e5e5;
+    border-radius: 1.25rem;
+    background: #fff;
+    transition:
+        transform var(--motion-normal) var(--ease-out),
+        box-shadow var(--motion-normal) ease;
+}
+
+.featured-resource-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 35px rgba(0,0,0,.07);
+}
+
+.featured-resource-card img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+.featured-resource-card-content {
+    padding: 1.25rem;
+}
+
+/* =========================================
+   LEARNING JOURNEY
+========================================= */
+
+.learning-journey {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.journey-step {
+    position: relative;
+    min-width: 0;
+    padding: 1.25rem;
+    border: 1px solid #e5e5e5;
+    border-radius: 1rem;
+    background: #fff;
+    transition:
+        transform var(--motion-normal) var(--ease-out),
+        box-shadow var(--motion-normal) ease;
+}
+
+.journey-step:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0,0,0,.06);
+}
+
+.journey-step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin-bottom: 1rem;
+    border-radius: 50%;
+    background: #171717;
+    color: #fff;
+    font-size: .85rem;
+    font-weight: 700;
+}
+
+/* =========================================
+   PLATFORM STATISTICS
+========================================= */
+
+.platform-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.platform-stat-card {
+    min-width: 0;
+    border: 1px solid #e5e5e5;
+    border-radius: 1rem;
+    background: #fff;
+    padding: 1.5rem 1rem;
+    text-align: center;
+}
+
+.platform-stat-number {
+    display: block;
+    font-size: clamp(1.8rem, 4vw, 2.75rem);
+    font-weight: 800;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+}
+
+.platform-stat-label {
+    display: block;
+    margin-top: .5rem;
+    color: #737373;
+    font-size: .85rem;
+}
+
+/* =========================================
+   FINAL CTA
+========================================= */
+
+.home-final-cta {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.5rem;
+    background: #171717;
+    padding: clamp(2rem, 5vw, 4rem);
+    color: #fff;
+    text-align: center;
+}
+
+.home-final-cta h2 {
+    max-width: 700px;
+    margin: 0 auto 1rem;
+}
+
+.home-final-cta p {
+    max-width: 600px;
+    margin: 0 auto 1.5rem;
+    color: #d4d4d4;
+    line-height: 1.8;
+}
+
+.home-final-cta a,
+.home-final-cta button {
+    transition:
+        transform var(--motion-fast) ease,
+        box-shadow var(--motion-fast) ease;
+}
+
+.home-final-cta a:hover,
+.home-final-cta button:hover {
+    transform: translateY(-2px);
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+    .learning-areas-grid,
+    .featured-resources-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .learning-journey {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .platform-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .home-section {
+        padding: 3rem 0;
+    }
+
+    .home-section-header {
+        margin-bottom: 1.75rem;
+        text-align: left;
+    }
+
+    .learning-areas-grid,
+    .featured-resources-grid,
+    .learning-journey {
+        grid-template-columns: minmax(0, 1fr);
+        gap: .85rem;
+    }
+
+    .platform-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: .65rem;
+    }
+
+    .learning-area-card,
+    .journey-step {
+        padding: 1.1rem;
+    }
+
+    .home-final-cta {
+        border-radius: 1rem;
+        padding: 2rem 1.25rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .platform-stats {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .platform-stat-number {
+        scroll-behavior: auto;
+    }
+
+    .learning-area-card,
+    .featured-resource-card,
+    .journey-step,
+    .home-final-cta a,
+    .home-final-cta button {
+        transition: none !important;
+    }
+}
+
