@@ -1,15 +1,20 @@
 /*
  * HUFLIT English Hub
- * Global styles
+ * Monochrome UI system + motion design
  */
 
-/* ========================================
-   1. GLOBAL RESET & BASE
-======================================== */
+:root {
+    color-scheme: light;
+    --motion-fast: 160ms;
+    --motion-normal: 280ms;
+    --motion-slow: 650ms;
+    --ease-out: cubic-bezier(.16, 1, .3, 1);
+    --ease-spring: cubic-bezier(.2, .85, .25, 1.25);
+    --shadow-soft: 0 8px 30px rgba(0, 0, 0, .06);
+    --shadow-hover: 0 18px 45px rgba(0, 0, 0, .12);
+}
 
-*,
-*::before,
-*::after {
+*, *::before, *::after {
     box-sizing: border-box;
 }
 
@@ -26,12 +31,12 @@ body {
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    background:
+        radial-gradient(ellipse at 10% 5%, rgba(0,0,0,.025), transparent 35%),
+        #fff;
 }
 
-button,
-input,
-textarea,
-select {
+button, input, textarea, select {
     font: inherit;
 }
 
@@ -41,7 +46,7 @@ button {
 
 button:disabled {
     cursor: not-allowed;
-    opacity: 0.6;
+    opacity: .6;
 }
 
 img {
@@ -53,60 +58,241 @@ img {
     display: none !important;
 }
 
-/* ========================================
-   2. ACCESSIBILITY
-======================================== */
+::selection {
+    color: #fff;
+    background: #171717;
+}
 
 :focus-visible {
-    outline: 3px solid #7c3aed;
-    outline-offset: 3px;
+    outline: 2px solid #171717;
+    outline-offset: 4px;
 }
 
-::selection {
-    background: #171717;
-    color: #ffffff;
+/* Scroll progress */
+#uiScrollProgress {
+    position: fixed;
+    inset: 0 auto auto 0;
+    z-index: 100;
+    width: 0;
+    height: 3px;
+    background: #111;
+    pointer-events: none;
+    transform-origin: left;
 }
 
-/* ========================================
-   3. PAGE NAVIGATION
-======================================== */
+/* Header */
+header {
+    transition:
+        background-color var(--motion-normal) ease,
+        box-shadow var(--motion-normal) ease,
+        border-color var(--motion-normal) ease;
+}
 
+header.is-scrolled {
+    background: rgba(255,255,255,.88) !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,.055);
+    border-color: rgba(0,0,0,.08);
+}
+
+header nav button {
+    position: relative;
+    transition: color var(--motion-normal) ease;
+}
+
+header nav button::after {
+    position: absolute;
+    content: "";
+    left: 0;
+    right: 0;
+    bottom: -3px;
+    height: 2px;
+    background: #111;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 320ms var(--ease-out);
+}
+
+header nav button[aria-current="page"]::after {
+    transform: scaleX(1);
+}
+
+/* Page transitions */
 .page-content {
     width: 100%;
-    animation: pageFadeIn 0.25s ease both;
+    animation: pageEnter 520ms var(--ease-out) both;
 }
 
-@keyframes pageFadeIn {
+@keyframes pageEnter {
     from {
         opacity: 0;
-        transform: translateY(8px);
+        transform: translateY(18px);
+        filter: blur(3px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
+        filter: blur(0);
     }
 }
 
+/* Scroll reveal */
 .reveal-pending {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(28px);
+    filter: blur(3px);
     transition:
-        opacity 480ms ease,
-        transform 480ms cubic-bezier(0.2, 0.65, 0.3, 1);
+        opacity 700ms var(--ease-out),
+        transform 700ms var(--ease-out),
+        filter 700ms var(--ease-out);
+    transition-delay: var(--reveal-delay, 0ms);
 }
 
 .reveal-pending.is-revealed {
     opacity: 1;
     transform: translateY(0);
+    filter: blur(0);
 }
 
-/* ========================================
-   4. DOCUMENT VIEWER
-======================================== */
+/* Hero image */
+#page-home img {
+    transition:
+        transform 900ms var(--ease-out),
+        filter 600ms ease,
+        box-shadow 600ms ease;
+    will-change: transform;
+}
 
+@media (hover: hover) {
+    #page-home img:hover {
+        transform: scale(1.025) rotate(-.4deg);
+        filter: contrast(1.04);
+        box-shadow: 0 24px 55px rgba(0,0,0,.16);
+    }
+}
+
+/* Cards */
+#resourceContainer > * {
+    min-width: 0;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+#resourceContainer article,
+#resourceContainer > div,
+#page-home article {
+    position: relative;
+    overflow: hidden;
+    border-color: #e5e5e5;
+    transition:
+        transform 420ms var(--ease-out),
+        box-shadow 420ms var(--ease-out),
+        border-color 300ms ease;
+}
+
+#resourceContainer article::before,
+#resourceContainer > div::before,
+#page-home article::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+        115deg,
+        transparent 20%,
+        rgba(255,255,255,.72) 45%,
+        transparent 70%
+    );
+    transform: translateX(-130%);
+    transition: transform 800ms var(--ease-out);
+}
+
+@media (hover: hover) {
+    #resourceContainer article:hover,
+    #resourceContainer > div:hover,
+    #page-home article:hover {
+        transform: translateY(-7px) scale(1.012);
+        box-shadow: var(--shadow-hover);
+        border-color: #a3a3a3;
+    }
+
+    #resourceContainer article:hover::before,
+    #resourceContainer > div:hover::before,
+    #page-home article:hover::before {
+        transform: translateX(130%);
+    }
+}
+
+/* Buttons */
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:not(:disabled) {
+    transition:
+        transform 220ms var(--ease-out),
+        box-shadow 220ms ease,
+        background-color 220ms ease,
+        border-color 220ms ease;
+}
+
+button:not(:disabled):active {
+    transform: scale(.965);
+}
+
+.ui-ripple {
+    position: absolute;
+    z-index: 2;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.35);
+    pointer-events: none;
+    transform: scale(0);
+    animation: rippleExpand 600ms ease-out forwards;
+}
+
+@keyframes rippleExpand {
+    to {
+        opacity: 0;
+        transform: scale(18);
+    }
+}
+
+/* Document viewer */
 #docModal {
     overscroll-behavior: contain;
+    backdrop-filter: blur(0);
+}
+
+#docModal:not(.hidden) {
+    animation: modalBackdropIn 260ms ease both;
+}
+
+#docModal > div {
+    transform-origin: center;
+}
+
+#docModal:not(.hidden) > div {
+    animation: modalContentIn 420ms var(--ease-spring) both;
+}
+
+@keyframes modalBackdropIn {
+    from { opacity: 0; backdrop-filter: blur(0); }
+    to { opacity: 1; backdrop-filter: blur(7px); }
+}
+
+@keyframes modalContentIn {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(.96);
+        filter: blur(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
 }
 
 #modalBody {
@@ -135,48 +321,30 @@ img {
     vertical-align: top;
 }
 
-.document-viewer-content p {
+.document-viewer-content p,
+.document-viewer-content pre,
+.document-viewer-content code {
     overflow-wrap: anywhere;
 }
 
 .document-viewer-content pre,
 .document-viewer-content code {
     white-space: pre-wrap;
-    overflow-wrap: anywhere;
 }
 
-/* ========================================
-   5. RESOURCE CARDS
-======================================== */
-
-#resourceContainer > * {
-    min-width: 0;
-}
-
-#resourceContainer > *:focus-visible {
-    outline-offset: 4px;
-}
-
-#resourceContainer article,
-#resourceContainer > div {
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        transform 0.2s ease;
-}
-
-@media (hover: hover) {
-    #resourceContainer > div:hover {
-        transform: translateY(-3px);
-    }
-}
-
-/* ========================================
-   6. SEARCH SUGGESTIONS
-======================================== */
-
+/* Search */
 #searchSuggestions {
     overscroll-behavior: contain;
+    transform-origin: top;
+}
+
+#searchSuggestions:not(.hidden) {
+    animation: dropdownIn 220ms var(--ease-out) both;
+}
+
+@keyframes dropdownIn {
+    from { opacity: 0; transform: translateY(-7px) scaleY(.97); }
+    to { opacity: 1; transform: translateY(0) scaleY(1); }
 }
 
 #searchSuggestions:empty {
@@ -187,18 +355,22 @@ img {
     cursor: pointer;
 }
 
-/* ========================================
-   7. QUIZ
-======================================== */
+/* Quiz */
+#quizCard,
+#quizResultBox {
+    transition:
+        box-shadow 300ms ease,
+        transform 300ms var(--ease-out);
+}
 
 .quiz-opt-btn {
     width: 100%;
     text-align: left;
     transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease,
-        color 0.2s ease,
-        transform 0.18s ease;
+        background-color 220ms ease,
+        border-color 220ms ease,
+        color 220ms ease,
+        transform 220ms var(--ease-out);
 }
 
 .quiz-opt-btn:disabled {
@@ -212,23 +384,43 @@ img {
 
 @media (hover: hover) {
     .quiz-opt-btn:not(:disabled):hover {
-        transform: translateX(3px);
+        transform: translateX(5px);
+        border-color: #737373;
+        background: #f5f5f5;
     }
 }
 
-/* ========================================
-   8. SURVEY
-======================================== */
+.is-shaking {
+    animation: uiShake 420ms ease both;
+}
 
+@keyframes uiShake {
+    0%, 100% { transform: translateX(0); }
+    18%, 54% { transform: translateX(-5px); }
+    36%, 72% { transform: translateX(5px); }
+}
+
+/* Survey */
 #surveyForm input,
 #surveyForm select,
 #surveyForm textarea {
     width: 100%;
+    transition:
+        border-color 220ms ease,
+        box-shadow 220ms ease,
+        background-color 220ms ease;
 }
 
 #surveyForm textarea {
     resize: vertical;
     min-height: 100px;
+}
+
+#surveyForm input:focus,
+#surveyForm select:focus,
+#surveyForm textarea:focus {
+    border-color: #171717;
+    box-shadow: 0 0 0 4px rgba(0,0,0,.07);
 }
 
 #surveyStatus:empty {
@@ -243,24 +435,33 @@ img {
     color: #dc2626;
 }
 
-/* ========================================
-   9. CHATBOT
-======================================== */
-
+/* Chatbot — monochrome */
 #draggableRobot {
     touch-action: none;
     z-index: 50;
 }
 
 #chatBubbleBtn {
+    position: relative;
+    overflow: hidden;
     cursor: grab;
     touch-action: none;
     will-change: transform;
-    transition:
-        transform 180ms ease,
-        box-shadow 180ms ease,
-        filter 180ms ease;
-    animation: chatbotLauncherFloat 3.2s ease-in-out infinite;
+    color: #fff !important;
+    background: linear-gradient(145deg, #111, #404040) !important;
+    border: 2px solid #fff;
+    box-shadow: 0 12px 32px rgba(0,0,0,.24);
+    animation: robotFloat 3.6s ease-in-out infinite;
+}
+
+#chatBubbleBtn::after {
+    content: "";
+    position: absolute;
+    inset: -45%;
+    border: 1px solid rgba(255,255,255,.4);
+    border-radius: 50%;
+    animation: robotPulse 2.8s ease-out infinite;
+    pointer-events: none;
 }
 
 #chatBubbleBtn:active {
@@ -268,19 +469,29 @@ img {
 }
 
 #chatBubbleBtn:hover {
-    transform: translateY(-2px) scale(1.04);
-    filter: saturate(1.08);
-    box-shadow: 0 14px 32px rgba(91, 33, 182, 0.28);
+    transform: translateY(-4px) scale(1.06);
+    box-shadow: 0 18px 42px rgba(0,0,0,.3);
 }
 
-@keyframes chatbotLauncherFloat {
-    0%, 100% {
-        transform: translateY(0);
-    }
+#draggableRobot.is-dragging #chatBubbleBtn {
+    animation: robotDrag 260ms ease-in-out infinite alternate;
+    cursor: grabbing;
+    transform: scale(1.08);
+}
 
-    50% {
-        transform: translateY(-4px);
-    }
+@keyframes robotFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-7px); }
+}
+
+@keyframes robotPulse {
+    0% { transform: scale(.72); opacity: .65; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+@keyframes robotDrag {
+    from { rotate: -5deg; }
+    to { rotate: 5deg; }
 }
 
 #chatBox {
@@ -292,6 +503,8 @@ img {
     user-select: text;
     -webkit-user-select: text;
     transform-origin: bottom right;
+    border-radius: 1.25rem;
+    box-shadow: 0 24px 70px rgba(0,0,0,.2);
 }
 
 #chatBox[hidden] {
@@ -299,25 +512,41 @@ img {
 }
 
 #chatBox.is-open {
-    animation: chatPanelIn 180ms ease both;
+    animation: chatPanelIn 360ms var(--ease-spring) both;
 }
 
 @keyframes chatPanelIn {
     from {
         opacity: 0;
-        transform: translateY(8px) scale(0.98);
+        transform: translateY(18px) scale(.92);
+        filter: blur(5px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
+        filter: blur(0);
     }
+}
+
+/* Remove purple Tailwind styling in chatbot header and controls */
+#chatBox > div:first-child {
+    background: linear-gradient(110deg, #111, #404040) !important;
+}
+
+#chatBox form button {
+    color: #fff !important;
+    background: #171717 !important;
+}
+
+#chatInput:focus {
+    border-color: #171717 !important;
+    box-shadow: 0 0 0 3px rgba(0,0,0,.08);
 }
 
 #chatMessages {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: .75rem;
     overflow-wrap: anywhere;
     overscroll-behavior: contain;
 }
@@ -330,41 +559,34 @@ img {
 .chat-message {
     width: fit-content;
     max-width: 88%;
-    padding: 0.75rem;
-    border-radius: 0.9rem;
-    font-size: 0.75rem;
+    padding: .75rem;
+    border-radius: .9rem;
+    font-size: .75rem;
     line-height: 1.55;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    animation: chatMessageIn 220ms ease both;
+    box-shadow: 0 1px 3px rgba(0,0,0,.05);
+    animation: chatMessageIn 280ms var(--ease-out) both;
 }
 
 .chat-message-bot {
     align-self: flex-start;
     color: #262626;
-    background: #ffffff;
+    background: #fff;
     border: 1px solid #e5e5e5;
-    border-top-left-radius: 0.35rem;
+    border-top-left-radius: .35rem;
 }
 
 .chat-message-user {
     align-self: flex-end;
-    color: #ffffff;
-    background: #7c3aed;
-    border: 1px solid #7c3aed;
-    border-top-right-radius: 0.35rem;
+    color: #fff;
+    background: #171717;
+    border: 1px solid #171717;
+    border-top-right-radius: .35rem;
     text-align: right;
 }
 
 @keyframes chatMessageIn {
-    from {
-        opacity: 0;
-        transform: translateY(7px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(9px) scale(.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .chat-typing-indicator {
@@ -372,88 +594,76 @@ img {
     align-items: center;
     gap: 4px;
     align-self: flex-start;
-    padding: 0.75rem 0.85rem;
-    background: #ffffff;
+    padding: .75rem .85rem;
+    background: #fff;
     border: 1px solid #e5e5e5;
-    border-radius: 0.9rem;
+    border-radius: .9rem;
 }
 
 .chat-typing-indicator span {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: #a78bfa;
+    background: #525252;
     animation: chatTyping 900ms ease-in-out infinite;
 }
 
-.chat-typing-indicator span:nth-child(2) {
-    animation-delay: 120ms;
-}
-
-.chat-typing-indicator span:nth-child(3) {
-    animation-delay: 240ms;
-}
+.chat-typing-indicator span:nth-child(2) { animation-delay: 120ms; }
+.chat-typing-indicator span:nth-child(3) { animation-delay: 240ms; }
 
 @keyframes chatTyping {
-    0%, 60%, 100% {
-        opacity: 0.45;
-        transform: translateY(0);
-    }
-
-    30% {
-        opacity: 1;
-        transform: translateY(-3px);
-    }
+    0%, 60%, 100% { opacity: .4; transform: translateY(0); }
+    30% { opacity: 1; transform: translateY(-4px); }
 }
 
 .chat-section-heading {
-    margin: 0 0 0.55rem;
+    margin: 0 0 .55rem;
     color: #525252;
-    font-size: 0.7rem;
+    font-size: .7rem;
     font-weight: 700;
 }
 
 .chat-suggestion-list,
 .chat-resource-list {
     display: grid;
-    gap: 0.45rem;
+    gap: .45rem;
     width: 100%;
-    animation: chatMessageIn 220ms ease both;
+    animation: chatMessageIn 280ms ease both;
 }
 
 .chat-suggestion-chip,
 .chat-resource-card {
     width: 100%;
-    padding: 0.65rem 0.75rem;
-    border: 1px solid #e9d5ff;
-    border-radius: 0.75rem;
-    background: #ffffff;
-    color: #6d28d9;
+    padding: .65rem .75rem;
+    border: 1px solid #dedede;
+    border-radius: .75rem;
+    background: #fff;
+    color: #262626;
     text-align: left;
-    font-size: 0.7rem;
+    font-size: .7rem;
     line-height: 1.45;
     transition:
-        background-color 160ms ease,
-        border-color 160ms ease,
-        transform 160ms ease;
+        background-color 180ms ease,
+        border-color 180ms ease,
+        transform 180ms var(--ease-out),
+        box-shadow 180ms ease;
 }
 
 .chat-suggestion-chip:hover,
 .chat-resource-card:hover {
-    background: #faf5ff;
-    border-color: #a78bfa;
-    transform: translateX(2px);
+    background: #f5f5f5;
+    border-color: #737373;
+    transform: translateX(3px);
+    box-shadow: 0 5px 14px rgba(0,0,0,.06);
 }
 
 .chat-resource-card {
     display: grid;
-    gap: 0.25rem;
-    color: #262626;
-    border-color: #e5e5e5;
+    gap: .25rem;
 }
 
 .chat-resource-title {
-    font-size: 0.72rem;
+    font-size: .72rem;
     font-weight: 700;
 }
 
@@ -461,59 +671,39 @@ img {
     display: -webkit-box;
     overflow: hidden;
     color: #737373;
-    font-size: 0.66rem;
+    font-size: .66rem;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
 }
 
 .chat-resource-action {
-    margin-top: 0.2rem;
-    color: #6d28d9;
-    font-size: 0.66rem;
+    margin-top: .2rem;
+    color: #171717;
+    font-size: .66rem;
     font-weight: 700;
 }
 
 .chat-action-button {
     align-self: flex-start;
-    padding: 0.55rem 0.85rem;
+    padding: .55rem .85rem;
     border: 0;
-    border-radius: 0.65rem;
-    background: #7c3aed;
-    color: #ffffff;
-    font-size: 0.7rem;
+    border-radius: .65rem;
+    background: #171717;
+    color: #fff;
+    font-size: .7rem;
     font-weight: 700;
-    transition: background-color 160ms ease, transform 160ms ease;
 }
 
 .chat-action-button:hover {
-    background: #6d28d9;
-    transform: translateY(-1px);
+    background: #404040;
+    transform: translateY(-2px);
 }
 
 #chatInput {
     min-width: 0;
 }
 
-/* ========================================
-   10. FORM ELEMENTS
-======================================== */
-
-input,
-textarea,
-select {
-    max-width: 100%;
-}
-
-input::placeholder,
-textarea::placeholder {
-    color: #a3a3a3;
-    opacity: 1;
-}
-
-/* ========================================
-   11. SCROLLBAR
-======================================== */
-
+/* Scrollbars */
 #modalBody::-webkit-scrollbar,
 #chatMessages::-webkit-scrollbar,
 #searchSuggestions::-webkit-scrollbar {
@@ -540,14 +730,9 @@ textarea::placeholder {
     scrollbar-color: #d4d4d4 transparent;
 }
 
-/* ========================================
-   12. RESPONSIVE
-======================================== */
-
+/* Responsive */
 @media (max-width: 640px) {
-    html {
-        scroll-padding-top: 4rem;
-    }
+    html { scroll-padding-top: 4rem; }
 
     #draggableRobot {
         right: 1rem;
@@ -565,36 +750,30 @@ textarea::placeholder {
         max-height: min(76dvh, 520px);
     }
 
-    #docModal {
-        padding: 0.5rem;
-    }
+    #docModal { padding: .5rem; }
+    #docModal > div { max-height: 95vh; }
+    #modalBody { padding: 1rem; }
 
-    #docModal > div {
-        max-height: 95vh;
-    }
-
-    #modalBody {
-        padding: 1rem;
+    .reveal-pending {
+        transform: translateY(16px);
     }
 }
 
-/* ========================================
-   13. REDUCED MOTION
-======================================== */
-
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
     *::after {
         scroll-behavior: auto !important;
-        animation-duration: 0.01ms !important;
+        animation-duration: .01ms !important;
         animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
+        transition-duration: .01ms !important;
     }
 
     .reveal-pending {
         opacity: 1;
         transform: none;
+        filter: none;
     }
 
     #chatBubbleBtn {
