@@ -1,14 +1,13 @@
-
 /*
  * HUFLIT English Hub
  * Cosmic Easter Egg — Fullscreen Visual Effects
  */
 
 /* =========================================
-   OVERLAY
+   FULLSCREEN OVERLAY
 ========================================= */
 
-#cosmicEasterEgg {
+.cosmic-experience {
     position: fixed;
     inset: 0;
     z-index: 20000;
@@ -18,133 +17,157 @@
     isolation: isolate;
     background: #02030b;
     color: #fff;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+        opacity 700ms ease,
+        visibility 700ms ease;
+}
+
+.cosmic-experience.is-visible {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    transition:
-        opacity 800ms ease,
-        visibility 800ms ease;
 }
 
-#cosmicEasterEgg[hidden] {
-    display: none;
-}
-
-#cosmicEasterEgg.is-ending {
+.cosmic-experience.is-leaving {
     opacity: 0;
     visibility: hidden;
+    pointer-events: none;
 }
+
+.cosmic-canvas,
+.cosmic-nebula {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.cosmic-canvas {
+    z-index: 0;
+}
+
+.cosmic-nebula {
+    z-index: 1;
+    background:
+        radial-gradient(ellipse at 20% 30%, rgba(60,40,130,.22), transparent 45%),
+        radial-gradient(ellipse at 80% 65%, rgba(30,80,130,.18), transparent 48%),
+        radial-gradient(ellipse at 50% 50%, rgba(30,25,80,.2), transparent 65%);
+    animation: nebulaDrift 14s ease-in-out infinite alternate;
+}
+
+@keyframes nebulaDrift {
+    from { transform: scale(1) translate3d(-1%, 0, 0); }
+    to { transform: scale(1.12) translate3d(1%, -1%, 0); }
+}
+
+/* =========================================
+   SCENE
+========================================= */
 
 .cosmic-scene {
     position: absolute;
     inset: 0;
+    z-index: 2;
+    display: grid;
+    place-items: center;
     overflow: hidden;
-    background:
-        radial-gradient(ellipse at 50% 50%, rgba(35,40,90,.22), transparent 60%),
-        radial-gradient(ellipse at 20% 20%, rgba(35,20,80,.25), transparent 55%),
-        #02030b;
-}
-
-.cosmic-stars,
-.cosmic-stars::before,
-.cosmic-stars::after {
-    position: absolute;
-    inset: 0;
-    content: "";
-    pointer-events: none;
-}
-
-.cosmic-stars {
-    background-image:
-        radial-gradient(1px 1px at 10% 20%, #fff 99%, transparent),
-        radial-gradient(1px 1px at 30% 70%, #fff 99%, transparent),
-        radial-gradient(2px 2px at 60% 30%, #fff 99%, transparent),
-        radial-gradient(1px 1px at 80% 80%, #fff 99%, transparent),
-        radial-gradient(1px 1px at 90% 15%, #fff 99%, transparent),
-        radial-gradient(2px 2px at 45% 45%, #fff 99%, transparent);
-    background-size: 220px 220px;
-    opacity: .65;
-    animation: cosmicStarsDrift 40s linear infinite;
-}
-
-.cosmic-stars::before {
-    background-image:
-        radial-gradient(1px 1px at 15% 35%, #b8c8ff 99%, transparent),
-        radial-gradient(2px 2px at 70% 65%, #fff 99%, transparent),
-        radial-gradient(1px 1px at 90% 50%, #b8c8ff 99%, transparent);
-    background-size: 310px 310px;
-    opacity: .55;
-}
-
-.cosmic-stars::after {
-    background-image:
-        radial-gradient(1px 1px at 25% 15%, #fff 99%, transparent),
-        radial-gradient(1px 1px at 55% 85%, #fff 99%, transparent),
-        radial-gradient(2px 2px at 85% 25%, #fff 99%, transparent);
-    background-size: 170px 170px;
-    opacity: .45;
-}
-
-@keyframes cosmicStarsDrift {
-    from { transform: translateY(0); }
-    to { transform: translateY(-220px); }
 }
 
 /* =========================================
-   SCENE TITLE & EXIT
+   HEADING
 ========================================= */
 
-.cosmic-caption {
+.cosmic-heading {
     position: absolute;
-    top: max(24px, env(safe-area-inset-top));
+    top: max(34px, env(safe-area-inset-top));
     left: 50%;
     z-index: 5;
-    width: min(90%, 600px);
+    width: min(90%, 620px);
     transform: translateX(-50%);
     text-align: center;
     pointer-events: none;
+    animation: cosmicHeadingIn 900ms ease both;
 }
 
-.cosmic-caption h2 {
+.cosmic-eyebrow {
+    display: block;
+    margin-bottom: 12px;
+    color: rgba(205,215,255,.7);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .22em;
+}
+
+.cosmic-title {
     margin: 0;
-    font-size: clamp(1.1rem, 3vw, 1.8rem);
-    font-weight: 500;
-    letter-spacing: .18em;
+    color: #fff;
+    font-size: clamp(1.35rem, 4vw, 2.4rem);
+    font-weight: 600;
+    letter-spacing: .12em;
     text-transform: uppercase;
-    text-shadow: 0 0 24px rgba(160,180,255,.6);
+    text-shadow:
+        0 0 20px rgba(160,180,255,.65),
+        0 0 55px rgba(110,120,255,.3);
 }
 
-.cosmic-caption p {
-    margin-top: .6rem;
-    color: rgba(220,225,255,.65);
-    font-size: .8rem;
-    letter-spacing: .08em;
+.cosmic-description {
+    margin: 12px 0 0;
+    color: rgba(220,225,255,.68);
+    font-size: clamp(.72rem, 2vw, .9rem);
+    letter-spacing: .06em;
 }
+
+@keyframes cosmicHeadingIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 16px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+/* =========================================
+   EXIT BUTTON
+========================================= */
 
 .cosmic-exit {
     position: absolute;
-    top: max(18px, env(safe-area-inset-top));
-    right: max(18px, env(safe-area-inset-right));
+    right: max(22px, env(safe-area-inset-right));
+    bottom: max(24px, env(safe-area-inset-bottom));
     z-index: 10;
-    display: grid;
-    width: 42px;
-    height: 42px;
-    place-items: center;
-    border: 1px solid rgba(255,255,255,.2);
-    border-radius: 50%;
-    background: rgba(255,255,255,.08);
+    min-height: 42px;
+    padding: 0 18px;
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 999px;
+    background: rgba(255,255,255,.09);
     color: #fff;
-    font-size: 1.2rem;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .12em;
     cursor: pointer;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     transition:
         background 180ms ease,
+        border-color 180ms ease,
         transform 180ms ease;
 }
 
 .cosmic-exit:hover {
-    transform: rotate(90deg);
+    transform: translateY(-2px);
+    border-color: rgba(255,255,255,.55);
     background: rgba(255,255,255,.2);
+}
+
+.cosmic-exit:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
 }
 
 /* =========================================
@@ -195,17 +218,41 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    border: 1px solid rgba(190,200,255,.17);
+    border: 1px solid rgba(190,200,255,.2);
     border-radius: 50%;
     transform: translate(-50%, -50%);
     animation: orbitRotate var(--orbit-speed, 8s) linear infinite;
 }
 
-.cosmic-orbit-1 { width: 25%; height: 25%; --orbit-speed: 4s; }
-.cosmic-orbit-2 { width: 40%; height: 40%; --orbit-speed: 7s; }
-.cosmic-orbit-3 { width: 56%; height: 56%; --orbit-speed: 11s; }
-.cosmic-orbit-4 { width: 72%; height: 72%; --orbit-speed: 16s; }
-.cosmic-orbit-5 { width: 88%; height: 88%; --orbit-speed: 22s; }
+.cosmic-orbit--one {
+    width: 25%;
+    height: 25%;
+    --orbit-speed: 4s;
+}
+
+.cosmic-orbit--two {
+    width: 40%;
+    height: 40%;
+    --orbit-speed: 7s;
+}
+
+.cosmic-orbit--three {
+    width: 56%;
+    height: 56%;
+    --orbit-speed: 11s;
+}
+
+.cosmic-orbit--four {
+    width: 72%;
+    height: 72%;
+    --orbit-speed: 16s;
+}
+
+.cosmic-orbit--five {
+    width: 88%;
+    height: 88%;
+    --orbit-speed: 22s;
+}
 
 @keyframes orbitRotate {
     from { transform: translate(-50%, -50%) rotate(0deg); }
@@ -224,29 +271,36 @@
     transform: translate(-50%, -50%);
 }
 
-.cosmic-orbit-1 .cosmic-planet {
+.cosmic-orbit--one .cosmic-planet {
     --planet-size: 7px;
     --planet-color: #b9b8c7;
 }
 
-.cosmic-orbit-2 .cosmic-planet {
+.cosmic-orbit--two .cosmic-planet {
     --planet-size: 10px;
     --planet-color: #d9a36c;
 }
 
-.cosmic-orbit-3 .cosmic-planet {
+.cosmic-orbit--three .cosmic-planet {
     --planet-size: 12px;
     --planet-color: #75a9e8;
 }
 
-.cosmic-orbit-4 .cosmic-planet {
+.cosmic-orbit--four .cosmic-planet {
     --planet-size: 16px;
     --planet-color: #d8b58a;
 }
 
-.cosmic-orbit-5 .cosmic-planet {
+.cosmic-orbit--five .cosmic-planet {
     --planet-size: 21px;
     --planet-color: #d9c18c;
+}
+
+.cosmic-planet--ring {
+    box-shadow:
+        0 0 12px var(--planet-color),
+        9px 0 0 -5px rgba(255,255,255,.8),
+        -9px 0 0 -5px rgba(255,255,255,.8);
 }
 
 /* =========================================
@@ -290,6 +344,21 @@
     filter: blur(12px);
 }
 
+.cosmic-galaxy-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    width: 9%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: #fff;
+    box-shadow:
+        0 0 18px 8px rgba(220,210,255,.85),
+        0 0 55px 25px rgba(130,110,255,.55);
+}
+
 @keyframes galaxyRotate {
     from { transform: rotate(0deg) scale(.8); }
     50% { transform: rotate(180deg) scale(1); }
@@ -300,38 +369,15 @@
    METEOR SHOWER
 ========================================= */
 
-.cosmic-meteor-field {
+.cosmic-meteor-scene {
     position: absolute;
     inset: 0;
     overflow: hidden;
+    background:
+        radial-gradient(ellipse at 50% 100%, rgba(45,65,120,.2), transparent 55%);
 }
 
-.cosmic-meteor {
-    position: absolute;
-    top: var(--meteor-top, 10%);
-    left: var(--meteor-left, 50%);
-    width: var(--meteor-length, 120px);
-    height: 2px;
-    border-radius: 50%;
-    background: linear-gradient(90deg, transparent, rgba(180,210,255,.2), #fff);
-    box-shadow: 0 0 10px rgba(160,190,255,.7);
-    transform: rotate(135deg);
-    opacity: 0;
-    animation: meteorFly var(--meteor-duration, 1.5s) linear var(--meteor-delay, 0s) infinite;
-}
-
-@keyframes meteorFly {
-    0% {
-        opacity: 0;
-        transform: translate3d(0,0,0) rotate(135deg);
-    }
-    8% { opacity: 1; }
-    65% { opacity: .8; }
-    100% {
-        opacity: 0;
-        transform: translate3d(-70vw,70vh,0) rotate(135deg);
-    }
-}
+/* Meteor trails are rendered on the canvas by JavaScript. */
 
 /* =========================================
    RESPONSIVE
@@ -346,12 +392,28 @@
         width: min(95vw, 95vh, 500px);
     }
 
-    .cosmic-caption {
+    .cosmic-heading {
         top: max(72px, env(safe-area-inset-top));
+        width: 88%;
     }
 
-    .cosmic-caption p {
+    .cosmic-eyebrow {
+        font-size: 8px;
+        letter-spacing: .14em;
+    }
+
+    .cosmic-description {
         font-size: .7rem;
+    }
+
+    .cosmic-exit {
+        right: 50%;
+        bottom: max(20px, env(safe-area-inset-bottom));
+        transform: translateX(50%);
+    }
+
+    .cosmic-exit:hover {
+        transform: translateX(50%) translateY(-2px);
     }
 }
 
@@ -360,11 +422,10 @@
 ========================================= */
 
 @media (prefers-reduced-motion: reduce) {
-    #cosmicEasterEgg *,
-    #cosmicEasterEgg *::before,
-    #cosmicEasterEgg *::after {
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
+    .cosmic-experience *,
+    .cosmic-experience *::before,
+    .cosmic-experience *::after {
+        animation: none !important;
         transition-duration: .01ms !important;
     }
 }
