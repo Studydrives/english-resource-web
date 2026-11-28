@@ -2087,6 +2087,7 @@
         shell.sceneHint.textContent = data.hint;
 
         shell.overlay.classList.add(`cosmic-${type}`);
+        shell.overlay.dataset.scene = type;
 
         document.body.appendChild(shell.overlay);
         document.body.classList.add('cosmic-experience-open');
