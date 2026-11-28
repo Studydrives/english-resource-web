@@ -1,1 +1,177 @@
 
+
+/*
+ * HUFLIT English Hub
+ * Layout styles — Modal, search, scrollbar and responsive
+ */
+
+/* Document viewer */
+#docModal {
+    overscroll-behavior: contain;
+    backdrop-filter: blur(0);
+}
+
+#docModal:not(.hidden) {
+    animation: modalBackdropIn 260ms ease both;
+}
+
+#docModal > div {
+    transform-origin: center;
+}
+
+#docModal:not(.hidden) > div {
+    animation: modalContentIn 420ms var(--ease-spring) both;
+}
+
+@keyframes modalBackdropIn {
+    from { opacity: 0; backdrop-filter: blur(0); }
+    to { opacity: 1; backdrop-filter: blur(7px); }
+}
+
+@keyframes modalContentIn {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(.96);
+        filter: blur(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+#modalBody {
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+.document-viewer-content {
+    cursor: default;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.document-viewer-content button {
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.document-viewer-content table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.document-viewer-content th,
+.document-viewer-content td {
+    vertical-align: top;
+}
+
+.document-viewer-content p,
+.document-viewer-content pre,
+.document-viewer-content code {
+    overflow-wrap: anywhere;
+}
+
+.document-viewer-content pre,
+.document-viewer-content code {
+    white-space: pre-wrap;
+}
+
+/* Search */
+#searchSuggestions {
+    overscroll-behavior: contain;
+    transform-origin: top;
+}
+
+#searchSuggestions:not(.hidden) {
+    animation: dropdownIn 220ms var(--ease-out) both;
+}
+
+@keyframes dropdownIn {
+    from { opacity: 0; transform: translateY(-7px) scaleY(.97); }
+    to { opacity: 1; transform: translateY(0) scaleY(1); }
+}
+
+#searchSuggestions:empty {
+    display: none;
+}
+
+#searchInput::-webkit-search-cancel-button {
+    cursor: pointer;
+}
+
+/* Scrollbars */
+#modalBody::-webkit-scrollbar,
+#chatMessages::-webkit-scrollbar,
+#searchSuggestions::-webkit-scrollbar {
+    width: 7px;
+}
+
+#modalBody::-webkit-scrollbar-thumb,
+#chatMessages::-webkit-scrollbar-thumb,
+#searchSuggestions::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(115,115,115,.35);
+}
+
+#modalBody::-webkit-scrollbar-track,
+#chatMessages::-webkit-scrollbar-track,
+#searchSuggestions::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#modalBody,
+#chatMessages,
+#searchSuggestions {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(115,115,115,.35) transparent;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    #docModal > div {
+        width: min(100%, 900px);
+    }
+}
+
+@media (max-width: 640px) {
+    html {
+        scroll-padding-top: 4rem;
+    }
+
+    #docModal > div {
+        max-height: 96dvh;
+        border-radius: 1rem;
+    }
+
+    #docModal > div > div:first-child {
+        padding: 1rem;
+    }
+
+    #modalBody {
+        font-size: .875rem;
+        line-height: 1.85;
+        padding: 1rem;
+    }
+
+    #docModal {
+        padding: .5rem;
+    }
+
+    #docModal > div {
+        max-height: 95vh;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}
