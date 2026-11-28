@@ -81,6 +81,7 @@
         overlay.setAttribute('role', 'dialog');
         overlay.setAttribute('aria-modal', 'true');
         overlay.setAttribute('aria-label', 'Immersive cosmic experience');
+        overlay.tabIndex = -1;
 
         const canvasHost = createElement('div', 'cosmic-scene');
 
@@ -2065,12 +2066,20 @@ if (!reducedMotion?.matches) {
 
         document.body.classList.remove('cosmic-experience-open');
 
-        window.setTimeout(() => {
-            active.shell.overlay.remove();
-        }, 250);
+window.setTimeout(() => {
+    active.shell.overlay.remove();
+
+    if (
+        !state.active &&
+        active.previouslyFocused?.isConnected
+    ) {
+        active.previouslyFocused.focus();
+    }
+}, 250);
     }
 
     async function openExperience(type) {
+        const previouslyFocused = document.activeElement;
         if (state.active) {
             closeExperience(state.active.id);
         }
@@ -2094,9 +2103,10 @@ if (!reducedMotion?.matches) {
         document.body.appendChild(shell.overlay);
         document.body.classList.add('cosmic-experience-open');
 
-        requestAnimationFrame(() => {
-            shell.overlay.classList.add('is-visible');
-        });
+requestAnimationFrame(() => {
+    shell.overlay.classList.add('is-visible');
+    shell.exitButton.focus();
+});
 
         let experience = null;
         let closed = false;
@@ -2118,11 +2128,12 @@ if (!reducedMotion?.matches) {
             experience = null;
         }
 
-        state.active = {
-            id: experienceId,
-            shell,
-            dispose
-        };
+state.active = {
+    id: experienceId,
+    shell,
+    dispose,
+    previouslyFocused
+};
 
         shell.exitButton.addEventListener('click', () => {
             closeExperience(experienceId);
@@ -2150,11 +2161,55 @@ if (!reducedMotion?.matches) {
             }
         });
 
-        const handleKeydown = (event) => {
-            if (event.key === 'Escape') {
-                closeExperience(experienceId);
-            }
-        };
+const handleKeydown = (event) => {
+    if (event.key === 'Escape') {
+        closeExperience(experienceId);
+        return;
+    }
+
+    if (event.key !== 'Tab') {
+        return;
+    }
+
+    const focusableElements = [
+        ...shell.overlay.querySelectorAll(
+            'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+    ].filter((element) => (
+        !element.hidden &&
+        element.getAttribute('aria-hidden') !== 'true' &&
+        element.getClientRects().length > 0
+    ));
+
+    if (!focusableElements.length) {
+        event.preventDefault();
+        shell.overlay.focus();
+        return;
+    }
+
+    const first = focusableElements[0];
+    const last = focusableElements[focusableElements.length - 1];
+
+    if (
+        event.shiftKey &&
+        (
+            document.activeElement === first ||
+            !shell.overlay.contains(document.activeElement)
+        )
+    ) {
+        event.preventDefault();
+        last.focus();
+    } else if (
+        !event.shiftKey &&
+        (
+            document.activeElement === last ||
+            !shell.overlay.contains(document.activeElement)
+        )
+    ) {
+        event.preventDefault();
+        first.focus();
+    }
+};
 
         document.addEventListener('keydown', handleKeydown);
 
