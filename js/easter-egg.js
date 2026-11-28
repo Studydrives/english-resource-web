@@ -1203,6 +1203,7 @@
         return {
             group,
             head,
+            glow,
             trail,
             start,
             end,
@@ -1335,6 +1336,14 @@ if (bursts.length >= CONFIG.maxBursts) {
             }
 
             scene.remove(meteor.group);
+            manager.dispose(meteor.head.geometry);
+            manager.dispose(meteor.head.material);
+            
+            manager.dispose(meteor.glow.material.map);
+            manager.dispose(meteor.glow.material);
+            
+            manager.dispose(meteor.trail.line.geometry);
+            manager.dispose(meteor.trail.line.material);
             meteors.splice(index, 1);
         }
 
