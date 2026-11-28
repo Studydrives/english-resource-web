@@ -1,0 +1,175 @@
+/*
+ * HUFLIT English Hub
+ * Cosmic Easter Eggs — Spiral Galaxy
+ */
+
+/* =========================================================
+   GALAXY ATMOSPHERE
+   ========================================================= */
+
+.cosmic-experience[data-scene="galaxy"] {
+    background:
+        radial-gradient(ellipse at 50% 48%,
+            rgba(92, 55, 180, .16),
+            transparent 38%),
+        radial-gradient(ellipse at 25% 30%,
+            rgba(25, 90, 150, .12),
+            transparent 42%),
+        radial-gradient(ellipse at 75% 70%,
+            rgba(130, 45, 155, .1),
+            transparent 40%),
+        #02030a;
+}
+
+.cosmic-experience[data-scene="galaxy"] .cosmic-scene {
+    background:
+        radial-gradient(ellipse at center,
+            rgba(69, 63, 150, .12),
+            transparent 60%);
+}
+
+.cosmic-experience[data-scene="galaxy"] .cosmic-scene::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at center,
+            transparent 15%,
+            rgba(2, 3, 12, .18) 60%,
+            rgba(2, 3, 12, .68) 100%);
+    pointer-events: none;
+}
+
+/* =========================================================
+   GALAXY NEBULA GLOW
+   ========================================================= */
+
+.cosmic-experience[data-scene="galaxy"] .cosmic-scene::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(85vw, 1100px);
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background:
+        radial-gradient(ellipse,
+            rgba(178, 119, 255, .1) 0%,
+            rgba(91, 107, 255, .07) 28%,
+            rgba(38, 156, 208, .035) 48%,
+            transparent 72%);
+    filter: blur(42px);
+    pointer-events: none;
+    animation: galaxy-nebula-pulse 12s ease-in-out infinite alternate;
+}
+
+@keyframes galaxy-nebula-pulse {
+    0% {
+        opacity: .48;
+        transform: translate(-50%, -50%) scale(.88) rotate(-8deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.12) rotate(8deg);
+    }
+}
+
+/* =========================================================
+   GALAXY HEADING
+   ========================================================= */
+
+.cosmic-experience[data-scene="galaxy"] .cosmic-eyebrow {
+    color: rgba(195, 174, 255, .82);
+}
+
+.cosmic-experience[data-scene="galaxy"] .cosmic-title {
+    background: linear-gradient(
+        110deg,
+        #e6dcff 0%,
+        #b9a4ff 35%,
+        #8dd8ff 68%,
+        #f1d9ff 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+}
+
+.cosmic-experience[data-scene="galaxy"] .cosmic-description {
+    color: rgba(218, 211, 255, .68);
+}
+
+/* =========================================================
+   GALAXY HUD
+   ========================================================= */
+
+.cosmic-experience[data-scene="galaxy"] .cosmic-hud {
+    border-color: rgba(177, 157, 255, .2);
+    background:
+        linear-gradient(135deg,
+            rgba(47, 38, 91, .46),
+            rgba(12, 16, 38, .48));
+    box-shadow:
+        0 12px 45px rgba(0, 0, 0, .28),
+        0 0 35px rgba(139, 110, 255, .07),
+        inset 0 1px 0 rgba(220, 210, 255, .08);
+}
+
+.cosmic-experience[data-scene="galaxy"] .cosmic-hud-label {
+    color: rgba(194, 177, 255, .72);
+}
+
+.cosmic-experience[data-scene="galaxy"] .cosmic-scene-label {
+    color: rgba(205, 195, 255, .5);
+}
+
+/* =========================================================
+   SPIRAL DECORATIVE RINGS
+   ========================================================= */
+
+.cosmic-experience[data-scene="galaxy"] .galaxy-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(68vw, 850px);
+    aspect-ratio: 1;
+    border: 1px solid rgba(175, 164, 255, .08);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) rotateX(68deg);
+    pointer-events: none;
+}
+
+.cosmic-experience[data-scene="galaxy"] .galaxy-ring:nth-child(2) {
+    width: min(52vw, 650px);
+    border-color: rgba(125, 180, 255, .1);
+}
+
+.cosmic-experience[data-scene="galaxy"] .galaxy-ring:nth-child(3) {
+    width: min(36vw, 450px);
+    border-color: rgba(205, 157, 255, .12);
+}
+
+/* =========================================================
+   RESPONSIVE GALAXY
+   ========================================================= */
+
+@media (max-width: 768px) {
+    .cosmic-experience[data-scene="galaxy"] .cosmic-scene::after {
+        width: 120vw;
+    }
+
+    .cosmic-experience[data-scene="galaxy"] .galaxy-ring {
+        width: 100vw;
+    }
+
+    .cosmic-experience[data-scene="galaxy"] .galaxy-ring:nth-child(2) {
+        width: 76vw;
+    }
+
+    .cosmic-experience[data-scene="galaxy"] .galaxy-ring:nth-child(3) {
+        width: 52vw;
+    }
+}
