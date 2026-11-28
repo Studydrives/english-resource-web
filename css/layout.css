@@ -326,7 +326,7 @@
 }
 
 @media (hover: hover) {
-    .hero-image-frame:hover .hero-image {
+    #page-home .hero-image-frame:hover .hero-image {
         transform: scale(1.055);
         filter: grayscale(35%);
     }
