@@ -1,29 +1,79 @@
-
 'use strict';
 
 /**
  * HUFLIT English Hub
- * Accessible chatbot, resource suggestions and bounded draggable launcher.
+ * Accessible learning assistant with resource matching and bounded dragging.
  */
 
-const CHATBOT_CONFIG = {
+const CHATBOT_CONFIG = Object.freeze({
     storageKey: 'huflit_chatbot_position',
     maxSuggestions: 4,
-    typingDelay: 450,
-    edgeGap: 12
-};
+    typingDelay: 420,
+    edgeGap: 12,
+    dragThreshold: 5
+});
 
 const CHATBOT_SUGGESTIONS = [
-    'Tôi có thể tìm tài liệu tiếng Anh ở đâu?',
-    'Có tài liệu cho người mới bắt đầu không?',
-    'Làm thế nào để cải thiện Listening?',
-    'Tôi muốn luyện ngữ pháp.',
-    'Có bài kiểm tra tiếng Anh nào không?'
+    'Tôi muốn tìm tài liệu tiếng Anh.',
+    'Có tài liệu dành cho người mới bắt đầu không?',
+    'Tôi muốn luyện Listening và phát âm.',
+    'Gợi ý tài liệu Grammar và Vocabulary.',
+    'Tôi muốn làm bài Quiz.',
+    'Có tài liệu IELTS hoặc TOEIC không?'
+];
+
+const CHATBOT_INTENTS = [
+    {
+        id: 'grammar',
+        keywords: ['grammar', 'ngu phap', 'tense', 'thì', 'sentence', 'verb', 'clause'],
+        terms: ['grammar', 'syntax', 'sentence', 'linguistics', 'writing']
+    },
+    {
+        id: 'vocabulary',
+        keywords: ['vocabulary', 'tu vung', 'word', 'lexical', 'collocation'],
+        terms: ['vocabulary', 'lexical', 'word', 'terminology', 'business']
+    },
+    {
+        id: 'listening',
+        keywords: ['listening', 'nghe', 'pronunciation', 'phat am', 'phonetic', 'phonology'],
+        terms: ['listening', 'pronunciation', 'phonetics', 'phonology']
+    },
+    {
+        id: 'speaking',
+        keywords: ['speaking', 'noi', 'giao tiep', 'communication', 'presentation'],
+        terms: ['speaking', 'communication', 'presentation', 'ielts']
+    },
+    {
+        id: 'reading',
+        keywords: ['reading', 'doc hieu', 'doc tai lieu', 'comprehension'],
+        terms: ['reading', 'comprehension', 'academic']
+    },
+    {
+        id: 'writing',
+        keywords: ['writing', 'viet', 'essay', 'email', 'report'],
+        terms: ['writing', 'essay', 'email', 'report', 'academic']
+    },
+    {
+        id: 'ielts',
+        keywords: ['ielts'],
+        terms: ['ielts']
+    },
+    {
+        id: 'toeic',
+        keywords: ['toeic'],
+        terms: ['toeic']
+    },
+    {
+        id: 'business',
+        keywords: ['business', 'kinh doanh', 'cong viec', 'thuong mai', 'workplace'],
+        terms: ['business', 'corporate', 'workplace', 'finance', 'customer']
+    }
 ];
 
 let chatbotDragState = null;
 let chatbotSuppressClickUntil = 0;
 let chatbotInitialized = false;
+let chatbotResponseTimers = new Set();
 
 function getChatbotElements() {
     return {
@@ -36,142 +86,114 @@ function getChatbotElements() {
     };
 }
 
+function normalizeChatText(value) {
+    return String(value ?? '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/đ/g, 'd')
+        .toLowerCase()
+        .trim();
+}
+
 function isReducedMotionEnabled() {
-    return window.matchMedia(
-        '(prefers-reduced-motion: reduce)'
-    ).matches;
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
 function appendChatMessage(container, message, type = 'bot') {
     if (!container) return null;
 
     const element = document.createElement('div');
-
     element.className = type === 'user'
-        ? 'bg-purple-600 text-white p-3 rounded-xl ml-auto max-w-[85%] text-right shadow-sm'
-        : 'bg-white p-3 rounded-xl border border-neutral-200 text-neutral-800 max-w-[85%] shadow-sm';
-
+        ? 'chat-message chat-message-user'
+        : 'chat-message chat-message-bot';
     element.textContent = String(message ?? '');
-
-    if (!isReducedMotionEnabled()) {
-        element.style.animation = 'chatMessageIn 220ms ease both';
-    }
+    element.dataset.messageType = type;
 
     container.appendChild(element);
     container.scrollTop = container.scrollHeight;
-
     return element;
 }
 
 function appendChatTypingIndicator(container) {
-    const indicator = document.createElement('div');
+    if (!container) return null;
 
-    indicator.className = 'bg-white border border-neutral-200 rounded-xl p-3 text-neutral-500 text-xs self-start';
+    const indicator = document.createElement('div');
+    indicator.className = 'chat-typing-indicator';
     indicator.setAttribute('role', 'status');
-    indicator.setAttribute('aria-label', 'Robot đang trả lời');
-    indicator.textContent = 'Robot đang soạn câu trả lời...';
+    indicator.setAttribute('aria-label', 'Trợ lý đang soạn câu trả lời');
+    indicator.innerHTML = '<span></span><span></span><span></span>';
 
     container.appendChild(indicator);
     container.scrollTop = container.scrollHeight;
-
     return indicator;
 }
 
 function getAvailableResources() {
-    if (
-        typeof resourcesData === 'undefined' ||
-        !Array.isArray(resourcesData)
-    ) {
+    if (typeof resourcesData === 'undefined' || !Array.isArray(resourcesData)) {
         return [];
     }
 
     return resourcesData.filter((resource) =>
         resource &&
         resource.id !== undefined &&
-        resource.title
+        typeof resource.title === 'string' &&
+        resource.title.trim()
     );
+}
+
+function findResourceIntent(message) {
+    const normalized = normalizeChatText(message);
+
+    return CHATBOT_INTENTS.find((intent) =>
+        intent.keywords.some((keyword) =>
+            normalized.includes(normalizeChatText(keyword))
+        )
+    ) || null;
+}
+
+function scoreResource(resource, intent) {
+    if (!intent) return 0;
+
+    const title = normalizeChatText(resource.title);
+    const category = normalizeChatText(resource.category);
+    const description = normalizeChatText(resource.desc);
+
+    return intent.terms.reduce((score, term) => {
+        const keyword = normalizeChatText(term);
+
+        if (title.includes(keyword)) score += 5;
+        if (category.includes(keyword)) score += 4;
+        if (description.includes(keyword)) score += 2;
+
+        return score;
+    }, 0);
 }
 
 function getSuggestedResources(message) {
     const resources = getAvailableResources();
-
     if (resources.length === 0) return [];
 
-    const normalized = message
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .toLowerCase();
+    const intent = findResourceIntent(message);
 
-    const keywordGroups = [
-        {
-            keywords: ['grammar', 'ngu phap', 'tense', 'sentence', 'verb'],
-            terms: ['grammar', 'writing', 'sentence', 'academic']
-        },
-        {
-            keywords: ['vocabulary', 'tu vung', 'word', 'lexical'],
-            terms: ['vocabulary', 'lexical', 'word']
-        },
-        {
-            keywords: ['listening', 'nghe', 'pronunciation', 'phat am'],
-            terms: ['listening', 'pronunciation', 'phonetics', 'phonology']
-        },
-        {
-            keywords: ['speaking', 'noi', 'communication', 'giao tiep'],
-            terms: ['speaking', 'communication', 'presentation']
-        },
-        {
-            keywords: ['reading', 'doc hieu', 'reading comprehension'],
-            terms: ['reading', 'comprehension']
-        },
-        {
-            keywords: ['writing', 'viet', 'essay', 'essay writing'],
-            terms: ['writing', 'essay', 'academic']
-        },
-        {
-            keywords: ['ielts'],
-            terms: ['ielts']
-        },
-        {
-            keywords: ['toeic'],
-            terms: ['toeic']
-        },
-        {
-            keywords: ['business', 'kinh doanh', 'cong viec'],
-            terms: ['business', 'corporate', 'workplace']
-        }
-    ];
-
-    const matchedGroup = keywordGroups.find((group) =>
-        group.keywords.some((keyword) => normalized.includes(keyword))
-    );
-
-    if (!matchedGroup) {
-        return resources
-            .slice()
-            .sort(() => Math.random() - 0.5)
-            .slice(0, CHATBOT_CONFIG.maxSuggestions);
+    if (!intent) {
+        return resources.slice(0, CHATBOT_CONFIG.maxSuggestions);
     }
 
-    const matched = resources.filter((resource) => {
-        const searchableText = [
-            resource.title,
-            resource.category,
-            resource.desc
-        ].join(' ').toLowerCase();
+    const ranked = resources
+        .map((resource) => ({
+            resource,
+            score: scoreResource(resource, intent)
+        }))
+        .filter((item) => item.score > 0)
+        .sort((a, b) => b.score - a.score || Number(a.resource.id) - Number(b.resource.id));
 
-        return matchedGroup.terms.some((term) =>
-            searchableText.includes(term)
-        );
-    });
-
-    if (matched.length > 0) {
-        return matched.slice(0, CHATBOT_CONFIG.maxSuggestions);
+    if (ranked.length > 0) {
+        return ranked
+            .slice(0, CHATBOT_CONFIG.maxSuggestions)
+            .map((item) => item.resource);
     }
 
-    return resources
-        .slice()
-        .sort(() => Math.random() - 0.5)
-        .slice(0, CHATBOT_CONFIG.maxSuggestions);
+    return resources.slice(0, CHATBOT_CONFIG.maxSuggestions);
 }
 
 function appendResourceSuggestions(container, message) {
@@ -180,51 +202,44 @@ function appendResourceSuggestions(container, message) {
     if (resources.length === 0) {
         appendChatMessage(
             container,
-            'Hiện tại mình chưa tải được dữ liệu tài liệu. Bạn có thể thử lại sau nhé.'
+            'Hiện chưa có dữ liệu tài liệu để gợi ý. Bạn có thể mở mục Resource để kiểm tra.'
         );
         return;
     }
 
-    const wrapper = document.createElement('div');
-
-    wrapper.className = 'w-full space-y-2';
+    const wrapper = document.createElement('section');
+    wrapper.className = 'chat-resource-list';
+    wrapper.setAttribute('aria-label', 'Tài liệu được đề xuất');
 
     const heading = document.createElement('p');
-    heading.className = 'font-semibold text-neutral-700';
-    heading.textContent = '📚 Tài liệu có thể hữu ích:';
-
+    heading.className = 'chat-section-heading';
+    heading.textContent = 'Tài liệu có thể phù hợp với bạn';
     wrapper.appendChild(heading);
 
     resources.forEach((resource) => {
         const card = document.createElement('button');
-
         card.type = 'button';
-        card.className = 'block w-full text-left bg-white border border-neutral-200 rounded-xl p-3 hover:border-purple-400 hover:bg-purple-50 transition';
+        card.className = 'chat-resource-card';
 
         const title = document.createElement('span');
-        title.className = 'block font-semibold text-neutral-800 text-xs';
+        title.className = 'chat-resource-title';
         title.textContent = resource.title;
 
         const description = document.createElement('span');
-        description.className = 'block text-neutral-500 text-xs mt-1';
-        description.textContent = resource.desc || resource.category || '';
+        description.className = 'chat-resource-description';
+        description.textContent = resource.desc || resource.category || 'Tài liệu học tập';
 
         const action = document.createElement('span');
-        action.className = 'block text-purple-700 text-xs font-semibold mt-2';
-        action.textContent = 'Mở tài liệu →';
+        action.className = 'chat-resource-action';
+        action.textContent = 'Mở tài liệu';
 
         card.append(title, description, action);
-
         card.addEventListener('click', () => {
-            if (typeof openDocModal !== 'function') {
-                appendChatMessage(
-                    container,
-                    'Chức năng mở tài liệu hiện chưa sẵn sàng.'
-                );
-                return;
+            if (typeof openDocModal === 'function') {
+                openDocModal(resource.id);
+            } else {
+                appendChatMessage(container, 'Chức năng xem tài liệu hiện chưa sẵn sàng.');
             }
-
-            openDocModal(resource.id);
         });
 
         wrapper.appendChild(card);
@@ -235,63 +250,68 @@ function appendResourceSuggestions(container, message) {
 }
 
 function getChatbotReply(message) {
-    const normalized = message
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .toLowerCase()
-        .trim();
+    const text = normalizeChatText(message);
 
-    if (/^(hi|hello|hey|xin chao|chao|helo)\b/.test(normalized)) {
+    if (/^(hi|hello|hey|xin chao|chao|helo)\b/.test(text)) {
         return {
-            text: 'Xin chào! Mình là HUFLIT Learning Robot. Bạn muốn tìm tài liệu hay luyện tập tiếng Anh hôm nay?'
+            text: 'Xin chào! Mình là HUFLIT Learning Robot. Bạn muốn tìm tài liệu hay luyện tập nội dung nào hôm nay?',
+            showSuggestions: true
         };
     }
 
-    if (
-        /tai lieu|document|resource|hoc tieng anh|grammar|vocabulary|listening|speaking|reading|writing|ielts|toeic/.test(normalized)
-    ) {
+    if (/\b(quiz|kiem tra|test|trac nghiem|bai thi)\b/.test(text)) {
         return {
-            text: 'Mình đã tìm một số tài liệu phù hợp với nội dung bạn đang quan tâm.'
-            , showResources: true
-        };
-    }
-
-    if (/quiz|kiem tra|test|trac nghiem|bai thi/.test(normalized)) {
-        return {
-            text: 'Bạn có thể làm bài Quiz gồm 5 câu hỏi tại mục Quiz / Trắc nghiệm. Mỗi câu đúng được 20 điểm.'
-            , action: {
+            text: 'Website hiện có bài Quiz gồm 5 câu hỏi. Bạn có thể mở trang Quiz để bắt đầu luyện tập.',
+            action: {
                 label: 'Mở trang Quiz',
                 callback: () => {
-                    if (typeof switchPage === 'function') {
-                        switchPage('quiz');
-                    }
+                    if (typeof switchPage === 'function') switchPage('quiz');
                 }
             }
         };
     }
 
-    if (/cam on|thank|thanks/.test(normalized)) {
+    if (/\b(resource|tai lieu|document|hoc tieng anh|grammar|vocabulary|listening|speaking|reading|writing|ielts|toeic|pronunciation)\b/.test(text)) {
         return {
-            text: 'Không có gì! Chúc bạn học tiếng Anh hiệu quả nhé.'
+            text: 'Mình đã đối chiếu câu hỏi với kho tài liệu hiện có và chọn một số nội dung liên quan.',
+            showResources: true
         };
     }
 
-    if (/ban la ai|who are you|robot/.test(normalized)) {
+    if (/\b(cam on|thank|thanks)\b/.test(text)) {
         return {
-            text: 'Mình là HUFLIT Learning Robot, trợ lý tra cứu tài liệu và hướng dẫn sử dụng các chức năng học tập trên website.'
+            text: 'Rất vui được hỗ trợ bạn. Chúc bạn học tập hiệu quả!'
         };
     }
 
-    if (/help|giup|huong dan|co the lam gi/.test(normalized)) {
+    if (/\b(ban la ai|who are you|robot)\b/.test(text)) {
         return {
-            text: 'Mình có thể giúp bạn tìm tài liệu, gợi ý nội dung học tiếng Anh và hướng dẫn mở bài Quiz. Bạn muốn bắt đầu với nội dung nào?'
-            , showSuggestions: true
+            text: 'Mình là HUFLIT Learning Robot, trợ lý tra cứu tài liệu và hướng dẫn sử dụng các chức năng hiện có trên website.'
+        };
+    }
+
+    if (/\b(help|giup|huong dan|co the lam gi)\b/.test(text)) {
+        return {
+            text: 'Mình có thể gợi ý tài liệu theo chủ đề, mở trang Quiz và hướng dẫn bạn tìm nội dung trong website.',
+            showSuggestions: true
+        };
+    }
+
+    if (/\b(home|trang chu)\b/.test(text)) {
+        return {
+            text: 'Bạn có thể quay lại trang chủ để xem giới thiệu và các lối tắt đến kho tài liệu, Quiz.',
+            action: {
+                label: 'Về trang chủ',
+                callback: () => {
+                    if (typeof switchPage === 'function') switchPage('home');
+                }
+            }
         };
     }
 
     return {
-        text: 'Mình chưa hiểu rõ câu hỏi này. Bạn có thể hỏi về tài liệu, Grammar, Vocabulary, Listening, Speaking hoặc bài Quiz nhé.'
-        , showSuggestions: true
+        text: 'Mình chưa xác định được chủ đề bạn muốn hỏi. Hãy thử nêu tên kỹ năng hoặc chức năng, ví dụ Grammar, Listening, IELTS, tài liệu hoặc Quiz.',
+        showSuggestions: true
     };
 }
 
@@ -299,49 +319,45 @@ function appendChatAction(container, action) {
     if (!action || typeof action.callback !== 'function') return;
 
     const button = document.createElement('button');
-
     button.type = 'button';
-    button.className = 'bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition';
+    button.className = 'chat-action-button';
     button.textContent = action.label;
-
     button.addEventListener('click', action.callback);
-
     container.appendChild(button);
 }
 
-function appendChatSuggestions(container) {
-    const wrapper = document.createElement('div');
+function submitSuggestedMessage(message) {
+    const { input, form } = getChatbotElements();
+    if (!input || !form) return;
 
-    wrapper.className = 'w-full space-y-2';
+    input.value = message;
+    if (typeof form.requestSubmit === 'function') {
+        form.requestSubmit();
+    } else {
+        form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    }
+}
+
+function appendChatSuggestions(container) {
+    if (!container || container.querySelector('.chat-suggestion-list')) return;
+
+    const wrapper = document.createElement('section');
+    wrapper.className = 'chat-suggestion-list';
+    wrapper.setAttribute('aria-label', 'Câu hỏi gợi ý');
 
     const heading = document.createElement('p');
-    heading.className = 'text-xs font-semibold text-neutral-600';
-    heading.textContent = 'Bạn có thể hỏi mình:';
-
+    heading.className = 'chat-section-heading';
+    heading.textContent = 'Bạn có thể bắt đầu bằng cách hỏi:';
     wrapper.appendChild(heading);
 
-    CHATBOT_SUGGESTIONS
-        .slice()
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 3)
-        .forEach((suggestion) => {
-            const button = document.createElement('button');
-
-            button.type = 'button';
-            button.className = 'block w-full text-left text-xs text-purple-700 bg-white border border-purple-100 rounded-lg px-3 py-2 hover:bg-purple-50 transition';
-            button.textContent = suggestion;
-
-            button.addEventListener('click', () => {
-                const { input, form } = getChatbotElements();
-
-                if (!input || !form) return;
-
-                input.value = suggestion;
-                form.requestSubmit();
-            });
-
-            wrapper.appendChild(button);
-        });
+    CHATBOT_SUGGESTIONS.slice(0, 4).forEach((suggestion) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'chat-suggestion-chip';
+        button.textContent = suggestion;
+        button.addEventListener('click', () => submitSuggestedMessage(suggestion));
+        wrapper.appendChild(button);
+    });
 
     container.appendChild(wrapper);
     container.scrollTop = container.scrollHeight;
@@ -349,45 +365,35 @@ function appendChatSuggestions(container) {
 
 function showChatbotResponse(message) {
     const { messages } = getChatbotElements();
-
     if (!messages) return;
 
     const reply = getChatbotReply(message);
-
     const typingIndicator = appendChatTypingIndicator(messages);
 
-    window.setTimeout(() => {
-        typingIndicator.remove();
+    const timer = window.setTimeout(() => {
+        chatbotResponseTimers.delete(timer);
+        typingIndicator?.remove();
 
         appendChatMessage(messages, reply.text, 'bot');
 
-        if (reply.showResources) {
-            appendResourceSuggestions(messages, message);
-        }
+        if (reply.showResources) appendResourceSuggestions(messages, message);
+        if (reply.action) appendChatAction(messages, reply.action);
+        if (reply.showSuggestions) appendChatSuggestions(messages);
+    }, isReducedMotionEnabled() ? 0 : CHATBOT_CONFIG.typingDelay);
 
-        if (reply.action) {
-            appendChatAction(messages, reply.action);
-        }
-
-        if (reply.showSuggestions) {
-            appendChatSuggestions(messages);
-        }
-    }, CHATBOT_CONFIG.typingDelay);
+    chatbotResponseTimers.add(timer);
 }
 
 function handleChatSubmit(event) {
     event.preventDefault();
 
     const { input, messages } = getChatbotElements();
-
     if (!input || !messages) return;
 
     const message = input.value.trim();
-
     if (!message) return;
 
     appendChatMessage(messages, message, 'user');
-
     input.value = '';
     showChatbotResponse(message);
     input.focus();
@@ -395,26 +401,17 @@ function handleChatSubmit(event) {
 
 function toggleChat() {
     const { box, button, input } = getChatbotElements();
-
-    if (!box) {
-        console.warn('[Chatbot] Chat box not found.');
-        return;
-    }
+    if (!box) return;
 
     const shouldOpen = box.hidden;
-
     box.hidden = !shouldOpen;
-    box.classList.toggle('hidden', !shouldOpen);
+    box.classList.toggle('is-open', shouldOpen);
     box.setAttribute('aria-hidden', String(!shouldOpen));
-
     button?.setAttribute('aria-expanded', String(shouldOpen));
 
     if (shouldOpen) {
         positionChatBox();
-
-        if (input) {
-            window.setTimeout(() => input.focus(), 50);
-        }
+        window.setTimeout(() => input?.focus(), 80);
     } else {
         button?.focus();
     }
@@ -422,48 +419,42 @@ function toggleChat() {
 
 function positionChatBox() {
     const { robot, box } = getChatbotElements();
-
     if (!robot || !box || box.hidden) return;
 
-    const rect = robot.getBoundingClientRect();
     const gap = CHATBOT_CONFIG.edgeGap;
-
-    box.style.position = 'fixed';
-    box.style.right = 'auto';
-    box.style.bottom = 'auto';
-
+    const robotRect = robot.getBoundingClientRect();
     const boxRect = box.getBoundingClientRect();
 
-    const left = Math.max(
-        gap,
-        Math.min(
-            rect.right - boxRect.width,
-            window.innerWidth - boxRect.width - gap
-        )
-    );
+    let left = robotRect.right - boxRect.width;
+    let top = robotRect.top - boxRect.height - gap;
 
-    const top = Math.max(
-        gap,
-        rect.top - boxRect.height - 12
-    );
+    left = Math.max(gap, Math.min(left, window.innerWidth - boxRect.width - gap));
 
+    if (top < gap) {
+        top = Math.min(
+            window.innerHeight - boxRect.height - gap,
+            robotRect.bottom + gap
+        );
+    }
+
+    top = Math.max(gap, top);
+
+    box.style.position = 'fixed';
     box.style.left = `${left}px`;
     box.style.top = `${top}px`;
+    box.style.right = 'auto';
+    box.style.bottom = 'auto';
 }
 
 function clampRobotPosition() {
     const { robot } = getChatbotElements();
-
     if (!robot) return;
 
     const gap = CHATBOT_CONFIG.edgeGap;
     const rect = robot.getBoundingClientRect();
 
-    const width = rect.width;
-    const height = rect.height;
-
-    const maxLeft = Math.max(gap, window.innerWidth - width - gap);
-    const maxTop = Math.max(gap, window.innerHeight - height - gap);
+    const maxLeft = Math.max(gap, window.innerWidth - rect.width - gap);
+    const maxTop = Math.max(gap, window.innerHeight - rect.height - gap);
 
     const left = Math.min(Math.max(rect.left, gap), maxLeft);
     const top = Math.min(Math.max(rect.top, gap), maxTop);
@@ -479,19 +470,14 @@ function clampRobotPosition() {
 
 function saveRobotPosition() {
     const { robot } = getChatbotElements();
-
     if (!robot) return;
 
     try {
         const rect = robot.getBoundingClientRect();
-
-        localStorage.setItem(
-            CHATBOT_CONFIG.storageKey,
-            JSON.stringify({
-                left: rect.left,
-                top: rect.top
-            })
-        );
+        localStorage.setItem(CHATBOT_CONFIG.storageKey, JSON.stringify({
+            left: rect.left,
+            top: rect.top
+        }));
     } catch (error) {
         console.warn('[Chatbot] Cannot save position:', error);
     }
@@ -499,19 +485,12 @@ function saveRobotPosition() {
 
 function restoreRobotPosition() {
     const { robot } = getChatbotElements();
-
     if (!robot) return;
 
     try {
-        const saved = JSON.parse(
-            localStorage.getItem(CHATBOT_CONFIG.storageKey) || 'null'
-        );
+        const saved = JSON.parse(localStorage.getItem(CHATBOT_CONFIG.storageKey) || 'null');
 
-        if (
-            !saved ||
-            !Number.isFinite(saved.left) ||
-            !Number.isFinite(saved.top)
-        ) {
+        if (!saved || !Number.isFinite(saved.left) || !Number.isFinite(saved.top)) {
             return;
         }
 
@@ -520,7 +499,6 @@ function restoreRobotPosition() {
         robot.style.top = `${saved.top}px`;
         robot.style.right = 'auto';
         robot.style.bottom = 'auto';
-
         clampRobotPosition();
     } catch (error) {
         console.warn('[Chatbot] Cannot restore position:', error);
@@ -529,30 +507,12 @@ function restoreRobotPosition() {
 
 function initializeDraggableRobot() {
     const { robot, button } = getChatbotElements();
+    if (!robot || !button) return;
 
-    if (!robot || !button) {
-        console.warn('[Chatbot] Draggable elements not found.');
-        return;
-    }
-
-    // Drag only from the launcher button, never from the chat panel.
     button.addEventListener('pointerdown', (event) => {
-        if (event.button !== 0 && event.pointerType === 'mouse') {
-            return;
-        }
-
-        if (!robot.style.left) {
-            const rect = robot.getBoundingClientRect();
-
-            robot.style.position = 'fixed';
-            robot.style.left = `${rect.left}px`;
-            robot.style.top = `${rect.top}px`;
-            robot.style.right = 'auto';
-            robot.style.bottom = 'auto';
-        }
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
 
         const rect = robot.getBoundingClientRect();
-
         chatbotDragState = {
             pointerId: event.pointerId,
             startX: event.clientX,
@@ -566,79 +526,53 @@ function initializeDraggableRobot() {
     });
 
     button.addEventListener('pointermove', (event) => {
-        if (
-            !chatbotDragState ||
-            chatbotDragState.pointerId !== event.pointerId
-        ) {
-            return;
-        }
+        if (!chatbotDragState || chatbotDragState.pointerId !== event.pointerId) return;
 
         const deltaX = event.clientX - chatbotDragState.startX;
         const deltaY = event.clientY - chatbotDragState.startY;
 
         if (
             !chatbotDragState.moved &&
-            Math.abs(deltaX) < 5 &&
-            Math.abs(deltaY) < 5
-        ) {
-            return;
-        }
+            Math.abs(deltaX) < CHATBOT_CONFIG.dragThreshold &&
+            Math.abs(deltaY) < CHATBOT_CONFIG.dragThreshold
+        ) return;
 
         chatbotDragState.moved = true;
 
         const { robot } = getChatbotElements();
-        const gap = CHATBOT_CONFIG.edgeGap;
         const rect = robot.getBoundingClientRect();
+        const gap = CHATBOT_CONFIG.edgeGap;
 
-        const maxLeft = Math.max(
-            gap,
-            window.innerWidth - rect.width - gap
-        );
-
-        const maxTop = Math.max(
-            gap,
-            window.innerHeight - rect.height - gap
-        );
-
-        const nextLeft = Math.min(
+        const left = Math.min(
             Math.max(chatbotDragState.startLeft + deltaX, gap),
-            maxLeft
+            Math.max(gap, window.innerWidth - rect.width - gap)
         );
-
-        const nextTop = Math.min(
+        const top = Math.min(
             Math.max(chatbotDragState.startTop + deltaY, gap),
-            maxTop
+            Math.max(gap, window.innerHeight - rect.height - gap)
         );
 
-        robot.style.left = `${nextLeft}px`;
-        robot.style.top = `${nextTop}px`;
-
+        robot.style.left = `${left}px`;
+        robot.style.top = `${top}px`;
         positionChatBox();
     });
 
-    function finishDragging(event) {
-        if (
-            !chatbotDragState ||
-            chatbotDragState.pointerId !== event.pointerId
-        ) {
-            return;
-        }
+    const finishDragging = (event) => {
+        if (!chatbotDragState || chatbotDragState.pointerId !== event.pointerId) return;
 
         const moved = chatbotDragState.moved;
-
         chatbotDragState = null;
 
         if (moved) {
-            chatbotSuppressClickUntil = Date.now() + 250;
+            chatbotSuppressClickUntil = Date.now() + 300;
             clampRobotPosition();
             saveRobotPosition();
         }
-    }
+    };
 
     button.addEventListener('pointerup', finishDragging);
     button.addEventListener('pointercancel', finishDragging);
 
-    // Prevent the launcher's inline onclick from firing after a drag.
     button.addEventListener('click', (event) => {
         if (Date.now() < chatbotSuppressClickUntil) {
             event.preventDefault();
@@ -647,79 +581,21 @@ function initializeDraggableRobot() {
     }, true);
 
     restoreRobotPosition();
-
-    window.addEventListener('resize', () => {
-        clampRobotPosition();
-        saveRobotPosition();
-    });
 }
 
-function injectChatbotStyles() {
-    if (document.getElementById('chatbotRuntimeStyles')) return;
-
-    const style = document.createElement('style');
-
-    style.id = 'chatbotRuntimeStyles';
-    style.textContent = `
-        @keyframes chatMessageIn {
-            from {
-                opacity: 0;
-                transform: translateY(7px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        #chatBubbleBtn {
-            cursor: grab;
-            touch-action: none;
-            transition: transform 180ms ease, box-shadow 180ms ease;
-        }
-
-        #chatBubbleBtn:active {
-            cursor: grabbing;
-        }
-
-        #chatBox {
-            z-index: 60;
-            max-width: calc(100vw - 24px);
-            max-height: calc(100dvh - 24px);
-        }
-
-        #chatBox[hidden] {
-            display: none !important;
-        }
-
-        @media (prefers-reduced-motion: no-preference) {
-            #chatBubbleBtn {
-                animation: chatbotFloat 3s ease-in-out infinite;
-            }
-
-            @keyframes chatbotFloat {
-                0%, 100% { transform: translateY(0); }
-                50% { transform: translateY(-4px); }
-            }
-        }
-    `;
-
-    document.head.appendChild(style);
-}
-
-document.addEventListener('DOMContentLoaded', () => {
+function initializeChatbot() {
     if (chatbotInitialized) return;
-
     chatbotInitialized = true;
 
     const { form, messages } = getChatbotElements();
 
-    injectChatbotStyles();
     initializeDraggableRobot();
-
     form?.addEventListener('submit', handleChatSubmit);
 
-    if (messages && messages.children.length === 1) {
-        appendChatSuggestions(messages);
-    }
-});
+    if (messages) appendChatSuggestions(messages);
+
+    window.addEventListener('resize', clampRobotPosition, { passive: true });
+    window.addEventListener('resize', positionChatBox, { passive: true });
+}
+
+document.addEventListener('DOMContentLoaded', initializeChatbot);
