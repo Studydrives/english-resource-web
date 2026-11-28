@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="description" content="HUFLIT English Hub - Kho tài liệu học tập song ngữ Việt Anh, bài kiểm tra và tài nguyên học tiếng Anh chuyên ngành.">
+    <meta
+        name="description"
+        content="HUFLIT English Hub - Kho tài liệu học tập song ngữ Việt Anh, bài kiểm tra và tài nguyên học tiếng Anh chuyên ngành."
+    >
     <meta name="theme-color" content="#ffffff">
 
     <title>HUFLIT English Hub - Bilingual Learning Platform</title>
@@ -38,9 +41,9 @@
 
 <body class="bg-white text-neutral-900 font-sans antialiased selection:bg-black selection:text-white flex flex-col min-h-screen">
 
-    <!-- HEADER / NAVIGATION -->
     <div id="protectedApp" class="flex flex-col min-h-screen flex-1">
 
+        <!-- HEADER -->
         <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-200">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
 
@@ -59,7 +62,10 @@
                     </span>
                 </button>
 
-                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium" aria-label="Main navigation">
+                <nav
+                    class="hidden md:flex items-center space-x-8 text-sm font-medium"
+                    aria-label="Main navigation"
+                >
                     <button
                         type="button"
                         onclick="switchPage('home')"
@@ -103,149 +109,176 @@
         <main class="flex-1">
 
             <!-- PAGE 1: HOME -->
-            <section id="page-home" class="page-content py-16 px-4 space-y-20">
+            <section
+                id="page-home"
+                class="page-content py-16 px-4 space-y-20"
+            >
 
                 <div class="hero-section max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-    <div class="hero-copy">
-        <span class="hero-eyebrow">
-            <span class="hero-eyebrow-dot"></span>
-            HUFLIT BILINGUAL ACADEMIC PLATFORM
-        </span>
 
-        <h1 class="hero-title">
-            Học tiếng Anh chuyên ngành
-            <span>theo cách thông minh hơn.</span>
-        </h1>
+                    <div class="hero-copy">
 
-        <p class="hero-subtitle">
-            Bilingual Study Sheets, Business English
-            & Interactive Practice Hub
-        </p>
+                        <span class="hero-eyebrow">
+                            <span class="hero-eyebrow-dot"></span>
+                            HUFLIT BILINGUAL ACADEMIC PLATFORM
+                        </span>
 
-        <p class="hero-description">
-            Khám phá 25 trang tài liệu học thuật song ngữ Việt – Anh,
-            hệ thống thuật ngữ chuyên ngành, ví dụ thực tế và câu hỏi
-            tự kiểm tra được tích hợp trong từng bài học.
-        </p>
+                        <h1 class="hero-title">
+                            Học tiếng Anh chuyên ngành
+                            <span>theo cách thông minh hơn.</span>
+                        </h1>
 
-        <div class="hero-actions">
-            <button
-                type="button"
-                onclick="switchPage('resource')"
-                class="hero-primary-cta"
-            >
-                Khám phá tài liệu
-                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-            </button>
+                        <p class="hero-subtitle">
+                            Bilingual Study Sheets, Business English
+                            & Interactive Practice Hub
+                        </p>
 
-            <button
-                type="button"
-                onclick="switchPage('quiz')"
-                class="hero-secondary-cta"
-            >
-                <i class="fa-solid fa-circle-play" aria-hidden="true"></i>
-                Làm Quiz 5 câu
-            </button>
-        </div>
+                        <p class="hero-description">
+                            Khám phá 25 trang tài liệu học thuật song ngữ Việt – Anh,
+                            hệ thống thuật ngữ chuyên ngành, ví dụ thực tế và câu hỏi
+                            tự kiểm tra được tích hợp trong từng bài học.
+                        </p>
 
-        <div class="hero-meta">
-            <span><strong>25</strong> tài liệu song ngữ</span>
-            <span class="hero-meta-divider"></span>
-            <span><strong>05</strong> câu hỏi kiểm tra</span>
-            <span class="hero-meta-divider"></span>
-            <span><strong>VI / EN</strong> nội dung</span>
-        </div>
-    </div>
+                        <div class="hero-actions">
+                            <button
+                                type="button"
+                                onclick="switchPage('resource')"
+                                class="hero-primary-cta"
+                            >
+                                Khám phá tài liệu
+                                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                            </button>
 
-    <div class="hero-visual">
-        <div class="hero-image-frame">
-            <img
-                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1000&q=85"
-                alt="Sinh viên cùng học tập và trao đổi kiến thức"
-                loading="eager"
-                fetchpriority="high"
-                class="hero-image"
-            >
-            <div class="hero-image-caption">
-                <span class="hero-caption-icon">
-                    <i class="fa-solid fa-book-open" aria-hidden="true"></i>
-                </span>
-                <span>
-                    <strong>Learn. Practice. Improve.</strong>
-                    <small>Build your English skills every day.</small>
-                </span>
-            </div>
-        </div>
-        <div class="hero-decoration hero-decoration-one"></div>
-        <div class="hero-decoration hero-decoration-two"></div>
-    </div>
-</div>
+                            <button
+                                type="button"
+                                onclick="switchPage('quiz')"
+                                class="hero-secondary-cta"
+                            >
+                                <i class="fa-solid fa-circle-play" aria-hidden="true"></i>
+                                Làm Quiz 5 câu
+                            </button>
+                        </div>
+
+                        <div class="hero-meta">
+                            <span><strong>25</strong> tài liệu song ngữ</span>
+                            <span class="hero-meta-divider"></span>
+                            <span><strong>05</strong> câu hỏi kiểm tra</span>
+                            <span class="hero-meta-divider"></span>
+                            <span><strong>VI / EN</strong> nội dung</span>
+                        </div>
+
+                    </div>
+
+                    <div class="hero-visual">
+                        <div class="hero-image-frame">
+
+                            <img
+                                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1000&q=85"
+                                alt="Sinh viên cùng học tập và trao đổi kiến thức"
+                                loading="eager"
+                                fetchpriority="high"
+                                class="hero-image"
+                            >
+
+                            <div class="hero-image-caption">
+                                <span class="hero-caption-icon">
+                                    <i class="fa-solid fa-book-open" aria-hidden="true"></i>
+                                </span>
+
+                                <span>
+                                    <strong>Learn. Practice. Improve.</strong>
+                                    <small>Build your English skills every day.</small>
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <div class="hero-decoration hero-decoration-one"></div>
+                        <div class="hero-decoration hero-decoration-two"></div>
+                    </div>
+
+                </div>
 
                 <!-- INTRODUCTION & BENEFITS -->
-<section class="benefits-section max-w-7xl mx-auto">
-    <div class="section-heading">
-        <span class="section-eyebrow">WHY HUFLIT ENGLISH HUB</span>
-        <h2>Học tập có hệ thống. Tiến bộ rõ ràng.</h2>
-        <p>
-            Một không gian học tiếng Anh chuyên ngành kết hợp tài liệu,
-            thực hành và phản hồi trong cùng một nền tảng.
-        </p>
-    </div>
+                <section class="benefits-section max-w-7xl mx-auto">
 
-    <div class="benefits-grid">
-        <article class="benefit-card">
-            <div class="benefit-card-top">
-                <span class="benefit-icon">
-                    <i class="fa-solid fa-book-open" aria-hidden="true"></i>
-                </span>
-                <span class="benefit-number">01</span>
-            </div>
+                    <div class="section-heading">
+                        <span class="section-eyebrow">WHY HUFLIT ENGLISH HUB</span>
 
-            <h3>Tài liệu chuyên sâu</h3>
-            <p class="benefit-en">Bilingual Study Sheets</p>
-            <p class="benefit-description">
-                Mỗi tài liệu được trình bày trong một trang học tập,
-                gồm giải thích song ngữ, thuật ngữ và ví dụ thực tế.
-            </p>
-        </article>
+                        <h2>Học tập có hệ thống. Tiến bộ rõ ràng.</h2>
 
-        <article class="benefit-card">
-            <div class="benefit-card-top">
-                <span class="benefit-icon">
-                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                </span>
-                <span class="benefit-number">02</span>
-            </div>
+                        <p>
+                            Một không gian học tiếng Anh chuyên ngành kết hợp tài liệu,
+                            thực hành và phản hồi trong cùng một nền tảng.
+                        </p>
+                    </div>
 
-            <h3>Tra cứu nhanh chóng</h3>
-            <p class="benefit-en">Search & Discover</p>
-            <p class="benefit-description">
-                Tìm kiếm nội dung bằng tiếng Việt hoặc tiếng Anh
-                để tiếp cận đúng chủ đề cần học.
-            </p>
-        </article>
+                    <div class="benefits-grid">
 
-        <article class="benefit-card">
-            <div class="benefit-card-top">
-                <span class="benefit-icon">
-                    <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
-                </span>
-                <span class="benefit-number">03</span>
-            </div>
+                        <article class="benefit-card">
+                            <div class="benefit-card-top">
+                                <span class="benefit-icon">
+                                    <i class="fa-solid fa-book-open" aria-hidden="true"></i>
+                                </span>
 
-            <h3>Thực hành và đánh giá</h3>
-            <p class="benefit-en">Practice & Feedback</p>
-            <p class="benefit-description">
-                Kiểm tra kiến thức qua Quiz, trao đổi với Robot trợ lý
-                và gửi ý kiến đóng góp cho nền tảng.
-            </p>
-        </article>
-    </div>
-</section>
+                                <span class="benefit-number">01</span>
+                            </div>
+
+                            <h3>Tài liệu chuyên sâu</h3>
+                            <p class="benefit-en">Bilingual Study Sheets</p>
+
+                            <p class="benefit-description">
+                                Mỗi tài liệu được trình bày trong một trang học tập,
+                                gồm giải thích song ngữ, thuật ngữ và ví dụ thực tế.
+                            </p>
+                        </article>
+
+                        <article class="benefit-card">
+                            <div class="benefit-card-top">
+                                <span class="benefit-icon">
+                                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                                </span>
+
+                                <span class="benefit-number">02</span>
+                            </div>
+
+                            <h3>Tra cứu nhanh chóng</h3>
+                            <p class="benefit-en">Search & Discover</p>
+
+                            <p class="benefit-description">
+                                Tìm kiếm nội dung bằng tiếng Việt hoặc tiếng Anh
+                                để tiếp cận đúng chủ đề cần học.
+                            </p>
+                        </article>
+
+                        <article class="benefit-card">
+                            <div class="benefit-card-top">
+                                <span class="benefit-icon">
+                                    <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
+                                </span>
+
+                                <span class="benefit-number">03</span>
+                            </div>
+
+                            <h3>Thực hành và đánh giá</h3>
+                            <p class="benefit-en">Practice & Feedback</p>
+
+                            <p class="benefit-description">
+                                Kiểm tra kiến thức qua Quiz, trao đổi với Robot trợ lý
+                                và gửi ý kiến đóng góp cho nền tảng.
+                            </p>
+                        </article>
+
+                    </div>
+                </section>
+
             </section>
 
             <!-- PAGE 2: RESOURCES -->
-            <section id="page-resource" class="page-content hidden py-16 px-4 max-w-7xl mx-auto">
+            <section
+                id="page-resource"
+                class="page-content hidden py-16 px-4 max-w-7xl mx-auto"
+            >
 
                 <div class="max-w-4xl mx-auto mb-10 text-center">
 
@@ -261,7 +294,7 @@
 
                         <div class="relative flex items-center">
                             <span class="absolute left-4 text-neutral-400">
-                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                             </span>
 
                             <input
@@ -296,7 +329,10 @@
             </section>
 
             <!-- PAGE 3: QUIZ -->
-            <section id="page-quiz" class="page-content hidden py-16 px-4 max-w-3xl mx-auto">
+            <section
+                id="page-quiz"
+                class="page-content hidden py-16 px-4 max-w-3xl mx-auto"
+            >
 
                 <div class="text-center mb-8">
                     <span class="text-xs font-semibold bg-neutral-100 text-neutral-700 px-3 py-1 rounded-full uppercase tracking-wider">
@@ -317,37 +353,51 @@
                     id="quizCard"
                 >
 
-<div class="quiz-toolbar">
-    <div class="quiz-progress-info">
-        <span id="quizProgress" class="quiz-progress-label">
-            Câu hỏi 1/5
-        </span>
-        <span id="quizScoreTracker" class="quiz-score">
-            Điểm: 0
-        </span>
-    </div>
+                    <div class="quiz-toolbar">
 
-    <div
-        class="quiz-progress-track"
-        role="progressbar"
-        aria-label="Tiến trình bài kiểm tra"
-        aria-valuemin="0"
-        aria-valuemax="5"
-        aria-valuenow="0"
-        id="quizProgressTrack"
-    >
-        <span id="quizProgressFill" class="quiz-progress-fill"></span>
-    </div>
-</div>
+                        <div class="quiz-progress-info">
+                            <span id="quizProgress" class="quiz-progress-label">
+                                Câu hỏi 1/5
+                            </span>
 
-                    <h3 id="quizQuestion" class="text-lg font-bold mb-6 text-neutral-800">
+                            <span id="quizScoreTracker" class="quiz-score">
+                                Điểm: 0
+                            </span>
+                        </div>
+
+                        <div
+                            class="quiz-progress-track"
+                            role="progressbar"
+                            aria-label="Tiến trình bài kiểm tra"
+                            aria-valuemin="0"
+                            aria-valuemax="5"
+                            aria-valuenow="0"
+                            id="quizProgressTrack"
+                        >
+                            <span
+                                id="quizProgressFill"
+                                class="quiz-progress-fill"
+                            ></span>
+                        </div>
+
+                    </div>
+
+                    <h3
+                        id="quizQuestion"
+                        class="text-lg font-bold mb-6 text-neutral-800"
+                    >
                         ...
                     </h3>
 
                     <div class="space-y-3" id="quizOptions"></div>
 
                     <div class="mt-6 pt-4 border-t border-neutral-100 flex justify-between items-center">
-                        <span id="quizFeedbackMsg" class="text-sm font-medium"></span>
+                        <span
+                            id="quizFeedbackMsg"
+                            class="text-sm font-medium"
+                            role="status"
+                            aria-live="polite"
+                        ></span>
 
                         <button
                             type="button"
@@ -364,12 +414,16 @@
                 <div
                     id="quizResultBox"
                     class="hidden bg-neutral-50 border border-neutral-200 p-8 rounded-2xl text-center space-y-4"
+                    aria-live="polite"
                 >
                     <h3 class="text-2xl font-bold">
                         Hoàn thành bài Quiz! / Quiz Completed!
                     </h3>
 
-                    <p id="quizFinalScoreText" class="text-lg font-medium text-neutral-700"></p>
+                    <p
+                        id="quizFinalScoreText"
+                        class="text-lg font-medium text-neutral-700"
+                    ></p>
 
                     <button
                         type="button"
@@ -383,7 +437,10 @@
             </section>
 
             <!-- PAGE 4: FEEDBACK & SURVEY -->
-            <section id="page-feedback" class="page-content hidden py-16 px-4 max-w-5xl mx-auto space-y-12">
+            <section
+                id="page-feedback"
+                class="page-content hidden py-16 px-4 max-w-5xl mx-auto space-y-12"
+            >
 
                 <div class="survey-panel">
 
@@ -450,22 +507,25 @@
 
                         </form>
 
-<p
-    id="surveyStatus"
-    class="survey-status"
-    role="status"
-    aria-live="polite"
-></p>
+                        <p
+                            id="surveyStatus"
+                            class="survey-status"
+                            role="status"
+                            aria-live="polite"
+                        ></p>
 
                     </div>
                 </div>
 
-                <!-- DEMO FEEDBACK: NOT REAL TESTIMONIALS -->
+                <!-- SAMPLE FEEDBACK -->
                 <section aria-labelledby="feedback-heading">
 
                     <div class="flex items-center justify-between mb-6 gap-4">
                         <div>
-                            <h3 id="feedback-heading" class="text-xl font-bold tracking-tight">
+                            <h3
+                                id="feedback-heading"
+                                class="text-xl font-bold tracking-tight"
+                            >
                                 Phản hồi minh họa / Sample Feedback
                             </h3>
 
@@ -510,6 +570,7 @@
 
                     <div>
                         <div class="flex flex-wrap items-center gap-2">
+
                             <span
                                 id="modalCategory"
                                 class="text-xs bg-black text-white px-2.5 py-1 rounded font-medium"
@@ -527,13 +588,17 @@
                             <span class="text-xs bg-white border border-neutral-300 text-neutral-600 px-2.5 py-1 rounded font-medium">
                                 Bilingual EN / VI
                             </span>
+
                         </div>
 
                         <h3 id="modalTitle" class="text-xl sm:text-2xl font-bold mt-2">
                             Document Title
                         </h3>
 
-                        <p id="modalSubTitle" class="text-xs text-neutral-500 mt-0.5 italic"></p>
+                        <p
+                            id="modalSubTitle"
+                            class="text-xs text-neutral-500 mt-0.5 italic"
+                        ></p>
                     </div>
 
                     <button
@@ -542,7 +607,7 @@
                         class="text-neutral-400 hover:text-black text-xl p-2 shrink-0"
                         aria-label="Đóng tài liệu"
                     >
-                        <i class="fa-solid fa-xmark"></i>
+                        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
                     </button>
 
                 </div>
@@ -581,43 +646,56 @@
                 id="chatBubbleBtn"
                 aria-expanded="false"
                 aria-controls="chatBox"
-                class="w-16 h-16 bg-gradient-to-tr from-purple-600 via-pink-500 to-amber-400 text-white rounded-full shadow-2xl flex items-center justify-center text-3xl hover:scale-105 transition duration-200 border-2 border-white"
+                class="chat-launcher-button"
                 aria-label="Mở trợ lý học tập"
             >
-                <i class="fa-solid fa-robot"></i>
+                <i class="fa-solid fa-robot" aria-hidden="true"></i>
             </button>
 
             <div
                 id="chatBox"
                 hidden
                 aria-hidden="true"
-                class="absolute bottom-20 right-0 w-80 sm:w-96 bg-white border border-neutral-200 rounded-2xl shadow-2xl flex flex-col h-[420px] overflow-hidden"
+                class="chat-box"
             >
 
-                <div class="p-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white flex items-center justify-between cursor-default">
-                    <div class="flex items-center space-x-2">
-                        <span class="w-2.5 h-2.5 bg-green-400 rounded-full"></span>
-                        <span class="text-sm font-bold">
-                            HUFLIT Bilingual Robot
-                        </span>
+                <div class="chat-header">
+
+                    <div class="chat-header-identity">
+                        <span
+                            class="chat-status-dot"
+                            aria-hidden="true"
+                        ></span>
+
+                        <div>
+                            <span class="chat-header-title">
+                                HUFLIT Bilingual Robot
+                            </span>
+
+                            <span class="chat-header-subtitle">
+                                Learning Assistant
+                            </span>
+                        </div>
                     </div>
 
                     <button
                         type="button"
                         onclick="toggleChat()"
-                        class="text-white/80 hover:text-white"
+                        class="chat-close-btn"
                         aria-label="Đóng chatbot"
                     >
-                        <i class="fa-solid fa-xmark text-base"></i>
+                        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
                     </button>
+
                 </div>
 
                 <div
                     id="chatMessages"
-                    class="flex-1 p-3 overflow-y-auto space-y-3 text-xs bg-neutral-50"
+                    class="chat-messages"
                     aria-live="polite"
+                    aria-relevant="additions"
                 >
-                    <div class="bg-white p-3 rounded-xl border border-neutral-200 text-neutral-800 max-w-[85%] shadow-sm">
+                    <div class="chat-message chat-message-bot">
                         Hé lô bạn nha! / Hello! Mình là Robot trợ lý học tập song ngữ Việt – Anh.
                         Bạn có thể hỏi mình về tài liệu học tập nhé!
                     </div>
@@ -625,7 +703,7 @@
 
                 <form
                     id="chatForm"
-                    class="p-2 border-t border-neutral-200 bg-white flex items-center space-x-2"
+                    class="chat-form"
                 >
                     <input
                         type="text"
@@ -633,15 +711,16 @@
                         maxlength="1000"
                         autocomplete="off"
                         placeholder="Hỏi robot bằng tiếng Việt hoặc Anh..."
-                        class="flex-1 px-3 py-2 bg-neutral-100 border border-transparent rounded-xl text-xs focus:outline-none focus:bg-white focus:border-purple-600"
+                        class="chat-input"
+                        aria-label="Tin nhắn gửi đến trợ lý"
                     >
 
                     <button
                         type="submit"
-                        class="w-8 h-8 bg-purple-600 text-white rounded-xl flex items-center justify-center text-xs"
+                        class="chat-send-btn"
                         aria-label="Gửi tin nhắn"
                     >
-                        <i class="fa-solid fa-paper-plane"></i>
+                        <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
                     </button>
                 </form>
 
@@ -650,7 +729,7 @@
 
     </div>
 
-    <!-- JAVASCRIPT MODULES: PLAIN SCRIPTS -->
+    <!-- JAVASCRIPT MODULES -->
     <script src="./js/main.js" defer></script>
     <script src="./js/resources.js" defer></script>
     <script src="./js/search.js" defer></script>
