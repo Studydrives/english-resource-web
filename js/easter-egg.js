@@ -1688,20 +1688,19 @@ try {
                 experience.starfield.rotation.y += delta * 0.002;
             }
 
-            if (experience.type === 'solar-system') {
-                updateSolar(delta, elapsed);
-            }
+if (!reducedMotion?.matches) {
+    if (experience.type === 'solar-system') {
+        updateSolar(delta, elapsed);
+    }
 
-            if (experience.type === 'galaxy') {
-                updateGalaxy(delta, elapsed);
-            }
+    if (experience.type === 'galaxy') {
+        updateGalaxy(delta, elapsed);
+    }
 
-            if (experience.type === 'meteor-shower') {
-                updateMeteorShower(
-                    reducedMotion?.matches ? 0 : delta,
-                    elapsed
-                );
-            }
+    if (experience.type === 'meteor-shower') {
+        updateMeteorShower(delta, elapsed);
+    }
+}
 
             experience.camera.position.x +=
                 (pointer.rotationY * 5 - experience.camera.position.x) *
