@@ -1,0 +1,194 @@
+/*
+ * HUFLIT English Hub
+ * Cosmic Easter Eggs — Meteor Shower
+ */
+
+/* =========================================================
+   METEOR SHOWER ATMOSPHERE
+   ========================================================= */
+
+.cosmic-experience[data-scene="meteor-shower"] {
+    background:
+        radial-gradient(ellipse at 50% 20%,
+            rgba(27, 65, 115, .2),
+            transparent 55%),
+        radial-gradient(ellipse at 80% 75%,
+            rgba(35, 80, 125, .12),
+            transparent 45%),
+        #01030a;
+}
+
+.cosmic-experience[data-scene="meteor-shower"] .cosmic-scene {
+    background:
+        linear-gradient(180deg,
+            rgba(9, 22, 48, .2),
+            transparent 48%,
+            rgba(1, 5, 16, .35));
+}
+
+.cosmic-experience[data-scene="meteor-shower"] .cosmic-scene::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 50% 40%,
+            transparent 15%,
+            rgba(1, 3, 10, .2) 65%,
+            rgba(1, 3, 10, .72) 100%);
+    pointer-events: none;
+}
+
+/* =========================================================
+   SKY GLOW
+   ========================================================= */
+
+.cosmic-experience[data-scene="meteor-shower"] .cosmic-scene::after {
+    content: "";
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    width: min(100vw, 1200px);
+    height: 65vh;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background:
+        radial-gradient(ellipse,
+            rgba(92, 166, 255, .09),
+            rgba(51, 111, 190, .035) 45%,
+            transparent 72%);
+    filter: blur(38px);
+    pointer-events: none;
+    animation: meteor-sky-pulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes meteor-sky-pulse {
+    from {
+        opacity: .5;
+        transform: translate(-50%, -50%) scale(.92);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.08);
+    }
+}
+
+/* =========================================================
+   METEOR SHOWER HEADING
+   ========================================================= */
+
+.cosmic-experience[data-scene="meteor-shower"] .cosmic-eyebrow {
+    color: rgba(157, 205, 255, .82);
+}
+
+.cosmic-experience[data-scene="meteor-shower"] .cosmic-title {
+    background: linear-gradient(
+        110deg,
+        #f2f8ff 0%,
+        #a9d7ff 42%,
+        #d5caff 72%,
+        #ffffff 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+}
+
+.cosmic-experience[data-scene="meteor-shower"] .cosmic-description {
+    color: rgba(203, 225, 255, .66);
+}
+
+/* =========================================================
+   METEOR SHOWER HUD
+   ========================================================= */
+
+.cosmic-experience[data-scene="meteor-shower"] .cosmic-hud {
+    border-color: rgba(128, 190, 255, .2);
+    background:
+        linear-gradient(135deg,
+            rgba(25, 53, 91, .46),
+            rgba(8, 17, 35, .5));
+    box-shadow:
+        0 12px 45px rgba(0, 0, 0, .28),
+        0 0 35px rgba(86, 166, 255, .065),
+        inset 0 1px 0 rgba(200, 228, 255, .08);
+}
+
+.cosmic-experience[data-scene="meteor-shower"] .cosmic-hud-label {
+    color: rgba(157, 205, 255, .72);
+}
+
+.cosmic-experience[data-scene="meteor-shower"] .cosmic-scene-label {
+    color: rgba(180, 215, 255, .5);
+}
+
+/* =========================================================
+   DECORATIVE SKY LINES
+   ========================================================= */
+
+.cosmic-experience[data-scene="meteor-shower"] .meteor-sky-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.cosmic-experience[data-scene="meteor-shower"] .meteor-sky-line::before,
+.cosmic-experience[data-scene="meteor-shower"] .meteor-sky-line::after {
+    content: "";
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    border-radius: 50%;
+    background: rgba(210, 235, 255, .9);
+    box-shadow:
+        0 0 8px 2px rgba(142, 200, 255, .45),
+        120px 180px 0 rgba(220, 235, 255, .7),
+        340px 90px 0 rgba(220, 235, 255, .55),
+        580px 260px 0 rgba(220, 235, 255, .65),
+        820px 120px 0 rgba(220, 235, 255, .5),
+        1040px 330px 0 rgba(220, 235, 255, .6);
+    animation: meteor-star-twinkle 5s ease-in-out infinite alternate;
+}
+
+.cosmic-experience[data-scene="meteor-shower"] .meteor-sky-line::after {
+    top: 45%;
+    left: 30%;
+    animation-delay: 2.5s;
+}
+
+@keyframes meteor-star-twinkle {
+    from {
+        opacity: .3;
+        transform: scale(.8);
+    }
+
+    to {
+        opacity: .95;
+        transform: scale(1.2);
+    }
+}
+
+/* =========================================================
+   RESPONSIVE METEOR SHOWER
+   ========================================================= */
+
+@media (max-width: 768px) {
+    .cosmic-experience[data-scene="meteor-shower"] .cosmic-scene::after {
+        width: 130vw;
+    }
+
+    .cosmic-experience[data-scene="meteor-shower"] .meteor-sky-line::before,
+    .cosmic-experience[data-scene="meteor-shower"] .meteor-sky-line::after {
+        box-shadow:
+            0 0 8px 2px rgba(142, 200, 255, .45),
+            70px 150px 0 rgba(220, 235, 255, .7),
+            180px 90px 0 rgba(220, 235, 255, .55),
+            260px 260px 0 rgba(220, 235, 255, .65),
+            330px 120px 0 rgba(220, 235, 255, .5);
+    }
+}
