@@ -37,7 +37,12 @@
         };
     </script>
 
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/layout.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/chatbot.css">
+    <link rel="stylesheet" href="./css/sections.css">
+    <link rel="stylesheet" href="./css/easter-egg.css">
 </head>
 
 <body class="bg-white text-neutral-900 font-sans antialiased selection:bg-black selection:text-white flex flex-col min-h-screen">
@@ -53,12 +58,14 @@
                     onclick="switchPage('home')"
                     class="flex items-center space-x-2 text-left"
                     aria-label="Về trang chủ"
+                    data-easter-egg-trigger
                 >
                     <div class="w-9 h-9 bg-black text-white flex items-center justify-center font-bold text-lg rounded-lg">
                         H
                     </div>
 
                     <span class="font-bold text-xl tracking-tight">
+                        
                         HUFLIT <span class="font-light text-neutral-500">Docs</span>
                     </span>
                 </button>
@@ -1134,6 +1141,6 @@
     <script src="./js/survey.js" defer></script>
     <script src="./js/feedback.js" defer></script>
     <script src="./js/chatbot.js" defer></script>
-
+    <script src="./js/easter-egg.js" defer></script>
 </body>
 </html>
