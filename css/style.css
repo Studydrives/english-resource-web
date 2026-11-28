@@ -160,6 +160,7 @@ header nav button[aria-current="page"]::after {
         filter 600ms ease,
         box-shadow 600ms ease;
     will-change: transform;
+    translate: 0 var(--hero-shift, 0px);
 }
 
 @media (hover: hover) {
