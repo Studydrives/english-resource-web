@@ -521,6 +521,7 @@ function initializeDraggableRobot() {
             startTop: rect.top,
             moved: false
         };
+        robot.classList.add('is-dragging');
 
         button.setPointerCapture?.(event.pointerId);
     });
@@ -568,6 +569,8 @@ function initializeDraggableRobot() {
             clampRobotPosition();
             saveRobotPosition();
         }
+        const { robot } = getChatbotElements();
+        robot?.classList.remove('is-dragging');
     };
 
     button.addEventListener('pointerup', finishDragging);
