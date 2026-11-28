@@ -31,7 +31,7 @@
 
     const SCENES = Object.freeze([
         {
-            id: 'solar',
+            id: 'solar-system',
             title: 'The Solar System',
             description: 'Explore the eight planets orbiting our star.'
         },
@@ -41,7 +41,7 @@
             description: 'A journey through billions of distant stars.'
         },
         {
-            id: 'meteor',
+            id: 'meteor-shower',
             title: 'Meteor Shower',
             description: 'Witness a spectacular cosmic meteor storm.'
         }
@@ -305,7 +305,7 @@
             fullscreen
         );
 
-        if (scene.id === 'meteor') {
+        if (scene.id === 'meteor-shower') {
             controls.append(stormButton);
         }
 
@@ -585,6 +585,29 @@
 
             return resource;
         }
+
+        function disposeTrackedResource(resource) {
+    if (!resource) return;
+
+    resource.dispose?.();
+    resources.delete(resource);
+}
+
+function disposeObjectResources(object) {
+    if (!object) return;
+
+    if (object.geometry) {
+        disposeTrackedResource(object.geometry);
+    }
+
+    if (object.material) {
+        const materials = Array.isArray(object.material)
+            ? object.material
+            : [object.material];
+
+        materials.forEach(disposeTrackedResource);
+    }
+}
 
         /* =====================================
            STARFIELD
@@ -1445,7 +1468,7 @@
 
         let sceneData;
 
-        if (sceneId === 'solar') {
+        if (sceneId === 'solar-system') {
             sceneData = createSolarSystem();
         } else if (sceneId === 'galaxy') {
             sceneData = createGalaxy();
@@ -1508,15 +1531,25 @@
             onPointerDown
         );
 
-        renderer.domElement.addEventListener(
-            'pointermove',
-            onPointerMove
-        );
+renderer.domElement.addEventListener(
+    'pointermove',
+    onPointerMove
+);
 
-        window.addEventListener(
-            'pointerup',
-            onPointerUp
-        );
+renderer.domElement.addEventListener(
+    'pointercancel',
+    onPointerUp
+);
+
+renderer.domElement.addEventListener(
+    'lostpointercapture',
+    onPointerUp
+);
+
+window.addEventListener(
+    'pointerup',
+    onPointerUp
+);
 
         renderer.domElement.addEventListener(
             'wheel',
@@ -1676,7 +1709,7 @@
 
             zoom += (targetZoom - zoom) * 0.08;
 
-            if (sceneId === 'solar') {
+            if (sceneId === 'solar-system') {
                 sceneData.material.uniforms.time.value = elapsed;
 
                 sceneData.sun.rotation.y +=
@@ -1726,7 +1759,7 @@
                 });
             }
 
-            if (sceneId === 'meteor') {
+            if (sceneId === 'meteor-shower') {
                 sceneData.meteors.forEach(meteor => {
                     meteor.progress +=
                         scaledDelta * meteor.speed * 0.3;
@@ -1802,10 +1835,11 @@
                     burst.particles.material.opacity =
                         Math.max(0, burst.life);
 
-                    if (burst.life <= 0) {
-                        meteorGroupRemove(burst.particles);
-                        sceneData.bursts.splice(index, 1);
-                    }
+if (burst.life <= 0) {
+    meteorGroupRemove(burst.particles);
+    disposeObjectResources(burst.particles);
+    sceneData.bursts.splice(index, 1);
+}
                 });
 
                 sceneData.nebulaOne.material.rotation +=
@@ -1816,7 +1850,7 @@
             }
 
             const baseDistance =
-                sceneId === 'solar'
+                sceneId === 'solar-system'
                     ? 145
                     : sceneId === 'galaxy'
                         ? 175
@@ -1871,6 +1905,16 @@
             );
 
             renderer.domElement.removeEventListener(
+    'pointercancel',
+    onPointerUp
+);
+
+renderer.domElement.removeEventListener(
+    'lostpointercapture',
+    onPointerUp
+);
+
+            renderer.domElement.removeEventListener(
                 'wheel',
                 onWheel
             );
@@ -1900,21 +1944,9 @@
                 onStorm
             );
 
-            scene.traverse(object => {
-                if (object.geometry) {
-                    object.geometry.dispose();
-                }
-
-                if (object.material) {
-                    const materials = Array.isArray(object.material)
-                        ? object.material
-                        : [object.material];
-
-                    materials.forEach(material => {
-                        material.dispose();
-                    });
-                }
-            });
+scene.traverse(object => {
+    disposeObjectResources(object);
+});
 
             resources.forEach(resource => {
                 resource.dispose?.();
