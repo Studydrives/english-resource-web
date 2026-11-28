@@ -1,0 +1,355 @@
+/*
+ * HUFLIT English Hub
+ * Cosmic Easter Eggs — Shared Visual Effects
+ */
+
+/* =========================================================
+   EXPERIENCE OVERLAY
+   ========================================================= */
+
+.cosmic-experience {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    isolation: isolate;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    color: #f4f7ff;
+    background:
+        radial-gradient(ellipse at 50% 45%, rgba(20, 31, 75, .3), transparent 65%),
+        #02030a;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+        opacity 900ms cubic-bezier(.16, 1, .3, 1),
+        visibility 900ms;
+    contain: layout paint style;
+}
+
+.cosmic-experience.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.cosmic-experience.is-leaving {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.cosmic-experience::before,
+.cosmic-experience::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.cosmic-experience::before {
+    background:
+        linear-gradient(180deg,
+            rgba(0, 0, 0, .55) 0%,
+            transparent 22%,
+            transparent 72%,
+            rgba(0, 0, 0, .55) 100%);
+}
+
+.cosmic-experience::after {
+    opacity: .12;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
+    mix-blend-mode: screen;
+}
+
+/* =========================================================
+   SCENE & WEBGL
+   ========================================================= */
+
+.cosmic-scene {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse at center,
+            rgba(18, 30, 70, .25),
+            transparent 65%);
+}
+
+.cosmic-webgl {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    outline: none;
+}
+
+.cosmic-webgl canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.cosmic-experience.is-fallback .cosmic-webgl {
+    display: none;
+}
+
+.cosmic-fallback {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 32px;
+    text-align: center;
+    color: rgba(255, 255, 255, .8);
+    font-size: 14px;
+    letter-spacing: .04em;
+}
+
+/* =========================================================
+   CINEMATIC HEADING
+   ========================================================= */
+
+.cosmic-heading {
+    position: absolute;
+    z-index: 4;
+    top: clamp(48px, 9vh, 100px);
+    left: 50%;
+    width: min(900px, calc(100% - 40px));
+    transform: translateX(-50%);
+    text-align: center;
+    pointer-events: none;
+    animation: cosmic-heading-enter 1.2s cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.cosmic-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 0 0 15px;
+    color: rgba(174, 198, 255, .82);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .32em;
+    line-height: 1.5;
+    text-transform: uppercase;
+}
+
+.cosmic-eyebrow::before,
+.cosmic-eyebrow::after {
+    content: "";
+    width: 24px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, currentColor);
+}
+
+.cosmic-eyebrow::after {
+    transform: rotate(180deg);
+}
+
+.cosmic-title {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(34px, 6vw, 76px);
+    font-weight: 300;
+    letter-spacing: .075em;
+    line-height: 1.08;
+    text-shadow:
+        0 2px 30px rgba(130, 170, 255, .3),
+        0 0 70px rgba(100, 130, 255, .16);
+}
+
+.cosmic-description {
+    max-width: 540px;
+    margin: 16px auto 0;
+    color: rgba(222, 231, 255, .68);
+    font-size: clamp(12px, 1.2vw, 14px);
+    font-weight: 400;
+    letter-spacing: .035em;
+    line-height: 1.8;
+}
+
+/* =========================================================
+   GLASS HUD
+   ========================================================= */
+
+.cosmic-hud {
+    position: absolute;
+    z-index: 5;
+    left: clamp(20px, 4vw, 58px);
+    bottom: clamp(24px, 5vh, 52px);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 190px;
+    max-width: min(320px, calc(100vw - 40px));
+    padding: 17px 20px;
+    border: 1px solid rgba(180, 205, 255, .16);
+    border-radius: 14px;
+    background:
+        linear-gradient(135deg,
+            rgba(30, 43, 75, .42),
+            rgba(8, 13, 28, .34));
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, .22),
+        inset 0 1px 0 rgba(255, 255, 255, .07);
+    -webkit-backdrop-filter: blur(18px) saturate(135%);
+    backdrop-filter: blur(18px) saturate(135%);
+    animation: cosmic-hud-enter 1.2s .2s cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.cosmic-hud > * {
+    margin: 0;
+}
+
+.cosmic-hud-label {
+    color: rgba(171, 196, 255, .65);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+}
+
+.cosmic-hud-value {
+    color: rgba(255, 255, 255, .94);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: .025em;
+    line-height: 1.5;
+}
+
+.cosmic-hud-detail {
+    color: rgba(215, 226, 255, .55);
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   SCENE LABEL & HINT
+   ========================================================= */
+
+.cosmic-scene-label {
+    position: absolute;
+    z-index: 4;
+    right: clamp(20px, 4vw, 58px);
+    bottom: clamp(24px, 5vh, 52px);
+    color: rgba(220, 230, 255, .5);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: .22em;
+    text-align: right;
+    text-transform: uppercase;
+    pointer-events: none;
+}
+
+.cosmic-scene-hint {
+    position: absolute;
+    z-index: 4;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    color: rgba(220, 230, 255, .42);
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-align: center;
+    pointer-events: none;
+}
+
+/* =========================================================
+   EXIT BUTTON
+   ========================================================= */
+
+.cosmic-exit {
+    position: absolute;
+    z-index: 10;
+    top: clamp(18px, 3vh, 32px);
+    right: clamp(18px, 3vw, 36px);
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, .2);
+    border-radius: 50%;
+    color: rgba(255, 255, 255, .85);
+    background: rgba(20, 27, 48, .42);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    cursor: pointer;
+    transition:
+        color 250ms ease,
+        background 250ms ease,
+        border-color 250ms ease,
+        transform 350ms cubic-bezier(.16, 1, .3, 1);
+}
+
+.cosmic-exit:hover {
+    color: #fff;
+    border-color: rgba(255, 255, 255, .55);
+    background: rgba(100, 125, 190, .24);
+    transform: rotate(90deg) scale(1.08);
+}
+
+.cosmic-exit:focus-visible {
+    outline: 2px solid #a9c7ff;
+    outline-offset: 4px;
+}
+
+.cosmic-exit svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 1.5;
+}
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes cosmic-heading-enter {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 24px);
+        filter: blur(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+        filter: blur(0);
+    }
+}
+
+@keyframes cosmic-hud-enter {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+        filter: blur(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .cosmic-experience,
+    .cosmic-experience *,
+    .cosmic-experience *::before,
+    .cosmic-experience *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}
