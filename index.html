@@ -317,15 +317,28 @@
                     id="quizCard"
                 >
 
-                    <div class="flex justify-between items-center mb-4">
-                        <span id="quizProgress" class="text-xs font-semibold text-neutral-400 uppercase">
-                            Câu hỏi 1/5
-                        </span>
+<div class="quiz-toolbar">
+    <div class="quiz-progress-info">
+        <span id="quizProgress" class="quiz-progress-label">
+            Câu hỏi 1/5
+        </span>
+        <span id="quizScoreTracker" class="quiz-score">
+            Điểm: 0
+        </span>
+    </div>
 
-                        <span id="quizScoreTracker" class="text-xs font-bold bg-neutral-100 px-2.5 py-1 rounded">
-                            Điểm: 0
-                        </span>
-                    </div>
+    <div
+        class="quiz-progress-track"
+        role="progressbar"
+        aria-label="Tiến trình bài kiểm tra"
+        aria-valuemin="0"
+        aria-valuemax="5"
+        aria-valuenow="0"
+        id="quizProgressTrack"
+    >
+        <span id="quizProgressFill" class="quiz-progress-fill"></span>
+    </div>
+</div>
 
                     <h3 id="quizQuestion" class="text-lg font-bold mb-6 text-neutral-800">
                         ...
@@ -372,7 +385,7 @@
             <!-- PAGE 4: FEEDBACK & SURVEY -->
             <section id="page-feedback" class="page-content hidden py-16 px-4 max-w-5xl mx-auto space-y-12">
 
-                <div class="bg-white border border-neutral-200 rounded-2xl p-8 shadow-sm">
+                <div class="survey-panel">
 
                     <div class="max-w-xl mx-auto">
 
@@ -426,7 +439,7 @@
 
                             <button
                                 type="submit"
-                                class="w-full bg-black text-white py-3 rounded-xl font-medium text-sm hover:bg-neutral-800 transition"
+                                class="survey-submit-btn"
                             >
                                 Gửi Khảo Sát / Submit Survey
                             </button>
@@ -437,12 +450,12 @@
 
                         </form>
 
-                        <p
-                            id="surveyStatus"
-                            class="text-sm mt-4"
-                            role="status"
-                            aria-live="polite"
-                        ></p>
+<p
+    id="surveyStatus"
+    class="survey-status"
+    role="status"
+    aria-live="polite"
+></p>
 
                     </div>
                 </div>
@@ -559,7 +572,7 @@
         <!-- CHATBOT -->
         <div
             id="draggableRobot"
-            class="fixed bottom-6 right-6 z-50 cursor-grab active:cursor-grabbing select-none"
+            class="chat-launcher"
         >
 
             <button
