@@ -1,0 +1,244 @@
+/*
+ * HUFLIT English Hub
+ * Cosmic Easter Eggs — Responsive & Accessibility
+ */
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1024px) {
+    .cosmic-heading {
+        top: 8vh;
+        width: min(760px, calc(100% - 48px));
+    }
+
+    .cosmic-title {
+        font-size: clamp(34px, 7vw, 64px);
+    }
+
+    .cosmic-hud {
+        left: 24px;
+        bottom: 28px;
+    }
+
+    .cosmic-scene-label {
+        right: 24px;
+        bottom: 28px;
+    }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+    .cosmic-experience {
+        min-height: 100svh;
+        min-height: 100dvh;
+    }
+
+    .cosmic-heading {
+        top: max(76px, 10vh);
+        width: calc(100% - 36px);
+    }
+
+    .cosmic-eyebrow {
+        gap: 7px;
+        margin-bottom: 12px;
+        font-size: 9px;
+        letter-spacing: .2em;
+    }
+
+    .cosmic-eyebrow::before,
+    .cosmic-eyebrow::after {
+        width: 15px;
+    }
+
+    .cosmic-title {
+        font-size: clamp(30px, 9vw, 48px);
+        letter-spacing: .035em;
+        line-height: 1.12;
+    }
+
+    .cosmic-description {
+        max-width: 420px;
+        margin-top: 12px;
+        font-size: 12px;
+        line-height: 1.65;
+    }
+
+    .cosmic-exit {
+        top: 16px;
+        right: 16px;
+        width: 42px;
+        height: 42px;
+    }
+
+    .cosmic-hud {
+        left: 16px;
+        right: 16px;
+        bottom: 22px;
+        min-width: 0;
+        max-width: none;
+        gap: 5px;
+        padding: 12px 15px;
+        border-radius: 12px;
+    }
+
+    .cosmic-hud-label {
+        font-size: 8px;
+    }
+
+    .cosmic-hud-value {
+        font-size: 12px;
+    }
+
+    .cosmic-hud-detail {
+        font-size: 10px;
+    }
+
+    .cosmic-scene-label {
+        display: none;
+    }
+
+    .cosmic-scene-hint {
+        bottom: 150px;
+        width: calc(100% - 32px);
+        font-size: 9px;
+        line-height: 1.5;
+    }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 420px) {
+    .cosmic-heading {
+        top: 78px;
+        width: calc(100% - 28px);
+    }
+
+    .cosmic-title {
+        font-size: clamp(27px, 9vw, 38px);
+    }
+
+    .cosmic-description {
+        max-width: 320px;
+        font-size: 11px;
+    }
+
+    .cosmic-hud {
+        bottom: 16px;
+        padding: 11px 13px;
+    }
+
+    .cosmic-scene-hint {
+        bottom: 132px;
+    }
+}
+
+/* =========================================================
+   LANDSCAPE MOBILE
+   ========================================================= */
+
+@media (max-height: 500px) and (orientation: landscape) {
+    .cosmic-heading {
+        top: 42px;
+        width: min(600px, calc(100% - 120px));
+    }
+
+    .cosmic-eyebrow {
+        margin-bottom: 7px;
+        font-size: 8px;
+    }
+
+    .cosmic-title {
+        font-size: clamp(26px, 6vh, 40px);
+    }
+
+    .cosmic-description {
+        margin-top: 7px;
+        font-size: 10px;
+    }
+
+    .cosmic-hud {
+        left: 18px;
+        bottom: 14px;
+        max-width: 230px;
+        padding: 9px 12px;
+    }
+
+    .cosmic-scene-label {
+        right: 18px;
+        bottom: 18px;
+    }
+
+    .cosmic-scene-hint {
+        bottom: 18px;
+    }
+
+    .cosmic-exit {
+        top: 12px;
+        right: 14px;
+        width: 38px;
+        height: 38px;
+    }
+}
+
+/* =========================================================
+   SHORT VIEWPORT
+   ========================================================= */
+
+@media (max-height: 620px) and (orientation: portrait) {
+    .cosmic-heading {
+        top: 68px;
+    }
+
+    .cosmic-title {
+        font-size: clamp(28px, 6vw, 48px);
+    }
+
+    .cosmic-description {
+        margin-top: 8px;
+    }
+
+    .cosmic-hud {
+        bottom: 14px;
+    }
+
+    .cosmic-scene-hint {
+        bottom: 125px;
+    }
+}
+
+/* =========================================================
+   TOUCH DEVICES
+   ========================================================= */
+
+@media (hover: none) and (pointer: coarse) {
+    .cosmic-exit:hover {
+        transform: none;
+        background: rgba(20, 27, 48, .42);
+        border-color: rgba(255, 255, 255, .2);
+    }
+
+    .cosmic-exit:active {
+        transform: scale(.94);
+        background: rgba(100, 125, 190, .3);
+    }
+}
+
+/* =========================================================
+   REDUCED TRANSPARENCY
+   ========================================================= */
+
+@media (prefers-reduced-transparency: reduce) {
+    .cosmic-hud,
+    .cosmic-exit {
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+        background: rgba(10, 16, 32, .94);
+    }
+}
