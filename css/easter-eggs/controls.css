@@ -1,1 +1,284 @@
+/*
+ * HUFLIT English Hub
+ * Cosmic Easter Egg — Interactive Control System
+ */
 
+.cosmic-controls {
+    position: absolute;
+    z-index: 20;
+    left: 50%;
+    bottom: clamp(28px, 5vh, 58px);
+    transform: translateX(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    width: min(94%, 920px);
+    padding: 12px 15px;
+
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(23, 29, 49, 0.76),
+            rgba(8, 12, 27, 0.68)
+        );
+
+    backdrop-filter: blur(24px) saturate(150%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+
+    box-shadow:
+        0 18px 55px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.07);
+
+    animation: cosmic-controls-enter 850ms
+        cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.cosmic-control-button {
+    position: relative;
+    min-height: 42px;
+    padding: 0 16px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 11px;
+
+    background: rgba(255, 255, 255, 0.045);
+    color: rgba(235, 240, 255, 0.76);
+
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+        color 220ms ease,
+        background 220ms ease,
+        border-color 220ms ease,
+        box-shadow 220ms ease,
+        transform 220ms ease;
+}
+
+.cosmic-control-button::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    flex: 0 0 6px;
+
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.5;
+
+    transition:
+        opacity 220ms ease,
+        box-shadow 220ms ease;
+}
+
+.cosmic-control-button:hover {
+    color: #ffffff;
+    border-color: rgba(150, 190, 255, 0.48);
+    background: rgba(120, 155, 255, 0.13);
+
+    box-shadow:
+        0 0 22px rgba(100, 145, 255, 0.12);
+
+    transform: translateY(-2px);
+}
+
+.cosmic-control-button:active {
+    transform: translateY(0) scale(0.97);
+}
+
+.cosmic-control-button.is-active {
+    color: #a8c8ff;
+    border-color: rgba(110, 160, 255, 0.38);
+    background: rgba(95, 140, 255, 0.12);
+}
+
+.cosmic-control-button.is-active::before {
+    opacity: 1;
+    box-shadow:
+        0 0 8px currentColor,
+        0 0 15px currentColor;
+}
+
+.cosmic-control-button:focus-visible,
+.cosmic-exit:focus-visible {
+    outline: 2px solid #a9caff;
+    outline-offset: 4px;
+}
+
+.cosmic-speed-control {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    min-height: 42px;
+    padding: 0 13px;
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 11px;
+
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.cosmic-speed-control span {
+    color: rgba(220, 230, 255, 0.66);
+
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    white-space: nowrap;
+}
+
+.cosmic-speed-slider {
+    width: 86px;
+    height: 4px;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.2);
+
+    cursor: pointer;
+}
+
+.cosmic-speed-slider::-webkit-slider-thumb {
+    width: 13px;
+    height: 13px;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+
+    background: #8fb8ff;
+
+    box-shadow:
+        0 0 12px rgba(105, 160, 255, 0.8);
+
+    transition:
+        transform 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.cosmic-speed-slider::-moz-range-thumb {
+    width: 10px;
+    height: 10px;
+
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+
+    background: #8fb8ff;
+
+    box-shadow:
+        0 0 12px rgba(105, 160, 255, 0.8);
+}
+
+.cosmic-speed-slider:hover::-webkit-slider-thumb {
+    transform: scale(1.2);
+    box-shadow:
+        0 0 18px rgba(105, 160, 255, 1);
+}
+
+.cosmic-storm-button {
+    color: #ffd4b0;
+    border-color: rgba(255, 153, 105, 0.3);
+    background: rgba(255, 105, 65, 0.08);
+}
+
+.cosmic-storm-button:hover,
+.cosmic-storm-button.is-active {
+    color: #ffffff;
+    border-color: rgba(255, 160, 115, 0.7);
+
+    background: rgba(255, 105, 65, 0.2);
+
+    box-shadow:
+        0 0 24px rgba(255, 105, 65, 0.16);
+}
+
+.cosmic-storm-button::before {
+    background: #ffad7b;
+    box-shadow: 0 0 10px #ff8b5b;
+}
+
+.cosmic-exit {
+    position: absolute;
+    z-index: 25;
+    top: 26px;
+    right: 30px;
+
+    min-height: 42px;
+    padding: 0 19px;
+
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 12px;
+
+    background: rgba(8, 12, 25, 0.55);
+    color: rgba(235, 240, 255, 0.8);
+
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+
+    cursor: pointer;
+
+    transition:
+        background 220ms ease,
+        color 220ms ease,
+        border-color 220ms ease,
+        transform 220ms ease;
+}
+
+.cosmic-exit:hover {
+    color: #ffffff;
+    border-color: rgba(255, 130, 130, 0.55);
+    background: rgba(160, 45, 65, 0.3);
+    transform: translateY(-2px);
+}
+
+@keyframes cosmic-controls-enter {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+    .cosmic-controls {
+        animation: none;
+    }
+
+    .cosmic-control-button,
+    .cosmic-exit,
+    .cosmic-speed-slider::-webkit-slider-thumb {
+        transition: none;
+    }
+}
