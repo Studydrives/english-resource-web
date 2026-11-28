@@ -4,6 +4,7 @@
 /**
  * HUFLIT English Hub
  * Randomized English Quiz
+ * Accessible progress and answer feedback.
  */
 
 const QUIZ_SIZE = 5;
@@ -197,8 +198,36 @@ function getQuizElements() {
         feedback: document.getElementById('quizFeedbackMsg'),
         next: document.getElementById('nextQuizBtn'),
         result: document.getElementById('quizResultBox'),
-        finalScore: document.getElementById('quizFinalScoreText')
+        finalScore: document.getElementById('quizFinalScoreText'),
+        progressTrack: document.getElementById('quizProgressTrack'),
+        progressFill: document.getElementById('quizProgressFill')
     };
+}
+
+function updateScore() {
+    const elements = getQuizElements();
+
+    if (elements.score) {
+        elements.score.textContent = `Điểm: ${score}`;
+    }
+}
+
+function updateQuizProgress() {
+    const elements = getQuizElements();
+
+    const completed = Math.min(currentQIndex, QUIZ_SIZE);
+    const percentage = (completed / QUIZ_SIZE) * 100;
+
+    if (elements.progressTrack) {
+        elements.progressTrack.setAttribute(
+            'aria-valuenow',
+            String(completed)
+        );
+    }
+
+    if (elements.progressFill) {
+        elements.progressFill.style.width = `${percentage}%`;
+    }
 }
 
 function startQuiz() {
@@ -232,15 +261,8 @@ function startQuiz() {
     }
 
     updateScore();
+    updateQuizProgress();
     loadQuizQuestion();
-}
-
-function updateScore() {
-    const elements = getQuizElements();
-
-    if (elements.score) {
-        elements.score.textContent = `Điểm: ${score}`;
-    }
 }
 
 function loadQuizQuestion() {
@@ -267,6 +289,8 @@ function loadQuizQuestion() {
         elements.progress.textContent =
             `Câu hỏi ${currentQIndex + 1}/${QUIZ_SIZE}`;
     }
+
+    updateQuizProgress();
 
     if (elements.feedback) {
         elements.feedback.textContent = '';
@@ -320,17 +344,19 @@ function selectQuizAnswer(selectedIndex) {
             'hover:bg-neutral-50'
         );
 
+        button.classList.add('quiz-answer-disabled');
+
         if (index === question.correct) {
-            button.classList.add(
-                'border-green-500',
-                'bg-green-50',
-                'text-green-700'
+            button.classList.add('quiz-answer-correct');
+            button.setAttribute(
+                'aria-label',
+                `${button.textContent} - Đáp án đúng`
             );
         } else if (index === selectedIndex) {
-            button.classList.add(
-                'border-red-500',
-                'bg-red-50',
-                'text-red-700'
+            button.classList.add('quiz-answer-incorrect');
+            button.setAttribute(
+                'aria-label',
+                `${button.textContent} - Đáp án bạn chọn`
             );
         }
     });
@@ -392,6 +418,8 @@ function showQuizResult() {
     if (elements.progress) {
         elements.progress.textContent = 'Hoàn thành 5/5';
     }
+
+    updateQuizProgress();
 }
 
 function restartQuiz() {
@@ -406,6 +434,5 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // index.html already calls nextQuizQuestion() inline.
     startQuiz();
 });
