@@ -1537,12 +1537,19 @@ if (bursts.length >= CONFIG.maxBursts) {
     }
 
     function createThreeExperience(THREE, shell, type, experienceId) {
-        const manager = createResourceManager();
-        const experience = createSceneExperience(
-            THREE,
-            type,
-            manager
-        );
+const manager = createResourceManager();
+let experience;
+
+try {
+    experience = createSceneExperience(
+        THREE,
+        type,
+        manager
+    );
+} catch (error) {
+    manager.disposeAll();
+    throw error;
+}
 
         let renderer = null;
         let frameId = 0;
