@@ -1,8 +1,9 @@
+
 'use strict';
 
 /**
  * HUFLIT English Hub
- * Accessible learning assistant with resource matching and bounded dragging.
+ * Responsive chatbot with bounded positioning and accessible interactions.
  */
 
 const CHATBOT_CONFIG = Object.freeze({
@@ -106,11 +107,13 @@ function appendChatMessage(container, message, type = 'bot') {
     element.className = type === 'user'
         ? 'chat-message chat-message-user'
         : 'chat-message chat-message-bot';
+
     element.textContent = String(message ?? '');
     element.dataset.messageType = type;
 
     container.appendChild(element);
     container.scrollTop = container.scrollHeight;
+
     return element;
 }
 
@@ -125,6 +128,7 @@ function appendChatTypingIndicator(container) {
 
     container.appendChild(indicator);
     container.scrollTop = container.scrollHeight;
+
     return indicator;
 }
 
@@ -171,7 +175,7 @@ function scoreResource(resource, intent) {
 
 function getSuggestedResources(message) {
     const resources = getAvailableResources();
-    if (resources.length === 0) return [];
+    if (!resources.length) return [];
 
     const intent = findResourceIntent(message);
 
@@ -185,21 +189,17 @@ function getSuggestedResources(message) {
             score: scoreResource(resource, intent)
         }))
         .filter((item) => item.score > 0)
-        .sort((a, b) => b.score - a.score || Number(a.resource.id) - Number(b.resource.id));
+        .sort((a, b) => b.score - a.score);
 
-    if (ranked.length > 0) {
-        return ranked
-            .slice(0, CHATBOT_CONFIG.maxSuggestions)
-            .map((item) => item.resource);
-    }
-
-    return resources.slice(0, CHATBOT_CONFIG.maxSuggestions);
+    return ranked.length
+        ? ranked.slice(0, CHATBOT_CONFIG.maxSuggestions).map((item) => item.resource)
+        : resources.slice(0, CHATBOT_CONFIG.maxSuggestions);
 }
 
 function appendResourceSuggestions(container, message) {
     const resources = getSuggestedResources(message);
 
-    if (resources.length === 0) {
+    if (!resources.length) {
         appendChatMessage(
             container,
             'Hiện chưa có dữ liệu tài liệu để gợi ý. Bạn có thể mở mục Resource để kiểm tra.'
@@ -234,6 +234,7 @@ function appendResourceSuggestions(container, message) {
         action.textContent = 'Mở tài liệu';
 
         card.append(title, description, action);
+
         card.addEventListener('click', () => {
             if (typeof openDocModal === 'function') {
                 openDocModal(resource.id);
@@ -323,6 +324,7 @@ function appendChatAction(container, action) {
     button.className = 'chat-action-button';
     button.textContent = action.label;
     button.addEventListener('click', action.callback);
+
     container.appendChild(button);
 }
 
@@ -331,10 +333,14 @@ function submitSuggestedMessage(message) {
     if (!input || !form) return;
 
     input.value = message;
+
     if (typeof form.requestSubmit === 'function') {
         form.requestSubmit();
     } else {
-        form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+        form.dispatchEvent(new Event('submit', {
+            bubbles: true,
+            cancelable: true
+        }));
     }
 }
 
@@ -350,12 +356,13 @@ function appendChatSuggestions(container) {
     heading.textContent = 'Bạn có thể bắt đầu bằng cách hỏi:';
     wrapper.appendChild(heading);
 
-    CHATBOT_SUGGESTIONS.slice(0, 4).forEach((suggestion) => {
+    CHATBOT_SUGGESTIONS.slice(0, CHATBOT_CONFIG.maxSuggestions).forEach((suggestion) => {
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'chat-suggestion-chip';
         button.textContent = suggestion;
         button.addEventListener('click', () => submitSuggestedMessage(suggestion));
+
         wrapper.appendChild(button);
     });
 
@@ -395,55 +402,131 @@ function handleChatSubmit(event) {
 
     appendChatMessage(messages, message, 'user');
     input.value = '';
+
     showChatbotResponse(message);
     input.focus();
 }
 
+/**
+ * Calculate a safe panel position without allowing it to overflow
+ * the visible viewport or cover the launcher button.
+ */
+function positionChatBox() {
+    const { robot, button, box } = getChatbotElements();
+
+    if (!robot || !button || !box || box.hidden) return;
+
+    const gap = CHATBOT_CONFIG.edgeGap;
+    const viewportWidth = window.visualViewport?.width || window.innerWidth;
+    const viewportHeight = window.visualViewport?.height || window.innerHeight;
+    const viewportOffsetLeft = window.visualViewport?.offsetLeft || 0;
+    const viewportOffsetTop = window.visualViewport?.offsetTop || 0;
+
+    const maxWidth = Math.max(240, viewportWidth - gap * 2);
+    const maxHeight = Math.max(220, viewportHeight - gap * 2);
+
+    box.style.position = 'fixed';
+    box.style.width = `min(380px, ${maxWidth}px)`;
+    box.style.maxWidth = `${maxWidth}px`;
+    box.style.maxHeight = `${maxHeight}px`;
+    box.style.left = '0px';
+    box.style.top = '0px';
+    box.style.right = 'auto';
+    box.style.bottom = 'auto';
+
+    const buttonRect = button.getBoundingClientRect();
+    const boxRect = box.getBoundingClientRect();
+
+    const width = Math.min(boxRect.width, maxWidth);
+    const height = Math.min(boxRect.height, maxHeight);
+
+    const minLeft = viewportOffsetLeft + gap;
+    const maxLeft = viewportOffsetLeft + viewportWidth - width - gap;
+    const minTop = viewportOffsetTop + gap;
+    const maxTop = viewportOffsetTop + viewportHeight - height - gap;
+
+    const centerX = buttonRect.left + buttonRect.width / 2;
+    const centerY = buttonRect.top + buttonRect.height / 2;
+
+    const candidates = [
+        {
+            left: centerX - width / 2,
+            top: buttonRect.top - height - gap,
+            side: 'top'
+        },
+        {
+            left: centerX - width / 2,
+            top: buttonRect.bottom + gap,
+            side: 'bottom'
+        },
+        {
+            left: buttonRect.left - width - gap,
+            top: centerY - height / 2,
+            side: 'left'
+        },
+        {
+            left: buttonRect.right + gap,
+            top: centerY - height / 2,
+            side: 'right'
+        }
+    ];
+
+    const fits = candidates.filter((candidate) =>
+        candidate.left >= minLeft &&
+        candidate.left + width <= viewportOffsetLeft + viewportWidth - gap &&
+        candidate.top >= minTop &&
+        candidate.top + height <= viewportOffsetTop + viewportHeight - gap
+    );
+
+    let position = fits[0];
+
+    if (!position) {
+        const safeLeft = Math.max(minLeft, Math.min(
+            centerX - width / 2,
+            maxLeft
+        ));
+
+        const aboveSpace = buttonRect.top - minTop - gap;
+        const belowSpace = maxTop - buttonRect.bottom - gap;
+
+        if (aboveSpace >= Math.min(height, 280) || aboveSpace >= belowSpace) {
+            position = {
+                left: safeLeft,
+                top: Math.max(minTop, buttonRect.top - height - gap)
+            };
+        } else {
+            position = {
+                left: safeLeft,
+                top: Math.min(maxTop, buttonRect.bottom + gap)
+            };
+        }
+    }
+
+    box.style.left = `${Math.max(minLeft, Math.min(position.left, maxLeft))}px`;
+    box.style.top = `${Math.max(minTop, Math.min(position.top, maxTop))}px`;
+
+    box.dataset.position = position.side || 'adaptive';
+}
+
 function toggleChat() {
     const { box, button, input } = getChatbotElements();
-    if (!box) return;
+    if (!box || !button) return;
 
     const shouldOpen = box.hidden;
+
     box.hidden = !shouldOpen;
     box.classList.toggle('is-open', shouldOpen);
     box.setAttribute('aria-hidden', String(!shouldOpen));
-    button?.setAttribute('aria-expanded', String(shouldOpen));
+    button.setAttribute('aria-expanded', String(shouldOpen));
 
     if (shouldOpen) {
-        positionChatBox();
-        window.setTimeout(() => input?.focus(), 80);
+        requestAnimationFrame(() => {
+            positionChatBox();
+            input?.focus();
+        });
     } else {
-        button?.focus();
+        button.focus();
     }
-}
-
-function positionChatBox() {
-    const { robot, box } = getChatbotElements();
-    if (!robot || !box || box.hidden) return;
-
-    const gap = CHATBOT_CONFIG.edgeGap;
-    const robotRect = robot.getBoundingClientRect();
-    const boxRect = box.getBoundingClientRect();
-
-    let left = robotRect.right - boxRect.width;
-    let top = robotRect.top - boxRect.height - gap;
-
-    left = Math.max(gap, Math.min(left, window.innerWidth - boxRect.width - gap));
-
-    if (top < gap) {
-        top = Math.min(
-            window.innerHeight - boxRect.height - gap,
-            robotRect.bottom + gap
-        );
-    }
-
-    top = Math.max(gap, top);
-
-    box.style.position = 'fixed';
-    box.style.left = `${left}px`;
-    box.style.top = `${top}px`;
-    box.style.right = 'auto';
-    box.style.bottom = 'auto';
 }
 
 function clampRobotPosition() {
@@ -474,6 +557,7 @@ function saveRobotPosition() {
 
     try {
         const rect = robot.getBoundingClientRect();
+
         localStorage.setItem(CHATBOT_CONFIG.storageKey, JSON.stringify({
             left: rect.left,
             top: rect.top
@@ -488,7 +572,9 @@ function restoreRobotPosition() {
     if (!robot) return;
 
     try {
-        const saved = JSON.parse(localStorage.getItem(CHATBOT_CONFIG.storageKey) || 'null');
+        const saved = JSON.parse(
+            localStorage.getItem(CHATBOT_CONFIG.storageKey) || 'null'
+        );
 
         if (!saved || !Number.isFinite(saved.left) || !Number.isFinite(saved.top)) {
             return;
@@ -499,6 +585,7 @@ function restoreRobotPosition() {
         robot.style.top = `${saved.top}px`;
         robot.style.right = 'auto';
         robot.style.bottom = 'auto';
+
         clampRobotPosition();
     } catch (error) {
         console.warn('[Chatbot] Cannot restore position:', error);
@@ -513,6 +600,7 @@ function initializeDraggableRobot() {
         if (event.pointerType === 'mouse' && event.button !== 0) return;
 
         const rect = robot.getBoundingClientRect();
+
         chatbotDragState = {
             pointerId: event.pointerId,
             startX: event.clientX,
@@ -521,13 +609,15 @@ function initializeDraggableRobot() {
             startTop: rect.top,
             moved: false
         };
-        robot.classList.add('is-dragging');
 
+        robot.classList.add('is-dragging');
         button.setPointerCapture?.(event.pointerId);
     });
 
     button.addEventListener('pointermove', (event) => {
-        if (!chatbotDragState || chatbotDragState.pointerId !== event.pointerId) return;
+        if (!chatbotDragState || chatbotDragState.pointerId !== event.pointerId) {
+            return;
+        }
 
         const deltaX = event.clientX - chatbotDragState.startX;
         const deltaY = event.clientY - chatbotDragState.startY;
@@ -536,11 +626,12 @@ function initializeDraggableRobot() {
             !chatbotDragState.moved &&
             Math.abs(deltaX) < CHATBOT_CONFIG.dragThreshold &&
             Math.abs(deltaY) < CHATBOT_CONFIG.dragThreshold
-        ) return;
+        ) {
+            return;
+        }
 
         chatbotDragState.moved = true;
 
-        const { robot } = getChatbotElements();
         const rect = robot.getBoundingClientRect();
         const gap = CHATBOT_CONFIG.edgeGap;
 
@@ -548,6 +639,7 @@ function initializeDraggableRobot() {
             Math.max(chatbotDragState.startLeft + deltaX, gap),
             Math.max(gap, window.innerWidth - rect.width - gap)
         );
+
         const top = Math.min(
             Math.max(chatbotDragState.startTop + deltaY, gap),
             Math.max(gap, window.innerHeight - rect.height - gap)
@@ -555,22 +647,27 @@ function initializeDraggableRobot() {
 
         robot.style.left = `${left}px`;
         robot.style.top = `${top}px`;
+        robot.style.right = 'auto';
+        robot.style.bottom = 'auto';
+
         positionChatBox();
     });
 
     const finishDragging = (event) => {
-        if (!chatbotDragState || chatbotDragState.pointerId !== event.pointerId) return;
+        if (!chatbotDragState || chatbotDragState.pointerId !== event.pointerId) {
+            return;
+        }
 
         const moved = chatbotDragState.moved;
         chatbotDragState = null;
 
+        robot.classList.remove('is-dragging');
+
         if (moved) {
-            chatbotSuppressClickUntil = Date.now() + 300;
+            chatbotSuppressClickUntil = Date.now() + 350;
             clampRobotPosition();
             saveRobotPosition();
         }
-        const { robot } = getChatbotElements();
-        robot?.classList.remove('is-dragging');
     };
 
     button.addEventListener('pointerup', finishDragging);
@@ -588,17 +685,30 @@ function initializeDraggableRobot() {
 
 function initializeChatbot() {
     if (chatbotInitialized) return;
+
+    const { form, messages, box } = getChatbotElements();
+
+    if (!form || !messages || !box) return;
+
     chatbotInitialized = true;
 
-    const { form, messages } = getChatbotElements();
-
     initializeDraggableRobot();
-    form?.addEventListener('submit', handleChatSubmit);
+    form.addEventListener('submit', handleChatSubmit);
 
-    if (messages) appendChatSuggestions(messages);
+    if (!messages.querySelector('.chat-suggestion-list')) {
+        appendChatSuggestions(messages);
+    }
 
     window.addEventListener('resize', clampRobotPosition, { passive: true });
     window.addEventListener('resize', positionChatBox, { passive: true });
+
+    window.visualViewport?.addEventListener('resize', positionChatBox, {
+        passive: true
+    });
+
+    window.visualViewport?.addEventListener('scroll', positionChatBox, {
+        passive: true
+    });
 }
 
 document.addEventListener('DOMContentLoaded', initializeChatbot);
